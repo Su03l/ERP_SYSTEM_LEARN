@@ -16,7 +16,7 @@ use Illuminate\View\View;
 
 class NewPasswordController extends Controller
 {
-   
+    // دالة عرض صفحة إعادة تعيين كلمة المرور
     public function create(Request $request): View
     {
         return view('auth.reset-password', ['request' => $request]);
