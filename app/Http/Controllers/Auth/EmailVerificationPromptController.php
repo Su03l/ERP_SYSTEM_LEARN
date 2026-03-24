@@ -9,7 +9,7 @@ use Illuminate\View\View;
 
 class EmailVerificationPromptController extends Controller
 {
-    
+    // دالة عرض صفحة التحقق من البريد الإلكتروني
     public function __invoke(Request $request): RedirectResponse|View
     {
         return $request->user()->hasVerifiedEmail()
