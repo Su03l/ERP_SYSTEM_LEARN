@@ -65,6 +65,7 @@ class EmployeeController extends Controller
         return redirect()->route('employees.index')->with('success', 'تم إضافة الموظف بنجاح!');
     }
 
+    // دالة عرض صفحة تفاصيل الموظف
     public function show(User $employee)
     {
         $employee->load(['tickets', 'leaveRequests']);
