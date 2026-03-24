@@ -22,7 +22,7 @@ class NewPasswordController extends Controller
         return view('auth.reset-password', ['request' => $request]);
     }
 
-    
+    // دالة معالجة إعادة تعيين كلمة المرور
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
