@@ -72,6 +72,7 @@ class EmployeeController extends Controller
         return view('employees.show', compact('employee'));
     }
 
+    // دالة عرض صفحة تعديل بيانات الموظف
     public function edit(User $employee)
     {
         return view('employees.edit', compact('employee'));
