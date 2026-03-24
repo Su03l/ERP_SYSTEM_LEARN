@@ -17,7 +17,7 @@ class ConfirmablePasswordController extends Controller
         return view('auth.confirm-password');
     }
 
-   
+    // دالة تأكيد كلمة المرور
     public function store(Request $request): RedirectResponse
     {
         if (! Auth::guard('web')->validate([
