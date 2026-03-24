@@ -17,7 +17,7 @@ class PasswordResetLinkController extends Controller
         return view('auth.forgot-password');
     }
 
-    
+    // دالة معالجة طلب إعادة تعيين كلمة المرور
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
