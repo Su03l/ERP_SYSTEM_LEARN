@@ -15,7 +15,7 @@ use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
 {
-    
+    // دالة عرض صفحة التسجيل
     public function create(): View
     {
         return view('auth.register');
