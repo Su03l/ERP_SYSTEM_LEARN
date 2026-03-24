@@ -21,7 +21,7 @@ class RegisteredUserController extends Controller
         return view('auth.register');
     }
 
-    
+    // دالة معالجة طلب التسجيل
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
