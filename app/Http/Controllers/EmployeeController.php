@@ -22,6 +22,7 @@ class EmployeeController extends Controller
         return view('employees.create');
     }
 
+    // دالة معالجة طلب إضافة موظف جديد
     public function store(Request $request)
     {
         $request->validate([
