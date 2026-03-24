@@ -11,7 +11,7 @@ use Illuminate\View\View;
 
 class ConfirmablePasswordController extends Controller
 {
-    
+    // دالة عرض صفحة تأكيد كلمة المرور
     public function show(): View
     {
         return view('auth.confirm-password');
