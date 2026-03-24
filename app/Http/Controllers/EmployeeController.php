@@ -78,6 +78,7 @@ class EmployeeController extends Controller
         return view('employees.edit', compact('employee'));
     }
 
+    // دالة معالجة طلب تعديل بيانات الموظف
     public function update(Request $request, User $employee)
     {
         $request->validate([
