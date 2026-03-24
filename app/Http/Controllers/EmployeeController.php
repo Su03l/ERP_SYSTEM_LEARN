@@ -108,6 +108,7 @@ class EmployeeController extends Controller
         return redirect()->route('employees.show', $employee)->with('success', 'تم تحديث بيانات الموظف بنجاح!');
     }
 
+    // دالة حذف الموظف
     public function destroy(User $employee)
     {
         $employee->delete();
