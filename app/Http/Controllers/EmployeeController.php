@@ -9,6 +9,7 @@ use Illuminate\Validation\Rule;
 
 class EmployeeController extends Controller
 {
+    // دالة عرض جميع الموظفين
     public function index()
     {
         $employees = User::where('role', 'employee')->latest()->get();
