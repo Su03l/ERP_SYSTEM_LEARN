@@ -11,7 +11,7 @@ use Illuminate\View\View;
 
 class PasswordResetLinkController extends Controller
 {
-    
+    // دالة عرض صفحة طلب إعادة تعيين كلمة المرور
     public function create(): View
     {
         return view('auth.forgot-password');
