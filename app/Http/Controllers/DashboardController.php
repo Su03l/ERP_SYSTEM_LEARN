@@ -8,6 +8,7 @@ use App\Models\LeaveRequest;
 
 class DashboardController extends Controller
 {
+    // دالة عرض لوحة التحكم
     public function __invoke()
     {
         $user = auth()->user();
