@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 
 class EmployeeController extends Controller
 {
+    // دالة إضافة موظف جديد
     public function store(Request $request)
     {
         // 1. التحقق من البيانات
