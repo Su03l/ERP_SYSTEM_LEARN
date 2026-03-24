@@ -16,6 +16,7 @@ class EmployeeController extends Controller
         return view('employees.index', compact('employees'));
     }
 
+    // دالة عرض صفحة إضافة موظف جديد
     public function create()
     {
         return view('employees.create');
