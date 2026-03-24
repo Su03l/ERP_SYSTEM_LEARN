@@ -11,9 +11,7 @@ use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
 {
-    /**
-     * Display the login view.
-     */
+    // دالة عرض صفحة تسجيل الدخول
     public function create(): View
     {
         return view('auth.login');
