@@ -40,6 +40,7 @@ class TicketController extends Controller
         $number = $lastTicket ? intval(substr($lastTicket->ticket_number, 4)) + 1 : 1;
         $ticketNumber = 'REQ-' . str_pad($number, 3, '0', STR_PAD_LEFT);
 
+        //  إنشاء تذكرة
         Ticket::create([
             'ticket_number' => $ticketNumber,
             'user_id' => auth()->id(),
