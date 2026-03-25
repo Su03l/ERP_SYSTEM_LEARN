@@ -26,6 +26,7 @@ class TicketController extends Controller
         return view('tickets.create');
     }
 
+    //  تخزين تذكرة جديدة
     public function store(Request $request)
     {
         $request->validate([
