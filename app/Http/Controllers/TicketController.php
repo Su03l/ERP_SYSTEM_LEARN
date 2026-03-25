@@ -29,6 +29,7 @@ class TicketController extends Controller
     //  تخزين تذكرة جديدة
     public function store(Request $request)
     {
+        // التحقق من صحة البيانات
         $request->validate([
             'subject' => 'required|string|max:255',
             'description' => 'required|string',
