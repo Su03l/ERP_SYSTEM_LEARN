@@ -36,6 +36,7 @@ class LeaveRequestController extends Controller
             'reason' => 'required|string',
         ]);
 
+        // إنشاء طلب الإجازة
         LeaveRequest::create([
             'user_id' => auth()->id(),
             'start_date' => $request->start_date,
