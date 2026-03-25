@@ -20,6 +20,7 @@ class PayrollController extends Controller
     // إرسال مسيرات الرواتب
     public function sendBulk(Request $request)
     {
+        // التحقق من صحة البيانات
         $request->validate([
             'employees' => 'required|array',
             'employees.*' => 'exists:users,id'
