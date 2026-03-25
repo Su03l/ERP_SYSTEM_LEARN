@@ -20,7 +20,7 @@ class ProfileController extends Controller
         ]);
     }
 
-    
+    // تحديث الملف الشخصي
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
         $request->user()->fill($request->validated());
