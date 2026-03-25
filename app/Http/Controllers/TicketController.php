@@ -53,6 +53,7 @@ class TicketController extends Controller
         return redirect()->route('tickets.index')->with('success', 'تم إنشاء التذكرة بنجاح!');
     }
 
+    //  عرض صفحة التذكرة
     public function show(Ticket $ticket)
     {
         $ticket->load('user');
