@@ -20,6 +20,7 @@ class LeaveRequestController extends Controller
         return view('leave-requests.index', compact('leaveRequests'));
     }
 
+    // دالة عرض صفحة إنشاء طلب إجازة
     public function create()
     {
         return view('leave-requests.create');
