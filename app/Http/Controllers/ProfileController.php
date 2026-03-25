@@ -55,6 +55,7 @@ class ProfileController extends Controller
         // حذف الحساب
         $user->delete();
 
+        // تدمير الجلسة
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
