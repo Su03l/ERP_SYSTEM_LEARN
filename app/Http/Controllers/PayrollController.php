@@ -34,6 +34,7 @@ class PayrollController extends Controller
             \App\Jobs\SendPayslipJob::dispatch($employee);
         }
 
+        // رسالة نجاح
         return redirect()->back()->with('success', 'تم استلام الطلب! جاري تجهيز وإرسال مسيرات الرواتب في الخلفية لـ ' . count($selectedEmployees) . ' موظف.');
     }
 }
