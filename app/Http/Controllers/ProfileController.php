@@ -23,6 +23,7 @@ class ProfileController extends Controller
     // تحديث الملف الشخصي
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
+        // التحقق من صحة البيانات
         $request->user()->fill($request->validated());
 
         if ($request->user()->isDirty('email')) {
