@@ -46,6 +46,7 @@ class ProfileController extends Controller
             'password' => ['required', 'current_password'],
         ]);
 
+        // الحصول على المستخدم
         $user = $request->user();
 
         Auth::logout();
