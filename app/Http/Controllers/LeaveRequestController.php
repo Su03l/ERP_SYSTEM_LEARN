@@ -60,6 +60,7 @@ class LeaveRequestController extends Controller
         // تحديث حالة طلب الإجازة
         $leaveRequest->update(['status' => $request->status]);
 
+        // رسالة للمستخدم
         $message = $request->status === 'approved' ? 'تمت الموافقة على الطلب!' : 'تم رفض الطلب.';
 
         return redirect()->route('leave-requests.index')->with('success', $message);
