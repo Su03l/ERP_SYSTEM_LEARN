@@ -17,6 +17,7 @@ class PayrollController extends Controller
         return view('payroll.index', compact('employees'));
     }
 
+    // إرسال مسيرات الرواتب
     public function sendBulk(Request $request)
     {
         $request->validate([
