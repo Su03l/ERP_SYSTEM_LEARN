@@ -26,6 +26,7 @@ class ProfileController extends Controller
         // التحقق من صحة البيانات
         $request->user()->fill($request->validated());
 
+        // التحقق من صحة البريد الإلكتروني
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
         }
