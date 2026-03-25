@@ -45,6 +45,7 @@ class LeaveRequestController extends Controller
             'status' => 'pending',
         ]);
 
+        // إعادة توجيه المستخدم إلى صفحة طلبات الإجازة
         return redirect()->route('leave-requests.index')->with('success', 'تم تقديم طلب الإجازة بنجاح!');
     }
 
