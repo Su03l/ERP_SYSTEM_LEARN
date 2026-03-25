@@ -12,6 +12,7 @@ use Illuminate\View\View;
 class ProfileController extends Controller
 {
    
+    // عرض صفحة تعديل الملف الشخصي
     public function edit(Request $request): View
     {
         return view('profile.edit', [
