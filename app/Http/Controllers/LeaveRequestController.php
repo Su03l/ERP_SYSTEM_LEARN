@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 class LeaveRequestController extends Controller
 {
+    // دالة عرض صفحة طلبات الإجازة
     public function index()
     {
         $user = auth()->user();
