@@ -20,6 +20,7 @@ class TicketController extends Controller
         return view('tickets.index', compact('tickets'));
     }
 
+    //  عرض صفحة إنشاء تذكرة
     public function create()
     {
         return view('tickets.create');
