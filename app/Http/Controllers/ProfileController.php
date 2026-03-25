@@ -41,6 +41,7 @@ class ProfileController extends Controller
     // حذف الحساب
     public function destroy(Request $request): RedirectResponse
     {
+        // التحقق من صحة كلمة المرور
         $request->validateWithBag('userDeletion', [
             'password' => ['required', 'current_password'],
         ]);
