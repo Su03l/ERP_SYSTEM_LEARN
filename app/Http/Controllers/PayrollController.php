@@ -26,6 +26,7 @@ class PayrollController extends Controller
             'employees.*' => 'exists:users,id'
         ]);
 
+        // جلب الموظفين
         $selectedEmployees = User::whereIn('id', $request->employees)->get();
 
         foreach ($selectedEmployees as $employee) {
