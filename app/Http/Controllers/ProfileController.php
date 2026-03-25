@@ -34,6 +34,7 @@ class ProfileController extends Controller
         // حفظ التعديلات
         $request->user()->save();
 
+        // إعادة توجيه المستخدم إلى صفحة الملف الشخصي
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
