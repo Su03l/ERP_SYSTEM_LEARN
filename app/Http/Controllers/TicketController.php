@@ -49,6 +49,7 @@ class TicketController extends Controller
             'status' => 'open',
         ]);
 
+        //  إعادة توجيه المستخدم إلى صفحة التذاكر
         return redirect()->route('tickets.index')->with('success', 'تم إنشاء التذكرة بنجاح!');
     }
 
