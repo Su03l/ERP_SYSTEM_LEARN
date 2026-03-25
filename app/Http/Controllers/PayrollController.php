@@ -12,6 +12,8 @@ class PayrollController extends Controller
     {
         // جلب جميع الموظفين
         $employees = User::where('role', 'employee')->where('status', 'active')->get();
+
+        // عرض الشاشة
         return view('payroll.index', compact('employees'));
     }
 
