@@ -26,6 +26,7 @@ class LeaveRequestController extends Controller
         return view('leave-requests.create');
     }
 
+    // دالة تخزين طلب الإجازة
     public function store(Request $request)
     {
         $request->validate([
