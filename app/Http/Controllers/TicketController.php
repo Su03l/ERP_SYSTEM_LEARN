@@ -56,6 +56,7 @@ class TicketController extends Controller
     //  عرض صفحة التذكرة
     public function show(Ticket $ticket)
     {
+        //  تحميل بيانات المستخدم
         $ticket->load('user');
         return view('tickets.show', compact('ticket'));
     }
