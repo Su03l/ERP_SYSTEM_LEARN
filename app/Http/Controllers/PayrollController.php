@@ -29,6 +29,7 @@ class PayrollController extends Controller
         // جلب الموظفين
         $selectedEmployees = User::whereIn('id', $request->employees)->get();
 
+        // إرسال مسيرات الرواتب
         foreach ($selectedEmployees as $employee) {
             \App\Jobs\SendPayslipJob::dispatch($employee);
         }
