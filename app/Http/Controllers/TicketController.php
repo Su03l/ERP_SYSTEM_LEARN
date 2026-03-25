@@ -61,6 +61,7 @@ class TicketController extends Controller
         return view('tickets.show', compact('ticket'));
     }
 
+    //  تحديث حالة التذكرة
     public function update(Request $request, Ticket $ticket)
     {
         $request->validate([
