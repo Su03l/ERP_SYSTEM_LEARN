@@ -49,8 +49,10 @@ class LeaveRequestController extends Controller
         return redirect()->route('leave-requests.index')->with('success', 'تم تقديم طلب الإجازة بنجاح!');
     }
 
+    // دالة تحديث حالة طلب الإجازة
     public function update(Request $request, LeaveRequest $leaveRequest)
     {
+        // التحقق من صحة البيانات
         $request->validate([
             'status' => 'required|in:approved,rejected',
         ]);
