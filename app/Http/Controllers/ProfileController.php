@@ -59,6 +59,7 @@ class ProfileController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
+        // إعادة توجيه المستخدم إلى الصفحة الرئيسية
         return Redirect::to('/');
     }
 }
