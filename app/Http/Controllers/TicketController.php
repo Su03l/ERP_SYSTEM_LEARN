@@ -7,15 +7,30 @@ use Illuminate\Http\Request;
 
 class TicketController extends Controller
 {
-    // 
-    public function index()
+    //
+    public function index(Request $request)
     {
         $user = auth()->user();
 
-        // الأدمن يشوف كل التذاكر، الموظف يشوف تذاكره فقط
-        $tickets = $user->role === 'admin'
-            ? Ticket::with('user')->latest()->get()
-            : Ticket::with('user')->where('user_id', $user->id)->latest()->get();
+        $query = Ticket::with('user');
+
+        if ($user->role !== 'admin') {
+            $query->where('user_id', $user->id);
+        }
+
+        if ($request->has('status') && $request->status !== '') {
+            $query->where('status', $request->status);
+        }
+
+        if ($request->has('search') && !empty($request->search)) {
+            $searchTerm = '%' . $request->search . '%';
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('ticket_number', 'like', $searchTerm)
+                  ->orWhere('subject', 'like', $searchTerm);
+            });
+        }
+
+        $tickets = $query->latest()->paginate(15);
 
         return view('tickets.index', compact('tickets'));
     }

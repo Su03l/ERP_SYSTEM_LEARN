@@ -2,7 +2,7 @@
     <x-slot name="header">تذكرة جديدة</x-slot>
 
     <div class="max-w-2xl">
-        <div class="bg-white rounded-xl border border-brand-200 animate-fade-in">
+        <div class="bg-white rounded-2xl shadow-sm border border-brand-100 animate-fade-in">
             <div class="p-6 border-b border-brand-100">
                 <h3 class="text-lg font-bold text-brand-900">إنشاء تذكرة دعم</h3>
                 <p class="text-sm text-brand-500 mt-1">صف مشكلتك أو طلبك بالتفصيل وسنعمل على حلها</p>

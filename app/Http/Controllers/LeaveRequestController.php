@@ -4,20 +4,45 @@ namespace App\Http\Controllers;
 
 use App\Models\LeaveRequest;
 use Illuminate\Http\Request;
+use App\Enums\LeaveStatus; // Import the LeaveStatus enum
 
 class LeaveRequestController extends Controller
 {
     // دالة عرض صفحة طلبات الإجازة
-    public function index()
+    public function index(Request $request)
     {
         $user = auth()->user();
 
-        // الأدمن يشوف كل الطلبات، الموظف يشوف طلباته فقط
-        $leaveRequests = $user->role === 'admin'
-            ? LeaveRequest::with('user')->latest()->get()
-            : LeaveRequest::with('user')->where('user_id', $user->id)->latest()->get();
+        $query = LeaveRequest::with('user');
 
-        return view('leave-requests.index', compact('leaveRequests'));
+        // الأدمن يشوف كل الطلبات، الموظف يشوف طلباته فقط
+        if ($user->role !== 'admin') {
+            $query->where('user_id', $user->id);
+        }
+
+        // فلترة بالحالة
+        if ($request->has('status') && $request->status !== '') {
+            $query->where('status', $request->status);
+        }
+
+        // إضافة منطق البحث
+        if ($request->has('search') && !empty($request->search)) {
+            $searchTerm = '%' . $request->search . '%';
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('reason', 'like', $searchTerm)
+                  ->orWhere('type', 'like', $searchTerm)
+                  ->orWhereHas('user', function ($userQuery) use ($searchTerm) {
+                      $userQuery->where('name', 'like', $searchTerm);
+                  });
+            });
+        }
+
+        $leaveRequests = $query->latest()->paginate(15);
+
+        // Pass all possible LeaveStatus values to the view for the filter dropdown
+        $statuses = LeaveStatus::cases();
+
+        return view('leave-requests.index', compact('leaveRequests', 'statuses'));
     }
 
     // دالة عرض صفحة إنشاء طلب إجازة
@@ -31,6 +56,7 @@ class LeaveRequestController extends Controller
     {
         // التحقق من صحة البيانات
         $request->validate([
+            'type' => 'required|string|max:255',
             'start_date' => 'required|date|after_or_equal:today',
             'end_date' => 'required|date|after_or_equal:start_date',
             'reason' => 'required|string',
@@ -39,10 +65,11 @@ class LeaveRequestController extends Controller
         // إنشاء طلب الإجازة
         LeaveRequest::create([
             'user_id' => auth()->id(),
+            'type' => $request->type,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
             'reason' => $request->reason,
-            'status' => 'pending',
+            'status' => LeaveStatus::PENDING, // Use enum
         ]);
 
         // إعادة توجيه المستخدم إلى صفحة طلبات الإجازة
@@ -54,16 +81,25 @@ class LeaveRequestController extends Controller
     {
         // التحقق من صحة البيانات
         $request->validate([
-            'status' => 'required|in:approved,rejected',
+            'status' => ['required', 'in:' . implode(',', array_column(LeaveStatus::cases(), 'value'))], // Validate against enum values
         ]);
 
         // تحديث حالة طلب الإجازة
         $leaveRequest->update(['status' => $request->status]);
 
         // رسالة للمستخدم
-        $message = $request->status === 'approved' ? 'تمت الموافقة على الطلب!' : 'تم رفض الطلب.';
+        $message = $request->status === LeaveStatus::APPROVED->value ? 'تمت الموافقة على الطلب!' : 'تم رفض الطلب.';
 
         // إعادة توجيه المستخدم إلى صفحة طلبات الإجازة
         return redirect()->route('leave-requests.index')->with('success', $message);
+    }
+
+    // دالة عرض تفاصيل طلب الإجازة
+    public function show(LeaveRequest $leaveRequest)
+    {
+        $leaveRequest->load('user');
+        // Pass all possible LeaveStatus values to the view for the status update dropdown
+        $statuses = LeaveStatus::cases();
+        return view('leave-requests.show', compact('leaveRequest', 'statuses'));
     }
 }

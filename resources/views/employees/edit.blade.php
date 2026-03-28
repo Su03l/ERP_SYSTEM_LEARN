@@ -2,7 +2,7 @@
     <x-slot name="header">تعديل بيانات الموظف</x-slot>
 
     <div class="max-w-3xl">
-        <div class="bg-white rounded-xl border border-brand-200 animate-fade-in">
+        <div class="bg-white rounded-2xl shadow-sm border border-brand-100 animate-fade-in">
             <div class="p-6 border-b border-brand-100">
                 <div class="flex items-center gap-4">
                     <div class="w-12 h-12 bg-brand-950 rounded-xl flex items-center justify-center text-white font-bold">

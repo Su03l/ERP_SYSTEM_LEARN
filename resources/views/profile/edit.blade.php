@@ -3,8 +3,8 @@
 
     <div class="max-w-3xl space-y-6">
         {{-- Profile Info --}}
-        <div class="bg-white rounded-xl border border-brand-200 animate-fade-in">
-            <div class="p-6 border-b border-brand-100">
+        <div class="bg-white rounded-2xl shadow-sm border border-brand-100 animate-fade-in">
+            <div class="p-6 border-b border-brand-50">
                 <h3 class="text-lg font-bold text-brand-900">معلومات الحساب</h3>
                 <p class="text-sm text-brand-500 mt-1">حدّث بيانات حسابك والبريد الإلكتروني</p>
             </div>
@@ -57,8 +57,8 @@
         </div>
 
         {{-- Change Password --}}
-        <div class="bg-white rounded-xl border border-brand-200 animate-fade-in stagger-1">
-            <div class="p-6 border-b border-brand-100">
+        <div class="bg-white rounded-2xl shadow-sm border border-brand-100 animate-fade-in stagger-1">
+            <div class="p-6 border-b border-brand-50">
                 <h3 class="text-lg font-bold text-brand-900">تغيير كلمة المرور</h3>
                 <p class="text-sm text-brand-500 mt-1">تأكد من استخدام كلمة مرور قوية وفريدة</p>
             </div>
@@ -114,8 +114,8 @@
         </div>
 
         {{-- Delete Account --}}
-        <div x-data="{ showDelete: false }" class="bg-white rounded-xl border border-red-200 animate-fade-in stagger-2">
-            <div class="p-6 border-b border-red-100">
+        <div x-data="{ showDelete: false }" class="bg-white rounded-2xl shadow-sm border border-red-100 animate-fade-in stagger-2">
+            <div class="p-6 border-b border-red-50">
                 <h3 class="text-lg font-bold text-red-700">حذف الحساب</h3>
                 <p class="text-sm text-brand-500 mt-1">بمجرد حذف حسابك، سيتم حذف جميع بياناتك نهائياً</p>
             </div>

@@ -3,12 +3,29 @@
 
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <div>
-            <p class="text-brand-500 text-sm">إجمالي {{ $tickets->count() }} تذكرة</p>
+            <p class="text-brand-500 text-sm">إجمالي {{ $tickets->total() }} تذكرة</p>
         </div>
-        <a href="{{ route('tickets.create') }}" class="inline-flex items-center gap-2 px-6 py-3 bg-brand-950 text-white font-bold rounded-xl hover:bg-brand-800 transition-all duration-200 transform hover:scale-[1.01] active:scale-[0.99]">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
-            تذكرة جديدة
-        </a>
+        <div class="flex items-center gap-4">
+            <form action="{{ route('tickets.index') }}" method="GET" class="flex flex-wrap items-center gap-2">
+                <input type="text" name="search" placeholder="بحث برقم التذكرة أو الموضوع..."
+                       value="{{ request('search') }}"
+                       class="border-brand-200 rounded-xl px-4 py-2 text-sm focus:ring-brand-500 focus:border-brand-500">
+                <select name="status" class="border-brand-200 rounded-xl px-4 py-2 text-sm focus:ring-brand-500 focus:border-brand-500">
+                    <option value="">جميع الحالات</option>
+                    <option value="open" {{ request('status') == 'open' ? 'selected' : '' }}>مفتوحة</option>
+                    <option value="in_progress" {{ request('status') == 'in_progress' ? 'selected' : '' }}>قيد التنفيذ</option>
+                    <option value="closed" {{ request('status') == 'closed' ? 'selected' : '' }}>مغلقة</option>
+                </select>
+                <button type="submit" class="inline-flex items-center gap-2 px-4 py-2 bg-brand-950 text-white font-bold rounded-xl hover:bg-brand-800 transition-all duration-200 transform hover:scale-[1.01] active:scale-[0.99]">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    بحث
+                </button>
+            </form>
+            <a href="{{ route('tickets.create') }}" class="inline-flex items-center gap-2 px-6 py-3 bg-brand-950 text-white font-bold rounded-xl hover:bg-brand-800 transition-all duration-200 transform hover:scale-[1.01] active:scale-[0.99]">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+                تذكرة جديدة
+            </a>
+        </div>
     </div>
 
     @if(session('success'))
@@ -17,22 +34,22 @@
         </div>
     @endif
 
-    <div class="bg-white rounded-xl border border-brand-200 overflow-hidden animate-fade-in">
+    <div class="bg-white rounded-2xl shadow-sm border border-brand-100 overflow-hidden animate-fade-in">
         <div class="overflow-x-auto">
             <table class="w-full text-right">
                 <thead>
-                    <tr class="border-b border-brand-200 bg-brand-50">
-                        <th class="px-6 py-4 text-xs font-bold text-brand-500 uppercase tracking-wider">رقم التذكرة</th>
-                        <th class="px-6 py-4 text-xs font-bold text-brand-500 uppercase tracking-wider">الموضوع</th>
-                        <th class="px-6 py-4 text-xs font-bold text-brand-500 uppercase tracking-wider">مقدم الطلب</th>
-                        <th class="px-6 py-4 text-xs font-bold text-brand-500 uppercase tracking-wider">الحالة</th>
-                        <th class="px-6 py-4 text-xs font-bold text-brand-500 uppercase tracking-wider">التاريخ</th>
-                        <th class="px-6 py-4 text-xs font-bold text-brand-500 uppercase tracking-wider text-center">عرض</th>
+                    <tr class="border-b border-brand-100 bg-white">
+                        <th class="px-6 py-4 text-xs font-bold text-brand-400 uppercase tracking-wider">رقم التذكرة</th>
+                        <th class="px-6 py-4 text-xs font-bold text-brand-400 uppercase tracking-wider">الموضوع</th>
+                        <th class="px-6 py-4 text-xs font-bold text-brand-400 uppercase tracking-wider">مقدم الطلب</th>
+                        <th class="px-6 py-4 text-xs font-bold text-brand-400 uppercase tracking-wider">الحالة</th>
+                        <th class="px-6 py-4 text-xs font-bold text-brand-400 uppercase tracking-wider">التاريخ</th>
+                        <th class="px-6 py-4 text-xs font-bold text-brand-400 uppercase tracking-wider text-center">عرض</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-brand-100">
+                <tbody class="divide-y divide-brand-50">
                     @forelse($tickets as $ticket)
-                        <tr class="hover:bg-brand-50 transition-colors">
+                        <tr class="hover:bg-brand-50/50 transition-all duration-200 group">
                             <td class="px-6 py-4">
                                 <span class="text-sm font-mono font-semibold text-brand-900 bg-brand-100 px-2.5 py-1 rounded-lg">{{ $ticket->ticket_number }}</span>
                             </td>
@@ -70,5 +87,10 @@
                 </tbody>
             </table>
         </div>
+    </div>
+
+    {{-- Pagination Links --}}
+    <div class="mt-6">
+        {{ $tickets->links() }}
     </div>
 </x-app-layout>

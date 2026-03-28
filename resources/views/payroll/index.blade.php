@@ -5,11 +5,23 @@
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <div>
             <p class="text-brand-500 text-sm">حدد الموظفين لإرسال مسيرات الرواتب عبر البريد الإلكتروني</p>
+            <p class="text-brand-500 text-sm">إجمالي {{ $employees->total() }} موظف نشط</p>
         </div>
-        <button type="submit" form="sendBulkForm" class="inline-flex items-center gap-2 px-6 py-3 bg-brand-950 text-white font-bold rounded-xl hover:bg-brand-800 transition-all duration-200 transform hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"/></svg>
-            إرسال مسيرات الرواتب
-        </button>
+        <div class="flex items-center gap-4">
+            <form action="{{ route('payroll.index') }}" method="GET" class="flex items-center gap-2">
+                <input type="text" name="search" placeholder="بحث بالاسم أو المسمى الوظيفي أو القسم..."
+                       value="{{ request('search') }}"
+                       class="border-brand-200 rounded-xl px-4 py-2 text-sm focus:ring-brand-500 focus:border-brand-500">
+                <button type="submit" class="inline-flex items-center gap-2 px-4 py-2 bg-brand-950 text-white font-bold rounded-xl hover:bg-brand-800 transition-all duration-200 transform hover:scale-[1.01] active:scale-[0.99]">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    بحث
+                </button>
+            </form>
+            <button type="submit" form="sendBulkForm" class="inline-flex items-center gap-2 px-6 py-3 bg-brand-950 text-white font-bold rounded-xl hover:bg-brand-800 transition-all duration-200 transform hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"/></svg>
+                إرسال مسيرات الرواتب
+            </button>
+        </div>
     </div>
 
     @if(session('success'))
@@ -32,23 +44,23 @@
     <form id="sendBulkForm" method="POST" action="{{ route('payroll.sendBulk') }}">
         @csrf
         {{-- Employees Table --}}
-        <div class="bg-white rounded-xl border border-brand-200 overflow-hidden animate-fade-in">
+        <div class="bg-white rounded-2xl shadow-sm border border-brand-100 overflow-hidden animate-fade-in">
             <div class="overflow-x-auto">
                 <table class="w-full text-right">
                     <thead>
-                        <tr class="border-b border-brand-200 bg-brand-50">
-                            <th class="px-6 py-4 text-xs font-bold text-brand-500 tracking-wider">
+                        <tr class="border-b border-brand-100 bg-white">
+                            <th class="px-6 py-4 text-xs font-bold text-brand-400 tracking-wider">
                                 <input type="checkbox" id="selectAll" class="w-4 h-4 text-brand-600 bg-gray-100 border-gray-300 rounded focus:ring-brand-500 cursor-pointer">
                             </th>
-                            <th class="px-6 py-4 text-xs font-bold text-brand-500 uppercase tracking-wider">الموظف</th>
-                            <th class="px-6 py-4 text-xs font-bold text-brand-500 uppercase tracking-wider">المسمى الوظيفي</th>
-                            <th class="px-6 py-4 text-xs font-bold text-brand-500 uppercase tracking-wider">القسم</th>
-                            <th class="px-6 py-4 text-xs font-bold text-brand-500 uppercase tracking-wider">الراتب المتوقع (تقريبي)</th>
+                            <th class="px-6 py-4 text-xs font-bold text-brand-400 uppercase tracking-wider">الموظف</th>
+                            <th class="px-6 py-4 text-xs font-bold text-brand-400 uppercase tracking-wider">المسمى الوظيفي</th>
+                            <th class="px-6 py-4 text-xs font-bold text-brand-400 uppercase tracking-wider">القسم</th>
+                            <th class="px-6 py-4 text-xs font-bold text-brand-400 uppercase tracking-wider">الراتب المتوقع (تقريبي)</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-brand-100">
+                    <tbody class="divide-y divide-brand-50">
                         @forelse($employees as $employee)
-                            <tr class="hover:bg-brand-50 transition-colors">
+                            <tr class="hover:bg-brand-50/50 transition-all duration-200 group">
                                 <td class="px-6 py-4">
                                     <input type="checkbox" name="employees[]" value="{{ $employee->id }}" class="employee-checkbox w-4 h-4 text-brand-600 bg-gray-100 border-gray-300 rounded focus:ring-brand-500 cursor-pointer">
                                 </td>
@@ -80,6 +92,11 @@
             </div>
         </div>
     </form>
+
+    {{-- Pagination Links --}}
+    <div class="mt-6">
+        {{ $employees->links() }}
+    </div>
 
     {{-- Script for Select All Checkbox --}}
     <script>

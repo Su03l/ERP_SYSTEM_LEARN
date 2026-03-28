@@ -10,9 +10,22 @@ use Illuminate\Validation\Rule;
 class EmployeeController extends Controller
 {
     // دالة عرض جميع الموظفين
-    public function index()
+    public function index(Request $request)
     {
-        $employees = User::where('role', 'employee')->latest()->get();
+        $query = User::where('role', 'employee')
+            ->withCount(['tickets', 'leaveRequests']);
+
+        // إضافة منطق البحث
+        if ($request->has('search') && !empty($request->search)) {
+            $searchTerm = '%' . $request->search . '%';
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('name', 'like', $searchTerm)
+                  ->orWhere('phone', 'like', $searchTerm);
+            });
+        }
+
+        $employees = $query->latest()->paginate(15);
+
         return view('employees.index', compact('employees'));
     }
 
@@ -58,7 +71,7 @@ class EmployeeController extends Controller
             'emergency_contact' => $request->emergency_contact,
             'gender' => $request->gender,
             'birth_date' => $request->birth_date,
-            'role' => $request->role,
+            'role' => 'employee', // Ensure new employees are created with 'employee' role by default
             'status' => 'active',
         ]);
 

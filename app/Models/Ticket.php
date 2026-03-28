@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Enums\TicketStatus;
 
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use App\Observers\TicketObserver;
+
+#[ObservedBy([TicketObserver::class])]
 class Ticket extends Model
 {
     use HasFactory;

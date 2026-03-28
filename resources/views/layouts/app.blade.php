@@ -13,7 +13,7 @@
         {{-- ─── Sidebar ─── --}}
         <aside
             :class="sidebarOpen ? 'w-64' : 'w-20'"
-            class="hidden lg:flex flex-col fixed inset-y-0 right-0 bg-brand-950 text-white transition-all duration-300 z-30"
+            class="hidden lg:flex flex-col fixed inset-y-0 right-0 bg-gradient-to-b from-brand-950 to-brand-900 border-l border-white/5 text-white transition-all duration-300 z-30 shadow-2xl"
         >
             {{-- Logo --}}
             <div class="h-16 flex items-center justify-center border-b border-brand-800 shrink-0">
@@ -163,7 +163,7 @@
         {{-- ─── Main Content ─── --}}
         <div :class="sidebarOpen ? 'lg:mr-64' : 'lg:mr-20'" class="flex-1 transition-all duration-300">
             {{-- Top Bar --}}
-            <header class="h-16 bg-white border-b border-brand-200 flex items-center justify-between px-6 sticky top-0 z-20">
+            <header class="h-16 bg-white/80 backdrop-blur-md border-b border-brand-200/60 flex items-center justify-between px-6 sticky top-0 z-20 shadow-sm">
                 <div class="flex items-center gap-4">
                     <button @click="mobileOpen = true" class="lg:hidden text-brand-600 hover:text-brand-900">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg>

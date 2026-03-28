@@ -2,7 +2,7 @@
     <x-slot name="header">طلب إجازة جديد</x-slot>
 
     <div class="max-w-2xl">
-        <div class="bg-white rounded-xl border border-brand-200 animate-fade-in">
+        <div class="bg-white rounded-2xl shadow-sm border border-brand-100 animate-fade-in">
             <div class="p-6 border-b border-brand-100">
                 <h3 class="text-lg font-bold text-brand-900">تقديم طلب إجازة</h3>
                 <p class="text-sm text-brand-500 mt-1">حدد تواريخ الإجازة والسبب وسيتم مراجعة طلبك من قبل الإدارة</p>
@@ -20,6 +20,19 @@
                         </ul>
                     </div>
                 @endif
+
+                <div>
+                    <label for="type" class="block text-sm font-semibold text-brand-700 mb-1.5">نوع الإجازة</label>
+                    <select name="type" id="type" required
+                        class="w-full px-4 py-3 bg-brand-50 border border-brand-200 rounded-xl text-brand-900 focus:outline-none focus:ring-2 focus:ring-brand-950 focus:border-transparent transition">
+                        <option value="">اختر نوع الإجازة</option>
+                        <option value="annual" {{ old('type') == 'annual' ? 'selected' : '' }}>إجازة سنوية</option>
+                        <option value="sick" {{ old('type') == 'sick' ? 'selected' : '' }}>إجازة مرضية</option>
+                        <option value="emergency" {{ old('type') == 'emergency' ? 'selected' : '' }}>إجازة طارئة</option>
+                        <option value="unpaid" {{ old('type') == 'unpaid' ? 'selected' : '' }}>إجازة بدون أجر</option>
+                        {{-- Add more options as needed --}}
+                    </select>
+                </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>

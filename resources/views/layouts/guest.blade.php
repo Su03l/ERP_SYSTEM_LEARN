@@ -9,8 +9,8 @@
 </head>
 <body class="font-sans antialiased">
     <div class="min-h-screen flex">
-        {{-- ─── Left: Branding Panel (Black) ─── --}}
-        <div class="hidden lg:flex lg:w-1/2 bg-brand-950 text-white flex-col justify-between p-12 relative overflow-hidden">
+        {{-- ─── Left: Branding Panel ─── --}}
+        <div class="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-brand-950 via-brand-900 to-brand-800 text-white flex-col justify-between p-12 relative overflow-hidden">
             {{-- Abstract pattern --}}
             <div class="absolute inset-0 opacity-5">
                 <div class="absolute top-20 right-20 w-96 h-96 border border-white rounded-full"></div>

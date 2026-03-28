@@ -3,7 +3,7 @@
 
     <div class="max-w-4xl">
         {{-- Employee Header Card --}}
-        <div class="bg-white rounded-xl border border-brand-200 mb-6 animate-fade-in">
+        <div class="bg-white rounded-2xl shadow-sm border border-brand-100 mb-6 animate-fade-in">
             <div class="p-6 flex flex-col sm:flex-row sm:items-center gap-6">
                 <div class="w-20 h-20 bg-brand-950 rounded-2xl flex items-center justify-center text-white text-2xl font-bold shrink-0">
                     {{ mb_substr($employee->name, 0, 2) }}
@@ -35,8 +35,8 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {{-- Contact Info --}}
-            <div class="bg-white rounded-xl border border-brand-200 animate-fade-in stagger-1">
-                <div class="p-6 border-b border-brand-100">
+            <div class="bg-white rounded-2xl shadow-sm border border-brand-100 animate-fade-in stagger-1 hover:shadow-md transition-shadow">
+                <div class="p-6 border-b border-brand-50">
                     <h3 class="text-base font-bold text-brand-900">معلومات التواصل</h3>
                 </div>
                 <div class="p-6 space-y-4">
@@ -60,8 +60,8 @@
             </div>
 
             {{-- Personal Info --}}
-            <div class="bg-white rounded-xl border border-brand-200 animate-fade-in stagger-2">
-                <div class="p-6 border-b border-brand-100">
+            <div class="bg-white rounded-2xl shadow-sm border border-brand-100 animate-fade-in stagger-2 hover:shadow-md transition-shadow">
+                <div class="p-6 border-b border-brand-50">
                     <h3 class="text-base font-bold text-brand-900">المعلومات الشخصية</h3>
                 </div>
                 <div class="p-6 space-y-4">
@@ -89,8 +89,8 @@
             </div>
 
             {{-- Financial Info --}}
-            <div class="bg-white rounded-xl border border-brand-200 animate-fade-in stagger-3">
-                <div class="p-6 border-b border-brand-100">
+            <div class="bg-white rounded-2xl shadow-sm border border-brand-100 animate-fade-in stagger-3 hover:shadow-md transition-shadow">
+                <div class="p-6 border-b border-brand-50">
                     <h3 class="text-base font-bold text-brand-900">المعلومات المالية</h3>
                 </div>
                 <div class="p-6 space-y-4">
@@ -117,8 +117,8 @@
         </div>
 
         {{-- Tickets --}}
-        <div class="bg-white rounded-xl border border-brand-200 mt-6 animate-fade-in stagger-4">
-            <div class="flex items-center justify-between p-6 border-b border-brand-100">
+        <div class="bg-white rounded-2xl shadow-sm border border-brand-100 mt-6 animate-fade-in stagger-4 hover:shadow-md transition-shadow">
+            <div class="flex items-center justify-between p-6 border-b border-brand-50">
                 <h3 class="text-base font-bold text-brand-900">التذاكر</h3>
                 <span class="text-xs bg-brand-100 text-brand-600 px-2.5 py-1 rounded-full font-semibold">{{ $employee->tickets->count() }}</span>
             </div>
@@ -138,8 +138,8 @@
         </div>
 
         {{-- Leave History --}}
-        <div class="bg-white rounded-xl border border-brand-200 mt-6 animate-fade-in stagger-5">
-            <div class="flex items-center justify-between p-6 border-b border-brand-100">
+        <div class="bg-white rounded-2xl shadow-sm border border-brand-100 mt-6 animate-fade-in stagger-5 hover:shadow-md transition-shadow">
+            <div class="flex items-center justify-between p-6 border-b border-brand-50">
                 <h3 class="text-base font-bold text-brand-900">سجل الإجازات</h3>
                 <span class="text-xs bg-brand-100 text-brand-600 px-2.5 py-1 rounded-full font-semibold">{{ $employee->leaveRequests->count() }}</span>
             </div>

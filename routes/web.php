@@ -27,7 +27,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/payroll/send', [PayrollController::class, 'sendBulk'])->name('payroll.sendBulk');
     });
     Route::resource('tickets', TicketController::class)->except(['edit', 'destroy']);
-    Route::resource('leave-requests', LeaveRequestController::class)->except(['show', 'edit', 'destroy']);
+    Route::resource('leave-requests', LeaveRequestController::class)->except(['edit', 'destroy']);
 });
 
 require __DIR__.'/auth.php';

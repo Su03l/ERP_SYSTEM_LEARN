@@ -3,7 +3,7 @@
 
     <div class="max-w-3xl">
         {{-- Ticket Header --}}
-        <div class="bg-white rounded-xl border border-brand-200 mb-6 animate-fade-in">
+        <div class="bg-white rounded-2xl shadow-sm border border-brand-100 mb-6 animate-fade-in">
             <div class="p-6">
                 <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-4">
                     <div>
@@ -43,8 +43,8 @@
         </div>
 
         {{-- Description --}}
-        <div class="bg-white rounded-xl border border-brand-200 mb-6 animate-fade-in stagger-1">
-            <div class="p-6 border-b border-brand-100">
+        <div class="bg-white rounded-2xl shadow-sm border border-brand-100 mb-6 animate-fade-in stagger-1">
+            <div class="p-6 border-b border-brand-50">
                 <h3 class="text-base font-bold text-brand-900">تفاصيل المشكلة</h3>
             </div>
             <div class="p-6">
@@ -53,8 +53,8 @@
         </div>
 
         {{-- Status Timeline --}}
-        <div class="bg-white rounded-xl border border-brand-200 animate-fade-in stagger-2">
-            <div class="p-6 border-b border-brand-100">
+        <div class="bg-white rounded-2xl shadow-sm border border-brand-100 animate-fade-in stagger-2">
+            <div class="p-6 border-b border-brand-50">
                 <h3 class="text-base font-bold text-brand-900">المسار الزمني</h3>
             </div>
             <div class="p-6">

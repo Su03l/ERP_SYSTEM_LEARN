@@ -1,6 +1,6 @@
 @props(['value', 'label', 'icon', 'trend' => null])
 
-<div class="bg-white rounded-xl border border-brand-200 p-6 hover:shadow-lg transition-shadow duration-300 animate-fade-in">
+<div class="bg-white rounded-2xl shadow-sm border border-brand-100 p-6 hover:shadow-md transition-shadow duration-300 animate-fade-in group">
     <div class="flex items-start justify-between">
         <div>
             <p class="text-sm text-brand-500 font-medium">{{ $label }}</p>
