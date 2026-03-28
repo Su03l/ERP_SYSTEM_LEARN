@@ -16,7 +16,7 @@ class DashboardController extends Controller
         $user = auth()->user();
 
         //  تحديد مدة الكاش
-        $statsTtl = now()->addMinutes(60);
+        $statsTtl = now()->addMinutes(60); // 1 hour
         $listsTtl = now()->addMinutes(5);
 
         if ($user->role === 'admin') {
