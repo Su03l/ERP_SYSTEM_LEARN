@@ -72,11 +72,11 @@ class DashboardController extends Controller
 
         return view('dashboard', [
             'myOpenTickets' => $userStats->open_tickets_count, //  للتذاكر المفتوحة  
-            'myClosedTickets' => $userStats->closed_tickets_count, //   
-            'myTotalTickets' => $userStats->total_tickets_count, //   
-            'myPendingLeaves' => $userStats->pending_leaves_count, //   
-            'myApprovedLeaves' => $userStats->approved_leaves_count, //   
-            'myTotalLeaves' => $userStats->total_leave_requests_count, //   
+            'myClosedTickets' => $userStats->closed_tickets_count, //  للتذاكر المغلقة  
+            'myTotalTickets' => $userStats->total_tickets_count, //  لإجمالي التذاكر  
+            'myPendingLeaves' => $userStats->pending_leaves_count, //  لطلبات الإجازة المعلقة  
+            'myApprovedLeaves' => $userStats->approved_leaves_count, //  لطلبات الإجازة المعتمدة  
+            'myTotalLeaves' => $userStats->total_leave_requests_count, //  لإجمالي طلبات الإجازة  
             'recentTickets' => $recentTickets,
             'recentLeaves' => $recentLeaves,
             'recentEmployees' => collect(),
