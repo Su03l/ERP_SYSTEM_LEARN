@@ -27,7 +27,7 @@ class DashboardController extends Controller
 
                 return Cache::remember('admin_dashboard_stats', $statsTtl, function () {
                     return [
-                        'totalEmployees' => User::where('role', 'employee')->count(),
+                        'totalEmployees' => User::where('role', 'employee')->count(), // جميع الموظفين
                         'openTickets' => Ticket::where('status', 'open')->count(),
                         'totalTickets' => Ticket::count(),
                         'pendingLeaves' => LeaveRequest::where('status', 'pending')->count(),
