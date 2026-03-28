@@ -71,12 +71,12 @@ class DashboardController extends Controller
         $recentLeaves = LeaveRequest::where('user_id', $user->id)->latest()->take(5)->get(); // اخر 5 طلبات إجازة
 
         return view('dashboard', [
-            'myOpenTickets' => $userStats->open_tickets_count, //   
-            'myClosedTickets' => $userStats->closed_tickets_count,
-            'myTotalTickets' => $userStats->total_tickets_count,
-            'myPendingLeaves' => $userStats->pending_leaves_count,
-            'myApprovedLeaves' => $userStats->approved_leaves_count,
-            'myTotalLeaves' => $userStats->total_leave_requests_count,
+            'myOpenTickets' => $userStats->open_tickets_count, //  للتذاكر المفتوحة  
+            'myClosedTickets' => $userStats->closed_tickets_count, //   
+            'myTotalTickets' => $userStats->total_tickets_count, //   
+            'myPendingLeaves' => $userStats->pending_leaves_count, //   
+            'myApprovedLeaves' => $userStats->approved_leaves_count, //   
+            'myTotalLeaves' => $userStats->total_leave_requests_count, //   
             'recentTickets' => $recentTickets,
             'recentLeaves' => $recentLeaves,
             'recentEmployees' => collect(),
