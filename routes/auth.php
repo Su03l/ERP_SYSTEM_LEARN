@@ -30,7 +30,7 @@ Route::middleware('guest')->group(function () {
     // لنسيان كلمة المرور
     Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])
         ->name('password.reset');
-
+    // لنسيان كلمة المرور
     Route::post('reset-password', [NewPasswordController::class, 'store'])
         ->name('password.store');
 });
