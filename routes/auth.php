@@ -35,6 +35,7 @@ Route::middleware('guest')->group(function () {
         ->name('password.store');
 });
 
+// يجب ان يكون المستخدم مسجل 
 Route::middleware('auth')->group(function () {
     Route::get('verify-email', EmailVerificationPromptController::class)
         ->name('verification.notice');
