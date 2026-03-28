@@ -28,11 +28,11 @@ class DashboardController extends Controller
                 return Cache::remember('admin_dashboard_stats', $statsTtl, function () {
                     return [
                         'totalEmployees' => User::where('role', 'employee')->count(), // جميع الموظفين
-                        'openTickets' => Ticket::where('status', 'open')->count(),
-                        'totalTickets' => Ticket::count(),
-                        'pendingLeaves' => LeaveRequest::where('status', 'pending')->count(),
-                        'totalLeaveRequests' => LeaveRequest::count(),
-                        'departments' => User::where('role', 'employee')->whereNotNull('department')->distinct('department')->count('department'),
+                        'openTickets' => Ticket::where('status', 'open')->count(), // جميع التذاكر المفتوحة
+                        'totalTickets' => Ticket::count(), // جميع التذاكر
+                        'pendingLeaves' => LeaveRequest::where('status', 'pending')->count(), // جميع طلبات الإجازة المعلقة
+                        'totalLeaveRequests' => LeaveRequest::count(), // جميع طلبات الإجازة
+                        'departments' => User::where('role', 'employee')->whereNotNull('department')->distinct('department')->count('department'), // جميع الأقسام
                     ];
                 });
 
