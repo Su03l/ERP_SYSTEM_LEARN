@@ -35,10 +35,9 @@ class DashboardController extends Controller
                         'departments' => User::where('role', 'employee')->whereNotNull('department')->distinct('department')->count('department'), // جميع الأقسام
                     ];
                 });
-
             });
 
-            $recentEmployees = Cache::remember('admin_recent_employees', $listsTtl, fn() => User::where('role', 'employee')->latest()->take(5)->get());
+            $recentEmployees = Cache::remember('admin_recent_employees', $listsTtl, fn() => User::where('role', 'employee')->latest()->take(5)->get()); // آخر 5 موظفين
             $recentTickets = Cache::remember('admin_recent_tickets', $listsTtl, fn() => Ticket::with('user')->latest()->take(5)->get());
             $recentLeaves = Cache::remember('admin_recent_leaves', $listsTtl, fn() => LeaveRequest::with('user')->latest()->take(5)->get());
 
