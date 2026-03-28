@@ -39,6 +39,7 @@
                             Log in
                         </a>
 
+                        <!--  for admin to register -->
                         @if (Route::has('register'))
                             <a
                                 href="{{ route('register') }}"
