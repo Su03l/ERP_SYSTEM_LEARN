@@ -65,8 +65,8 @@ class DashboardController extends Controller
             });
         });
 
-        $recentTickets = Cache::remember("user_{$user->id}_recent_tickets", $listsTtl, fn() => Ticket::where('user_id', $user->id)->latest()->take(5)->get());
-        $recentLeaves = Cache::remember("user_{$user->id}_recent_leaves", $listsTtl, fn() => LeaveRequest::where('user_id', $user->id)->latest()->take(5)->get());
+        $recentTickets = Ticket::where('user_id', $user->id)->latest()->take(5)->get();
+        $recentLeaves = LeaveRequest::where('user_id', $user->id)->latest()->take(5)->get();
 
         return view('dashboard', [
             'myOpenTickets' => $userStats->open_tickets_count,
