@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('guest')->group(function () {
 
 
+    // لتسجيل الدخول
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
                 ->name('login');
 
