@@ -39,7 +39,7 @@ class DashboardController extends Controller
 
             $recentEmployees = Cache::remember('admin_recent_employees', $listsTtl, fn() => User::where('role', 'employee')->latest()->take(5)->get()); // آخر 5 موظفين
             $recentTickets = Cache::remember('admin_recent_tickets', $listsTtl, fn() => Ticket::with('user')->latest()->take(5)->get()); // آخر 5 تذاكر
-            $recentLeaves = Cache::remember('admin_recent_leaves', $listsTtl, fn() => LeaveRequest::with('user')->latest()->take(5)->get());
+            $recentLeaves = Cache::remember('admin_recent_leaves', $listsTtl, fn() => LeaveRequest::with('user')->latest()->take(5)->get()); // آخر 5 طلبات إجازة
 
             // دمج مصفوفة الإحصائيات مع القوائم وإرسالها للواجهة
             return view('dashboard', array_merge($adminStats, [
