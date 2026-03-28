@@ -78,8 +78,8 @@ class DashboardController extends Controller
             'myApprovedLeaves' => $userStats->approved_leaves_count, //  لطلبات الإجازة المعتمدة  
             'myTotalLeaves' => $userStats->total_leave_requests_count, //  لإجمالي طلبات الإجازة  
             'recentTickets' => $recentTickets, // لاخر تذكرة 
-            'recentLeaves' => $recentLeaves,
-            'recentEmployees' => collect(),
+            'recentLeaves' => $recentLeaves, // لاخر طلب اجازة
+            'recentEmployees' => collect(), // لاخر موظف
         ]);
     }
 }
