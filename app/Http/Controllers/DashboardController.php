@@ -77,7 +77,7 @@ class DashboardController extends Controller
             'myPendingLeaves' => $userStats->pending_leaves_count, //  لطلبات الإجازة المعلقة  
             'myApprovedLeaves' => $userStats->approved_leaves_count, //  لطلبات الإجازة المعتمدة  
             'myTotalLeaves' => $userStats->total_leave_requests_count, //  لإجمالي طلبات الإجازة  
-            'recentTickets' => $recentTickets,
+            'recentTickets' => $recentTickets, // لاخر تذكرة 
             'recentLeaves' => $recentLeaves,
             'recentEmployees' => collect(),
         ]);
