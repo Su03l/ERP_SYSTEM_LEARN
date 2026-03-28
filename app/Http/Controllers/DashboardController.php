@@ -44,8 +44,8 @@ class DashboardController extends Controller
             // دمج مصفوفة الإحصائيات مع القوائم وإرسالها للواجهة
             return view('dashboard', array_merge($adminStats, [
                 'recentEmployees' => $recentEmployees, // آخر 5 موظفين
-                'recentTickets' => $recentTickets,
-                'recentLeaves' => $recentLeaves
+                'recentTickets' => $recentTickets, // آخر 5 تذاكر
+                'recentLeaves' => $recentLeaves // آخر 5 طلبات إجازة
             ]));
         }
 
