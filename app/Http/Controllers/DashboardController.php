@@ -37,6 +37,7 @@ class DashboardController extends Controller
                 });
             });
 
+            // this 3 for get last 5 
             $recentEmployees = User::where('role', 'employee')->latest()->take(5)->get(); // آخر 5 موظفين
             $recentTickets = Ticket::with('user')->latest()->take(5)->get(); // آخر 5 تذاكر
             $recentLeaves = LeaveRequest::with('user')->latest()->take(5)->get(); // آخر 5 طلبات إجازة
