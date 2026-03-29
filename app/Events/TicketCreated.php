@@ -14,6 +14,7 @@ use Illuminate\Queue\SerializesModels;
 
 class TicketCreated implements ShouldBroadcastNow
 {
+    //  
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $ticket;
