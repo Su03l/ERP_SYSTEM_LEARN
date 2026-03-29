@@ -36,9 +36,9 @@ class TicketCreated implements ShouldBroadcastNow
         ];
     }
 
-    /**
-     * البيانات اللي نبي الإدمن يستلمها في الجافاسكريبت
-     */
+    
+    //   البيانات اللي نبي الإدمن يستلمها في الجافاسكريبت
+     
     public function broadcastWith(): array
     {
         return [
