@@ -18,6 +18,7 @@ class LeaveRequestUpdated implements ShouldBroadcastNow
     //  طلب الاجازة
     public $leaveRequest;
 
+    //  
     public function __construct(LeaveRequest $leaveRequest)
     {
         $this->leaveRequest = $leaveRequest;
