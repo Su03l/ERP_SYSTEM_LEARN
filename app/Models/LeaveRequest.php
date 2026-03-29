@@ -5,7 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Enums\LeaveStatus;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use App\Observers\LeaveRequestObserver;
 
+#[ObservedBy([LeaveRequestObserver::class])]
 class LeaveRequest extends Model
 {
     use HasFactory;

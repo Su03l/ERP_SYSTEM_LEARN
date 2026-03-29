@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="user-id" content="{{ Auth::id() }}">
+    <meta name="user-role" content="{{ Auth::user()->role }}">
     <title>{{ config('app.name', 'ERP System') }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -174,8 +176,66 @@
                 </div>
                 <div class="flex items-center gap-3">
                     <span class="text-sm text-brand-500 hidden sm:block">{{ now()->translatedFormat('l، j F Y') }}</span>
+                    
+                    {{-- 🛎️ زر قائمة الإشعارات --}}
+                    <div x-data="{
+                        open: false,
+                        unread: 0,
+                        items: [],
+                        playSound() {
+                            try {
+                                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                                const osc = audioCtx.createOscillator();
+                                const gain = audioCtx.createGain();
+                                osc.type = 'sine';
+                                osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+                                osc.frequency.exponentialRampToValueAtTime(1200, audioCtx.currentTime + 0.1);
+                                gain.gain.setValueAtTime(0, audioCtx.currentTime);
+                                gain.gain.linearRampToValueAtTime(0.2, audioCtx.currentTime + 0.02);
+                                gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.15);
+                                osc.connect(gain);
+                                gain.connect(audioCtx.destination);
+                                osc.start();
+                                osc.stop(audioCtx.currentTime + 0.2);
+                            } catch(e) {}
+                        }
+                    }" 
+                    @admin-notification.window="
+                        items.unshift($event.detail);
+                        unread++;
+                        playSound();
+                    "
+                    class="relative">
+                        <button @click="open = !open; unread = 0" class="relative p-2 text-brand-600 hover:text-brand-900 transition-colors bg-brand-100 rounded-full w-10 h-10 flex flex-col items-center justify-center">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"/></svg>
+                            <span x-show="unread > 0" x-transition x-cloak class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/4 -translate-y-1/4 bg-red-600 rounded-full" x-text="unread"></span>
+                        </button>
+                        
+                        {{-- Dropdown Menu --}}
+                        <div x-show="open" @click.away="open = false" x-transition x-cloak class="absolute left-0 mt-3 w-80 bg-white border border-brand-200 rounded-xl shadow-xl z-50 overflow-hidden transform origin-top-left">
+                            <div class="p-3 border-b border-brand-100 bg-brand-50 flex justify-between items-center">
+                                <h3 class="font-bold text-sm text-brand-900">الإشعارات الحديثة</h3>
+                                <span class="text-xs text-brand-500 font-medium" x-text="items.length + ' إشعار'"></span>
+                            </div>
+                            <div class="max-h-[22rem] overflow-y-auto w-full">
+                                <template x-if="items.length === 0">
+                                    <div class="p-6 text-center text-sm text-brand-500">لا توجد إشعارات جديدة</div>
+                                </template>
+                                <template x-for="(item, index) in items" :key="index">
+                                    <a :href="item.link" class="block p-4 border-b border-brand-50 hover:bg-brand-50 transition-colors animate-fade-in">
+                                        <div class="flex justify-between items-start mb-1 gap-2">
+                                            <span class="font-bold text-sm text-brand-900" x-text="item.title"></span>
+                                            <span class="text-xs text-brand-400 whitespace-nowrap" x-text="item.time"></span>
+                                        </div>
+                                        <p class="text-sm text-brand-600 line-clamp-2" x-text="item.message"></p>
+                                    </a>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </header>
+
 
             {{-- Page Content --}}
             <main class="p-6">
