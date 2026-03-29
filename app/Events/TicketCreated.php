@@ -26,9 +26,9 @@ class TicketCreated implements ShouldBroadcastNow
         $this->ticket = $ticket;
     }
 
-    /**
-     * القناة اللي بنبث فيها (بما أنها معلومات حساسة، بنخليها Private)
-     */
+    
+     //  القناة اللي بنبث فيها (بما أنها معلومات حساسة، بنخليها Private)
+     
     public function broadcastOn(): array
     {
         return [
