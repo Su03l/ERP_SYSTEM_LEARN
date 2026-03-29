@@ -12,6 +12,7 @@ use Illuminate\Queue\SerializesModels;
 
 class LeaveRequestUpdated implements ShouldBroadcastNow
 {
+    //   
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $leaveRequest;
