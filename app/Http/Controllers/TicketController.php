@@ -13,6 +13,7 @@ class TicketController extends Controller
         //  جلب المستخدم الحالي
         $user = auth()->user();
 
+        //  جلب جميع التذاكر
         $query = Ticket::with('user');
 
         if ($user->role !== 'admin') {
