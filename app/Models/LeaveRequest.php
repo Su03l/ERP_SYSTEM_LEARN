@@ -16,6 +16,7 @@ class LeaveRequest extends Model
     //  
     protected $guarded = [];
 
+    //  من اجل تحويل البيانات الى 
     protected $casts = [
         'status' => LeaveStatus::class,
         'start_date' => 'date',
