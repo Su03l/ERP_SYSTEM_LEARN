@@ -20,6 +20,7 @@ class TicketCreated implements ShouldBroadcastNow
     //  التذكرة
     public $ticket;
 
+    //  
     public function __construct(Ticket $ticket)
     {
         $this->ticket = $ticket;
