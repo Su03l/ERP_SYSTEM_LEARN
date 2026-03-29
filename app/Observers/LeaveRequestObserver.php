@@ -16,6 +16,7 @@ class LeaveRequestObserver
         event(new LeaveRequestCreated($leaveRequest));
     }
 
+    //  عند تحديث طلب اجازة
     public function updated(LeaveRequest $leaveRequest): void
     {
         $this->clearDashboardCache($leaveRequest);
