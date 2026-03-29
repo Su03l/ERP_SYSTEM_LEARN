@@ -15,6 +15,7 @@ class LeaveRequestUpdated implements ShouldBroadcastNow
     //   
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    //  طلب الاجازة
     public $leaveRequest;
 
     public function __construct(LeaveRequest $leaveRequest)
