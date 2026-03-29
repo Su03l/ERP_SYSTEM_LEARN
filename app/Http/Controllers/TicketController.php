@@ -10,6 +10,7 @@ class TicketController extends Controller
     //  عرض جميع التذاكر
     public function index(Request $request)
     {
+        //  جلب المستخدم الحالي
         $user = auth()->user();
 
         $query = Ticket::with('user');
