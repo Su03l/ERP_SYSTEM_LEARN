@@ -22,9 +22,9 @@ class TicketUpdated implements ShouldBroadcastNow
         $this->ticket = $ticket;
     }
 
-    /**
-     * القناة اللي بنبث فيها (قناة صاحب التذكرة)
-     */
+    
+    //  القناة اللي بنبث فيها (قناة صاحب التذكرة)
+     
     public function broadcastOn(): array
     {
         return [
