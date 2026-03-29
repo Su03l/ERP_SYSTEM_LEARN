@@ -14,6 +14,7 @@ class TicketUpdated implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    //  التذكرة
     public $ticket;
 
     public function __construct(Ticket $ticket)
