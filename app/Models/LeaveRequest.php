@@ -23,6 +23,7 @@ class LeaveRequest extends Model
         'end_date' => 'date',
     ];
 
+    //  من اجل جلب المستخدم
     public function user()
     {
         return $this->belongsTo(User::class);
