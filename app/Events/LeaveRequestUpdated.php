@@ -32,6 +32,7 @@ class LeaveRequestUpdated implements ShouldBroadcastNow
         ];
     }
 
+    //  بيانات البث
     public function broadcastWith(): array
     {
         return [
