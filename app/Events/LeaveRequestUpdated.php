@@ -24,6 +24,7 @@ class LeaveRequestUpdated implements ShouldBroadcastNow
         $this->leaveRequest = $leaveRequest;
     }
 
+    //  قناة البث الخاصة بالمستخدم
     public function broadcastOn(): array
     {
         return [
