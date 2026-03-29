@@ -32,9 +32,9 @@ class TicketUpdated implements ShouldBroadcastNow
         ];
     }
 
-    /**
-     * البيانات اللي نبي الموظف يستلمها في الجافاسكريبت
-     */
+    
+    //  البيانات اللي نبي الموظف يستلمها في الجافاسكريبت
+     
     public function broadcastWith(): array
     {
         return [
