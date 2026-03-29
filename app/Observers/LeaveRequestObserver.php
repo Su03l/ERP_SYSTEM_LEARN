@@ -36,6 +36,7 @@ class LeaveRequestObserver
         Cache::forget('admin_dashboard_stats');
         Cache::forget('admin_recent_leaves');
 
+        // مسح كاش المستخدم
         Cache::forget("user_{$leaveRequest->user_id}_stats");
         Cache::forget("user_{$leaveRequest->user_id}_recent_leaves");
     }
