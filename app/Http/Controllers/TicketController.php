@@ -21,6 +21,7 @@ class TicketController extends Controller
             $query->where('user_id', $user->id);
         }
 
+        //  تصفية حسب الحالة
         if ($request->has('status') && $request->status !== '') {
             $query->where('status', $request->status);
         }
