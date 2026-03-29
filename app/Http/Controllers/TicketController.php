@@ -35,6 +35,7 @@ class TicketController extends Controller
             });
         }
 
+        // جلب اخر 15 تذكرة 
         $tickets = $query->latest()->paginate(15);
 
         return view('tickets.index', compact('tickets'));
