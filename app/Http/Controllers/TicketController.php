@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class TicketController extends Controller
 {
-    //
+    //  عرض جميع التذاكر
     public function index(Request $request)
     {
         $user = auth()->user();
