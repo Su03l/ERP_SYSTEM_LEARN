@@ -32,6 +32,7 @@ class LeaveRequestObserver
     //  مسح الكاش
     private function clearDashboardCache(LeaveRequest $leaveRequest): void
     {
+        // مسح كاش الادمن
         Cache::forget('admin_dashboard_stats');
         Cache::forget('admin_recent_leaves');
 
