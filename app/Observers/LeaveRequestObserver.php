@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Cache;
 
 class LeaveRequestObserver
 {
+    //  عند انشاء طلب اجازة
     public function created(LeaveRequest $leaveRequest)
     {
         Cache::forget('admin_dashboard_stats');
