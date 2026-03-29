@@ -26,6 +26,7 @@ class TicketController extends Controller
             $query->where('status', $request->status);
         }
 
+        //  البحث في التذاكر
         if ($request->has('search') && !empty($request->search)) {
             $searchTerm = '%' . $request->search . '%';
             $query->where(function ($q) use ($searchTerm) {
