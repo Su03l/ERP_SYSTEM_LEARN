@@ -16,6 +16,7 @@ class TicketController extends Controller
         //  جلب جميع التذاكر
         $query = Ticket::with('user');
 
+        //  إذا لم يكن المستخدم مدير، قم بجلب التذاكر الخاصة به فقط
         if ($user->role !== 'admin') {
             $query->where('user_id', $user->id);
         }
