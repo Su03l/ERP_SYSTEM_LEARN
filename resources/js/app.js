@@ -13,7 +13,6 @@ if (window.Echo) {
     if (userRoleMeta && userRoleMeta.content === 'admin') {
         window.Echo.private('admin-notifications')
             .listen('TicketCreated', (e) => {
-                console.log(' إشعار جديد للإدمن (تذكرة):', e);
                 window.dispatchEvent(new CustomEvent('admin-notification', {
                     detail: {
                         title: 'تذكرة جديدة',
@@ -24,7 +23,6 @@ if (window.Echo) {
                 }));
             })
             .listen('LeaveRequestCreated', (e) => {
-                console.log(' إشعار جديد للإدمن (إجازة):', e);
                 window.dispatchEvent(new CustomEvent('admin-notification', {
                     detail: {
                         title: 'طلب إجازة جديد',
@@ -40,7 +38,6 @@ if (window.Echo) {
     if (userIdMeta && userIdMeta.content) {
         window.Echo.private('App.Models.User.' + userIdMeta.content)
             .listen('TicketUpdated', (e) => {
-                console.log(' إشعار تحديث تذكرة للموظف:', e);
                 window.dispatchEvent(new CustomEvent('admin-notification', {
                     detail: {
                         title: 'تحديث في التذكرة',
@@ -51,7 +48,6 @@ if (window.Echo) {
                 }));
             })
             .listen('LeaveRequestUpdated', (e) => {
-                console.log(' إشعار تحديث إجازة للموظف:', e);
                 window.dispatchEvent(new CustomEvent('admin-notification', {
                     detail: {
                         title: 'تحديث في طلب الإجازة',
