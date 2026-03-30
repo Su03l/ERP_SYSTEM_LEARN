@@ -27,6 +27,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/payroll/send', [PayrollController::class, 'sendBulk'])->name('payroll.sendBulk');
     });
     Route::resource('tickets', TicketController::class)->except(['edit', 'destroy']);
+    Route::post('/tickets/{ticket}/comments', [\App\Http\Controllers\TicketCommentController::class, 'store'])->name('ticket.comments.store');
     Route::resource('leave-requests', LeaveRequestController::class)->except(['edit', 'destroy']);
 });
 
