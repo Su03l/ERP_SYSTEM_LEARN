@@ -8,9 +8,22 @@
                 <h3 class="text-lg font-bold text-brand-900">معلومات الحساب</h3>
                 <p class="text-sm text-brand-500 mt-1">حدّث بيانات حسابك والبريد الإلكتروني</p>
             </div>
-            <form method="POST" action="{{ route('profile.update') }}" class="p-6 space-y-5">
+            <form method="POST" action="{{ route('profile.update') }}" class="p-6 space-y-5" enctype="multipart/form-data">
                 @csrf
                 @method('PATCH')
+
+                {{-- Avatar Image --}}
+                <div class="mb-4">
+                    <label class="block text-sm font-semibold text-brand-700 mb-1.5">الصورة الشخصية</label>
+                    <div class="flex items-center gap-4">
+                        <img src="{{ $user->avatar ? asset('storage/' . $user->avatar) : asset('https://ui-avatars.com/api/?name='.urlencode($user->name).'&color=fff&background=020617') }}" 
+                             class="w-20 h-20 rounded-full object-cover shadow border-2 border-brand-100">
+                        <input type="file" name="avatar" class="block w-full text-sm text-brand-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-brand-50 file:text-brand-900 hover:file:bg-brand-100 cursor-pointer transition">
+                    </div>
+                    @error('avatar')
+                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
+                </div>
 
                 <div>
                     <label for="name" class="block text-sm font-semibold text-brand-700 mb-1.5">الاسم</label>
