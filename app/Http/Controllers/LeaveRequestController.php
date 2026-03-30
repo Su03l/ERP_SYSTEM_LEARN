@@ -60,17 +60,25 @@ class LeaveRequestController extends Controller
             'start_date' => 'required|date|after_or_equal:today',
             'end_date' => 'required|date|after_or_equal:start_date',
             'reason' => 'required|string',
+            'attachment' => 'nullable|file|mimes:jpg,jpeg,png,pdf,docx,mp4,mov|max:10240',
         ]);
 
-        // إنشاء طلب الإجازة
-        LeaveRequest::create([
+        $data = [
             'user_id' => auth()->id(),
             'type' => $request->type,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
             'reason' => $request->reason,
             'status' => LeaveStatus::PENDING, // Use enum
-        ]);
+        ];
+
+        // معالجة المرفق إذا وُجد
+        if ($request->hasFile('attachment')) {
+            $data['attachment'] = $request->file('attachment')->store('leaves/attachments', 'public');
+        }
+
+        // إنشاء طلب الإجازة
+        LeaveRequest::create($data);
 
         // إعادة توجيه المستخدم إلى صفحة طلبات الإجازة
         return redirect()->route('leave-requests.index')->with('success', 'تم تقديم طلب الإجازة بنجاح!');
