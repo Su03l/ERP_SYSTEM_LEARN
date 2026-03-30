@@ -4,15 +4,25 @@
     <div class="max-w-6xl mx-auto pb-12 w-full mt-4" x-data="{ 
         tab: '{{ $errors->updatePassword->isNotEmpty() ? 'password' : 'profile' }}',
         showDelete: false,
+        showAvatarModal: false,
+        deleteAvatar: '0',
         previewImage(event) {
             const input = event.target;
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
                 reader.onload = (e) => {
-                    document.getElementById('avatar-preview').src = e.target.result;
+                    document.querySelectorAll('.avatar-preview').forEach(img => img.src = e.target.result);
+                    this.deleteAvatar = '0';
                 }
                 reader.readAsDataURL(input.files[0]);
             }
+        },
+        removeAvatar() {
+            this.deleteAvatar = '1';
+            const defaultAvatar = 'https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&color=fff&background=020617&size=200';
+            document.querySelectorAll('.avatar-preview').forEach(img => img.src = defaultAvatar);
+            this.showAvatarModal = false;
+            if(this.$refs.avatarInput) this.$refs.avatarInput.value = '';
         }
     }">
         {{-- Cover Image Hero --}}
@@ -96,27 +106,29 @@
 
                         {{-- Avatar Upload Area --}}
                         <div class="flex items-center gap-6 p-4 md:p-6 border border-brand-100 rounded-2xl bg-brand-50/50">
-                            <div class="relative w-20 h-20 md:w-24 md:h-24 rounded-full border border-brand-200 bg-white overflow-hidden shrink-0 group shadow-sm">
+                            <input type="hidden" name="delete_avatar" x-model="deleteAvatar">
+                            <input type="file" name="avatar" x-ref="avatarInput" class="hidden" @change="previewImage; showAvatarModal = false">
+                            
+                            <button type="button" @click="showAvatarModal = true" class="relative w-24 h-24 rounded-full border border-brand-200 bg-white overflow-hidden shrink-0 group shadow-sm focus:outline-none focus:ring-4 focus:ring-brand-200 transition-all">
                                 @if($user->avatar)
-                                    <img src="{{ asset('storage/' . $user->avatar) }}" id="avatar-preview" class="w-full h-full object-cover transition duration-300 group-hover:scale-105">
+                                    <img src="{{ asset('storage/' . $user->avatar) }}" class="avatar-preview w-full h-full object-cover transition duration-300 group-hover:scale-105">
                                 @else
-                                    <img src="https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&color=fff&background=020617" id="avatar-preview" class="w-full h-full object-cover">
+                                    <img src="https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&color=fff&background=020617" class="avatar-preview w-full h-full object-cover">
                                 @endif
                                 
-                                <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                <div class="absolute inset-0 bg-black/40 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none text-white">
+                                    <svg class="w-6 h-6 mb-1 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                    <span class="text-[10px] font-bold">تعديل</span>
                                 </div>
-                            </div>
+                            </button>
+
                             <div class="flex-1">
-                                <label class="block text-sm font-bold text-brand-900 mb-1">تغيير الصورة الشخصية</label>
-                                <p class="text-xs text-brand-500 mb-3 hidden md:block">الصيغ المدعومة: JPG, PNG, JPEG. الحجم الأقصى 10MB.</p>
-                                <div class="relative overflow-hidden inline-block w-full md:w-auto">
-                                    <button type="button" class="w-full md:w-auto px-5 py-2.5 bg-white border border-brand-200 text-brand-700 font-semibold text-sm rounded-xl hover:bg-brand-50 transition drop-shadow-sm flex items-center justify-center gap-2">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
-                                        اختر صورة جديدة
-                                    </button>
-                                    <input type="file" name="avatar" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" @change="previewImage">
-                                </div>
+                                <label class="block text-sm font-bold text-brand-900 mb-1">الصورة الشخصية</label>
+                                <p class="text-xs text-brand-500 mb-3 hidden md:block">اضغط على الصورة المصغرة لعرضها وإدارتها.</p>
+                                <button type="button" @click="showAvatarModal = true" class="px-5 py-2.5 bg-white border border-brand-200 text-brand-700 font-semibold text-sm rounded-xl hover:bg-brand-50 transition drop-shadow-sm flex items-center justify-center gap-2">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                                    إدارة الصورة
+                                </button>
                                 @error('avatar')
                                     <p class="mt-2 text-xs font-semibold text-red-600">{{ $message }}</p>
                                 @enderror
@@ -159,6 +171,39 @@
                             </button>
                         </div>
                     </form>
+
+                    {{-- Avatar Viewing/Management Modal --}}
+                    <div x-show="showAvatarModal" x-transition.opacity class="fixed inset-0 min-h-screen bg-brand-950/60 backdrop-blur-sm z-50 flex items-center justify-center p-4" style="display: none;">
+                        <div @click.outside="showAvatarModal = false" x-transition:enter="transition ease-out duration-300 transform" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" class="bg-white rounded-3xl w-full max-w-sm p-6 shadow-2xl relative border border-brand-100">
+                            {{-- Close Button --}}
+                            <button type="button" @click="showAvatarModal = false" class="absolute top-4 left-4 w-8 h-8 flex items-center justify-center text-brand-400 hover:text-brand-900 bg-brand-50 hover:bg-brand-100 rounded-full transition">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                            </button>
+
+                            <h3 class="text-lg font-bold text-center text-brand-900 mb-6">الصورة الشخصية</h3>
+
+                            <div class="flex justify-center mb-8">
+                                <div class="w-48 h-48 rounded-full border-4 border-brand-50 shadow-xl overflow-hidden relative group">
+                                    @if($user->avatar)
+                                        <img src="{{ asset('storage/' . $user->avatar) }}" class="avatar-preview w-full h-full object-cover">
+                                    @else
+                                        <img src="https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&color=fff&background=020617" class="avatar-preview w-full h-full object-cover">
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-3">
+                                <button type="button" @click="$refs.avatarInput.click()" class="flex flex-col items-center justify-center gap-2 p-3 bg-brand-50 hover:bg-brand-100 text-brand-700 font-bold rounded-2xl transition">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z"></path></svg>
+                                    <span class="text-sm">تغيير الصورة</span>
+                                </button>
+                                <button type="button" @click="removeAvatar" class="flex flex-col items-center justify-center gap-2 p-3 bg-red-50 hover:bg-red-100 text-red-600 font-bold rounded-2xl transition">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"></path></svg>
+                                    <span class="text-sm">حذف الصورة</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 {{-- 2. Password Tab --}}
