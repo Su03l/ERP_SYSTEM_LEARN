@@ -54,7 +54,7 @@
 
         @if($ticket->attachment)
         {{-- Attachment --}}
-        <div class="bg-white rounded-2xl shadow-sm border border-brand-100 mb-6 animate-fade-in stagger-2 relative overflow-hidden group">
+        <div class="bg-white rounded-2xl shadow-sm border border-brand-100 mb-6 animate-fade-in stagger-2 relative overflow-hidden group" x-data="{ showAttachmentModal: false }">
             <div class="p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div class="flex items-center gap-4">
                     <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center shrink-0">
@@ -65,9 +65,35 @@
                         <p class="text-xs text-brand-500">تم إرفاق ملف مع هذه التذكرة لمزيد من التوضيح.</p>
                     </div>
                 </div>
-                <a href="{{ asset('storage/' . $ticket->attachment) }}" target="_blank" class="px-5 py-2.5 bg-brand-50 border border-brand-200 text-brand-700 font-bold text-sm rounded-xl hover:bg-brand-100 transition shadow-sm whitespace-nowrap">
+                <button type="button" @click="showAttachmentModal = true" class="px-5 py-2.5 bg-brand-50 border border-brand-200 text-brand-700 font-bold text-sm rounded-xl hover:bg-brand-100 transition shadow-sm whitespace-nowrap hidden sm:block">
                     مشاهدة المرفق
-                </a>
+                </button>
+                <button type="button" @click="showAttachmentModal = true" class="w-full py-2.5 bg-brand-50 border border-brand-200 text-brand-700 font-bold text-sm rounded-xl hover:bg-brand-100 transition shadow-sm whitespace-nowrap sm:hidden">
+                    مشاهدة المرفق
+                </button>
+            </div>
+
+            {{-- Attachment Viewing Modal --}}
+            <div x-show="showAttachmentModal" style="display: none;" x-transition.opacity class="fixed inset-0 min-h-screen bg-brand-950/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+                <div @click.outside="showAttachmentModal = false" x-transition:enter="transition ease-out duration-300 transform" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" class="bg-white rounded-3xl w-full max-w-5xl p-2 shadow-2xl relative border border-brand-100 flex flex-col h-[85vh]">
+                    {{-- Close Button & Header --}}
+                    <div class="flex justify-between items-center p-4 border-b border-brand-100 mb-2">
+                        <div class="flex items-center gap-3">
+                            <h3 class="text-lg font-bold text-brand-900">مستعرض المرفقات</h3>
+                            <a href="{{ asset('storage/' . $ticket->attachment) }}" download class="text-xs bg-brand-100 text-brand-700 px-3 py-1.5 rounded-lg hover:bg-brand-200 transition font-bold">
+                                تحميل الملف ⬇
+                            </a>
+                        </div>
+                        <button type="button" @click="showAttachmentModal = false" class="w-8 h-8 flex items-center justify-center text-brand-400 hover:text-brand-900 bg-brand-50 hover:bg-brand-100 rounded-full transition">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                        </button>
+                    </div>
+                    
+                    {{-- Iframe Container --}}
+                    <div class="flex-1 bg-brand-50/50 rounded-2xl overflow-hidden relative border border-brand-100">
+                        <iframe src="{{ asset('storage/' . $ticket->attachment) }}" class="w-full h-full border-0"></iframe>
+                    </div>
+                </div>
             </div>
         </div>
         @endif
