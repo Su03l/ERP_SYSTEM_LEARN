@@ -37,7 +37,7 @@ class DashboardController extends Controller
                 });
             });
 
-            // this 3 for get last 5 
+            // this 3 for get last 5
             $recentEmployees = User::where('role', 'employee')->latest()->take(5)->get(); // آخر 5 موظفين
             $recentTickets = Ticket::with('user')->latest()->take(5)->get(); // آخر 5 تذاكر
             $recentLeaves = LeaveRequest::with('user')->latest()->take(5)->get(); // آخر 5 طلبات إجازة
@@ -52,7 +52,7 @@ class DashboardController extends Controller
 
 
         // إحصائيات للموظف العادي
-        $userStats = Cache::lock("lock_user_{$user->id}_stats", 10)->block(5, function () use ($user, $statsTtl) {
+        $userStatsData = Cache::lock("lock_user_{$user->id}_stats", 10)->block(5, function () use ($user, $statsTtl) {
             return Cache::remember("user_{$user->id}_stats", $statsTtl, function () use ($user) {
                 $user->loadCount([
                     'tickets as open_tickets_count' => fn($query) => $query->where('status', 'open'),
@@ -62,22 +62,33 @@ class DashboardController extends Controller
                     'leaveRequests as approved_leaves_count' => fn($query) => $query->where('status', 'approved'),
                     'leaveRequests as total_leave_requests_count',
                 ]);
-                return $user;
+                // Return an array of counts instead of the full User model
+                return [
+                    'open_tickets_count' => $user->open_tickets_count,
+                    'closed_tickets_count' => $user->closed_tickets_count,
+                    'total_tickets_count' => $user->total_tickets_count,
+                    'pending_leaves_count' => $user->pending_leaves_count,
+                    'approved_leaves_count' => $user->approved_leaves_count,
+                    'total_leave_requests_count' => $user->total_leave_requests_count,
+                ];
             });
         });
+
+        // Cast the array of counts to an object for easy access in the view
+        $userStats = (object) $userStatsData;
 
         // استدعاء اخر 5
         $recentTickets = Ticket::where('user_id', $user->id)->latest()->take(5)->get(); // اخر 5 تذاكر
         $recentLeaves = LeaveRequest::where('user_id', $user->id)->latest()->take(5)->get(); // اخر 5 طلبات إجازة
 
         return view('dashboard', [
-            'myOpenTickets' => $userStats->open_tickets_count, //  للتذاكر المفتوحة  
-            'myClosedTickets' => $userStats->closed_tickets_count, //  للتذاكر المغلقة  
-            'myTotalTickets' => $userStats->total_tickets_count, //  لإجمالي التذاكر  
-            'myPendingLeaves' => $userStats->pending_leaves_count, //  لطلبات الإجازة المعلقة  
-            'myApprovedLeaves' => $userStats->approved_leaves_count, //  لطلبات الإجازة المعتمدة  
-            'myTotalLeaves' => $userStats->total_leave_requests_count, //  لإجمالي طلبات الإجازة  
-            'recentTickets' => $recentTickets, // لاخر تذكرة 
+            'myOpenTickets' => $userStats->open_tickets_count, //  للتذاكر المفتوحة
+            'myClosedTickets' => $userStats->closed_tickets_count, //  للتذاكر المغلقة
+            'myTotalTickets' => $userStats->total_tickets_count, //  لإجمالي التذاكر
+            'myPendingLeaves' => $userStats->pending_leaves_count, //  لطلبات الإجازة المعلقة
+            'myApprovedLeaves' => $userStats->approved_leaves_count, //  لطلبات الإجازة المعتمدة
+            'myTotalLeaves' => $userStats->total_leave_requests_count, //  لإجمالي طلبات الإجازة
+            'recentTickets' => $recentTickets, // لاخر تذكرة
             'recentLeaves' => $recentLeaves, // لاخر طلب اجازة
             'recentEmployees' => collect(), // لاخر موظف
         ]);
