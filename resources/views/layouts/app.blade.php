@@ -81,8 +81,12 @@
             {{-- User Info --}}
             <div class="p-4 border-t border-brand-800 shrink-0">
                 <div class="flex items-center gap-3">
-                    <div class="w-9 h-9 bg-brand-700 rounded-full flex items-center justify-center text-sm font-bold">
-                        {{ mb_substr(Auth::user()->name, 0, 1) }}
+                    <div class="w-9 h-9 rounded-full overflow-hidden border border-brand-700 shrink-0 bg-brand-800 flex items-center justify-center text-sm font-bold">
+                        @if(Auth::user()->avatar)
+                            <img src="{{ asset('storage/' . Auth::user()->avatar) }}" alt="{{ Auth::user()->name }}" class="w-full h-full object-cover">
+                        @else
+                            {{ mb_substr(Auth::user()->name, 0, 1) }}
+                        @endif
                     </div>
                     <div x-show="sidebarOpen" x-transition class="flex-1 min-w-0">
                         <p class="text-sm font-medium truncate">{{ Auth::user()->name }}</p>
