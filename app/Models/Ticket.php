@@ -30,6 +30,6 @@ class Ticket extends Model
     // علاقة التذكرة بالتعليقات
     public function comments()
     {
-        return $this->hasMany(TicketComment::class)->oldest(); // من الأقدم للأحدث (مثل محادثات الواتساب)
+        return $this->hasMany(TicketComment::class)->oldest(); // من الأقدم للأحدث
     }
 }
