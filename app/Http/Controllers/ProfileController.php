@@ -26,12 +26,17 @@ class ProfileController extends Controller
         // التحقق من صحة البيانات
         $request->user()->fill($request->validated());
 
-        // معالجة رفع الصورة الشخصية
+        // معالجة الصورة الشخصية
         if ($request->hasFile('avatar')) {
             if ($request->user()->avatar) {
                 \Illuminate\Support\Facades\Storage::disk('public')->delete($request->user()->avatar);
             }
             $request->user()->avatar = $request->file('avatar')->store('avatars', 'public');
+        } elseif ($request->boolean('delete_avatar')) {
+            if ($request->user()->avatar) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($request->user()->avatar);
+            }
+            $request->user()->avatar = null;
         }
 
         // التحقق من صحة البريد الإلكتروني
