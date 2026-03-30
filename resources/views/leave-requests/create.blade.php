@@ -8,7 +8,7 @@
                 <p class="text-sm text-brand-500 mt-1">حدد تواريخ الإجازة والسبب وسيتم مراجعة طلبك من قبل الإدارة</p>
             </div>
 
-            <form method="POST" action="{{ route('leave-requests.store') }}" class="p-6 space-y-5">
+            <form method="POST" action="{{ route('leave-requests.store') }}" enctype="multipart/form-data" class="p-6 space-y-5">
                 @csrf
 
                 @if ($errors->any())
@@ -53,6 +53,13 @@
                     <textarea name="reason" id="reason" rows="4" required
                         class="w-full px-4 py-3 bg-brand-50 border border-brand-200 rounded-xl text-brand-900 placeholder-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-950 focus:border-transparent transition resize-none"
                         placeholder="اذكر سبب طلب الإجازة...">{{ old('reason') }}</textarea>
+                </div>
+
+                <div class="mt-4">
+                    <label for="attachment" class="block text-sm font-semibold text-brand-700 mb-1.5">إرفاق تقرير طبي أو مستند (اختياري)</label>
+                    <input type="file" name="attachment" id="attachment"
+                        class="w-full px-4 py-3 bg-brand-50 border border-brand-200 rounded-xl text-brand-900 focus:outline-none focus:ring-2 focus:ring-brand-950 focus:border-transparent transition file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-bold file:bg-brand-900 file:text-white hover:file:bg-brand-800 cursor-pointer">
+                    <p class="text-xs text-brand-500 mt-2">يمكنك رفع صور التقارير، ملفات PDF، أو فيديوهات توضيحية (بحد أقصى 10 ميجابايت).</p>
                 </div>
 
                 <div class="flex items-center justify-between pt-4 border-t border-brand-100">
