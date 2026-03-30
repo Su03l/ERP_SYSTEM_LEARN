@@ -52,6 +52,26 @@
             </div>
         </div>
 
+        @if($ticket->attachment)
+        {{-- Attachment --}}
+        <div class="bg-white rounded-2xl shadow-sm border border-brand-100 mb-6 animate-fade-in stagger-2 relative overflow-hidden group">
+            <div class="p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center shrink-0">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.182 15.182a4.5 4.5 0 01-6.364 0M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm3.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75z"></path></svg>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-bold text-brand-900 mb-1">المرفقات الإضافية</h3>
+                        <p class="text-xs text-brand-500">تم إرفاق ملف مع هذه التذكرة لمزيد من التوضيح.</p>
+                    </div>
+                </div>
+                <a href="{{ asset('storage/' . $ticket->attachment) }}" target="_blank" class="px-5 py-2.5 bg-brand-50 border border-brand-200 text-brand-700 font-bold text-sm rounded-xl hover:bg-brand-100 transition shadow-sm whitespace-nowrap">
+                    مشاهدة المرفق
+                </a>
+            </div>
+        </div>
+        @endif
+
         {{-- Status Timeline --}}
         <div class="bg-white rounded-2xl shadow-sm border border-brand-100 animate-fade-in stagger-2">
             <div class="p-6 border-b border-brand-50">

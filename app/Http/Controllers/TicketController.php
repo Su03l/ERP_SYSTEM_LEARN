@@ -54,6 +54,7 @@ class TicketController extends Controller
         $request->validate([
             'subject' => 'required|string|max:255',
             'description' => 'required|string',
+            'attachment' => 'nullable|file|mimes:jpg,jpeg,png,pdf,docx,mp4,mov|max:20480',
         ]);
 
         // توليد رقم تذكرة فريد
@@ -61,16 +62,23 @@ class TicketController extends Controller
         $number = $lastTicket ? intval(substr($lastTicket->ticket_number, 4)) + 1 : 1;
         $ticketNumber = 'REQ-' . str_pad($number, 3, '0', STR_PAD_LEFT);
 
-        //  إنشاء تذكرة
-        Ticket::create([
+        $data = [
             'ticket_number' => $ticketNumber,
             'user_id' => auth()->id(),
             'subject' => $request->subject,
             'description' => $request->description,
             'status' => 'open',
-        ]);
+        ];
 
-        //  إعادة توجيه المستخدم إلى صفحة التذاكر
+        // تخزين المرفق
+        if ($request->hasFile('attachment')) {
+            $data['attachment'] = $request->file('attachment')->store('tickets/attachments', 'public');
+        }
+
+        // إنشاء تذكرة
+        Ticket::create($data);
+
+        // إعادة توجيه المستخدم إلى صفحة التذاكر
         return redirect()->route('tickets.index')->with('success', 'تم إنشاء التذكرة بنجاح!');
     }
 
