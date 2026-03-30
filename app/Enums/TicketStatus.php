@@ -10,18 +10,9 @@ enum TicketStatus: string {
     public function getLabel(): string
     {
         return match($this) {
-            self::OPEN => 'مفتوحة 🟢',
-            self::IN_PROGRESS => 'قيد المعالجة 🟡',
-            self::CLOSED => 'مغلقة 🔴',
-        };
-    }
-
-    public function getLabel(): string
-    {
-        return match($this) {
-            self::OPEN => 'مفتوحة 🟢',
-            self::IN_PROGRESS => 'قيد المعالجة 🟡',
-            self::CLOSED => 'مغلقة 🔴',
+            self::OPEN => 'مفتوحة',
+            self::IN_PROGRESS => 'قيد المعالجة',
+            self::CLOSED => 'مغلقة',
         };
     }
 }
