@@ -22,6 +22,7 @@ class Ticket extends Model
         'status' => TicketStatus::class,
     ];
 
+    // علاقة التذكرة بالمستخدم
     public function user()
     {
         return $this->belongsTo(User::class);
