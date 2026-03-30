@@ -100,16 +100,12 @@
 
                             <div>
                                 <label for="password" class="block text-sm font-bold text-brand-800 mb-2">كلمة المرور الافتراضية <span class="text-red-500">*</span></label>
-                                <input type="password" name="password" id="password" required minlength="8"
-                                    class="w-full px-4 py-3 bg-brand-50/50 border border-brand-200 rounded-xl text-brand-900 font-medium focus:outline-none focus:ring-2 focus:ring-brand-900 focus:bg-white transition"
-                                    placeholder="رقم سري مبدئي مكون من 8 رموز على الأقل">
+                                <x-password-input id="password" name="password" :required="true" placeholder="رقم سري مبدئي مكون من 8 رموز على الأقل" />
                             </div>
 
                             <div>
                                 <label for="password_confirmation" class="block text-sm font-bold text-brand-800 mb-2">تأكيد كلمة المرور <span class="text-red-500">*</span></label>
-                                <input type="password" name="password_confirmation" id="password_confirmation" required
-                                    class="w-full px-4 py-3 bg-brand-50/50 border border-brand-200 rounded-xl text-brand-900 font-medium focus:outline-none focus:ring-2 focus:ring-brand-900 focus:bg-white transition"
-                                    placeholder="تأكيد تطابق الرقم السري">
+                                <x-password-input id="password_confirmation" name="password_confirmation" :required="true" placeholder="تأكيد تطابق الرقم السري" />
                             </div>
 
                             <div>

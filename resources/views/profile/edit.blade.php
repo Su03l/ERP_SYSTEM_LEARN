@@ -135,16 +135,11 @@
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-1 gap-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             {{-- Name --}}
-                            <div>
+                            <div class="md:col-span-2">
                                 <label for="name" class="block text-sm font-bold text-brand-900 mb-2">الاسم الكامل</label>
-                                <div class="relative">
-                                    <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-brand-400">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
-                                    </div>
-                                    <input id="name" type="text" name="name" value="{{ old('name', $user->name) }}" required class="w-full pr-11 pl-4 py-3 bg-brand-50/50 border border-brand-200 rounded-xl text-brand-900 focus:outline-none focus:ring-2 focus:ring-brand-900 focus:border-transparent transition hover:bg-white focus:bg-white shadow-sm">
-                                </div>
+                                <input id="name" type="text" name="name" value="{{ old('name', $user->name) }}" required class="w-full px-4 py-3 bg-brand-50/50 border border-brand-200 rounded-xl text-brand-900 focus:outline-none focus:ring-2 focus:ring-brand-900 transition hover:bg-white focus:bg-white shadow-sm">
                                 @error('name')
                                     <p class="mt-1 text-xs font-semibold text-red-600">{{ $message }}</p>
                                 @enderror
@@ -153,13 +148,88 @@
                             {{-- Email --}}
                             <div>
                                 <label for="email" class="block text-sm font-bold text-brand-900 mb-2">البريد الإلكتروني</label>
-                                <div class="relative">
-                                    <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-brand-400">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg>
-                                    </div>
-                                    <input id="email" type="email" name="email" value="{{ old('email', $user->email) }}" required class="w-full pr-11 pl-4 py-3 bg-brand-50/50 border border-brand-200 rounded-xl text-brand-900 focus:outline-none focus:ring-2 focus:ring-brand-900 focus:border-transparent transition hover:bg-white focus:bg-white shadow-sm" dir="ltr" style="text-align: right;">
-                                </div>
+                                <input id="email" type="email" name="email" value="{{ old('email', $user->email) }}" required class="w-full px-4 py-3 bg-brand-50/50 border border-brand-200 rounded-xl text-brand-900 focus:outline-none focus:ring-2 focus:ring-brand-900 transition hover:bg-white focus:bg-white shadow-sm text-left" dir="ltr">
                                 @error('email')
+                                    <p class="mt-1 text-xs font-semibold text-red-600">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            {{-- Phone --}}
+                            <div>
+                                <label for="phone" class="block text-sm font-bold text-brand-900 mb-2">رقم الجوال</label>
+                                <input id="phone" type="text" name="phone" value="{{ old('phone', $user->phone) }}" class="w-full px-4 py-3 bg-brand-50/50 border border-brand-200 rounded-xl text-brand-900 focus:outline-none focus:ring-2 focus:ring-brand-900 transition hover:bg-white focus:bg-white shadow-sm text-left" dir="ltr" placeholder="05XXXXXXXX">
+                                @error('phone')
+                                    <p class="mt-1 text-xs font-semibold text-red-600">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+
+                        {{-- Section: Personal Details --}}
+                        <div class="pt-6 mt-2 border-t border-brand-100">
+                            <h4 class="text-sm font-bold text-brand-900 mb-1">المعلومات الشخصية</h4>
+                            <p class="text-xs text-brand-400 font-medium mb-5">هذه البيانات اختيارية ويمكنك تعديلها في أي وقت.</p>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                {{-- National ID --}}
+                                <div>
+                                    <label for="national_id" class="block text-sm font-bold text-brand-900 mb-2">رقم الهوية / الإقامة</label>
+                                    <input id="national_id" type="text" name="national_id" value="{{ old('national_id', $user->national_id) }}" class="w-full px-4 py-3 bg-brand-50/50 border border-brand-200 rounded-xl text-brand-900 focus:outline-none focus:ring-2 focus:ring-brand-900 transition hover:bg-white focus:bg-white shadow-sm text-left" dir="ltr" maxlength="20">
+                                    @error('national_id')
+                                        <p class="mt-1 text-xs font-semibold text-red-600">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                {{-- Gender --}}
+                                <div>
+                                    <label for="gender" class="block text-sm font-bold text-brand-900 mb-2">الجنس</label>
+                                    <select id="gender" name="gender" class="w-full px-4 py-3 bg-brand-50/50 border border-brand-200 rounded-xl text-brand-900 focus:outline-none focus:ring-2 focus:ring-brand-900 transition hover:bg-white focus:bg-white shadow-sm appearance-none">
+                                        <option value="">-- غير محدد --</option>
+                                        <option value="male" {{ old('gender', $user->gender) === 'male' ? 'selected' : '' }}>ذكر</option>
+                                        <option value="female" {{ old('gender', $user->gender) === 'female' ? 'selected' : '' }}>أنثى</option>
+                                    </select>
+                                    @error('gender')
+                                        <p class="mt-1 text-xs font-semibold text-red-600">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                {{-- Birth Date --}}
+                                <div>
+                                    <label for="birth_date" class="block text-sm font-bold text-brand-900 mb-2">تاريخ الميلاد</label>
+                                    <input id="birth_date" type="date" name="birth_date" value="{{ old('birth_date', $user->birth_date?->format('Y-m-d')) }}" class="w-full px-4 py-3 bg-brand-50/50 border border-brand-200 rounded-xl text-brand-900 focus:outline-none focus:ring-2 focus:ring-brand-900 transition hover:bg-white focus:bg-white shadow-sm">
+                                    @error('birth_date')
+                                        <p class="mt-1 text-xs font-semibold text-red-600">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                {{-- Emergency Contact --}}
+                                <div>
+                                    <label for="emergency_contact" class="block text-sm font-bold text-brand-900 mb-2">رقم اتصال الطوارئ</label>
+                                    <input id="emergency_contact" type="text" name="emergency_contact" value="{{ old('emergency_contact', $user->emergency_contact) }}" class="w-full px-4 py-3 bg-brand-50/50 border border-brand-200 rounded-xl text-brand-900 focus:outline-none focus:ring-2 focus:ring-brand-900 transition hover:bg-white focus:bg-white shadow-sm text-left" dir="ltr" placeholder="05XXXXXXXX">
+                                    @error('emergency_contact')
+                                        <p class="mt-1 text-xs font-semibold text-red-600">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                {{-- Address --}}
+                                <div class="md:col-span-2">
+                                    <label for="address" class="block text-sm font-bold text-brand-900 mb-2">العنوان</label>
+                                    <input id="address" type="text" name="address" value="{{ old('address', $user->address) }}" class="w-full px-4 py-3 bg-brand-50/50 border border-brand-200 rounded-xl text-brand-900 focus:outline-none focus:ring-2 focus:ring-brand-900 transition hover:bg-white focus:bg-white shadow-sm" placeholder="المدينة، الحي، الشارع...">
+                                    @error('address')
+                                        <p class="mt-1 text-xs font-semibold text-red-600">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- Section: Bank Info --}}
+                        <div class="pt-6 mt-2 border-t border-brand-100">
+                            <h4 class="text-sm font-bold text-brand-900 mb-1">المعلومات البنكية</h4>
+                            <p class="text-xs text-brand-400 font-medium mb-5">تأكد من صحة رقم الآيبان لضمان وصول التحويلات المالية بشكل صحيح.</p>
+
+                            <div>
+                                <label for="bank_iban" class="block text-sm font-bold text-brand-900 mb-2">رقم الآيبان (IBAN)</label>
+                                <input id="bank_iban" type="text" name="bank_iban" value="{{ old('bank_iban', $user->bank_iban) }}" class="w-full px-4 py-3 bg-brand-50/50 border border-brand-200 rounded-xl text-brand-900 focus:outline-none focus:ring-2 focus:ring-brand-900 transition hover:bg-white focus:bg-white shadow-sm text-left font-mono" dir="ltr" placeholder="SA00 0000 0000 0000 0000 0000" maxlength="34">
+                                @error('bank_iban')
                                     <p class="mt-1 text-xs font-semibold text-red-600">{{ $message }}</p>
                                 @enderror
                             </div>
@@ -226,7 +296,7 @@
 
                         <div>
                             <label for="current_password" class="block text-sm font-bold text-brand-900 mb-2">كلمة المرور الحالية</label>
-                            <input id="current_password" type="password" name="current_password" class="w-full px-4 py-3 bg-brand-50/50 border border-brand-200 rounded-xl text-brand-900 focus:outline-none focus:ring-2 focus:ring-brand-900 focus:border-transparent transition hover:bg-white focus:bg-white shadow-sm" placeholder="••••••••" dir="ltr">
+                            <x-password-input id="current_password" name="current_password" />
                             @error('current_password', 'updatePassword')
                                 <p class="mt-1 text-xs font-semibold text-red-600">{{ $message }}</p>
                             @enderror
@@ -234,7 +304,7 @@
 
                         <div>
                             <label for="password" class="block text-sm font-bold text-brand-900 mb-2">كلمة المرور الجديدة</label>
-                            <input id="password" type="password" name="password" class="w-full px-4 py-3 bg-brand-50/50 border border-brand-200 rounded-xl text-brand-900 focus:outline-none focus:ring-2 focus:ring-brand-900 focus:border-transparent transition hover:bg-white focus:bg-white shadow-sm" placeholder="••••••••" dir="ltr">
+                            <x-password-input id="password" name="password" />
                             @error('password', 'updatePassword')
                                 <p class="mt-1 text-xs font-semibold text-red-600">{{ $message }}</p>
                             @enderror
@@ -242,7 +312,7 @@
 
                         <div>
                             <label for="password_confirmation" class="block text-sm font-bold text-brand-900 mb-2">تأكيد كلمة المرور الجديدة</label>
-                            <input id="password_confirmation" type="password" name="password_confirmation" class="w-full px-4 py-3 bg-brand-50/50 border border-brand-200 rounded-xl text-brand-900 focus:outline-none focus:ring-2 focus:ring-brand-900 focus:border-transparent transition hover:bg-white focus:bg-white shadow-sm" placeholder="••••••••" dir="ltr">
+                            <x-password-input id="password_confirmation" name="password_confirmation" />
                         </div>
 
                         <div class="pt-6 border-t border-brand-100 flex justify-end">
@@ -254,57 +324,26 @@
                 </div>
 
                 {{-- 3. Danger Zone Tab --}}
-                <div x-show="tab === 'advanced'" x-transition:enter="transition ease-out duration-300 transform" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" style="display: none;" class="p-6 md:p-8">
                     <div class="p-6 bg-red-50 border border-red-100 rounded-2xl flex flex-col md:flex-row items-start gap-4">
                         <div class="flex-shrink-0 p-3 bg-red-100 rounded-full text-red-600">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
                         </div>
                         <div>
                             <h3 class="text-xl font-bold text-red-700">حذف الحساب نهائياً</h3>
-                            <p class="text-sm text-red-500/80 mt-1 leading-relaxed">تحذير: بمجرد حذف حسابك، سيتم مسح جميع بياناتك وسجلاتك نهائياً من النظام ولا يمكن التراجع عن هذه الخطوة.</p>
-                            <button @click="showDelete = true" class="mt-4 px-6 py-2.5 bg-red-600 text-white text-sm font-bold rounded-xl hover:bg-red-700 transition shadow-lg shadow-red-600/20 flex items-center justify-center md:justify-start gap-2 w-full md:w-auto">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/></svg>
-                                المتابعة لحذف الحساب
-                            </button>
-                        </div>
-                    </div>
-
-                    {{-- Delete Modal --}}
-                    <div x-show="showDelete" x-transition.opacity class="fixed inset-0 min-h-screen bg-brand-950/60 backdrop-blur-sm z-50 flex items-center justify-center p-4" style="display: none;">
-                        <div @click.outside="showDelete = false" x-transition:enter="transition ease-out duration-300 transform" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" class="bg-white rounded-2xl w-full max-w-lg p-8 shadow-2xl relative border border-brand-100">
-                            {{-- Close Button --}}
-                            <button @click="showDelete = false" class="absolute top-4 left-4 p-2 text-brand-400 hover:text-brand-900 bg-brand-50 hover:bg-brand-100 rounded-full transition">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-                            </button>
-
-                            <div class="mx-auto w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mb-6">
-                                <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                            <p class="text-sm text-red-500/80 mt-1 leading-relaxed">لا يمكنك حذف حسابك بشكل ذاتي. إذا كنت ترغب بحذف حسابك من النظام، يرجى التواصل مع أحد المشرفين أو مسؤول النظام.</p>
+                            
+                            <div class="mt-4 bg-white border border-red-100 rounded-xl p-4">
+                                <ul class="space-y-2 text-sm text-brand-600 font-medium">
+                                    <li class="flex items-center gap-2">
+                                        <svg class="w-4 h-4 text-brand-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
+                                        تواصل مع مشرفك المباشر
+                                    </li>
+                                    <li class="flex items-center gap-2">
+                                        <svg class="w-4 h-4 text-brand-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg>
+                                        أو راسل قسم الموارد البشرية عبر البريد الإلكتروني
+                                    </li>
+                                </ul>
                             </div>
-                            
-                            <h4 class="text-2xl font-black text-brand-950 mb-2 text-center">أنت على وشك حذف حسابك!</h4>
-                            <p class="text-sm text-brand-500 mb-8 text-center leading-relaxed">
-                                يرجى إدخال كلمة المرور لتأكيد رغبتك بالقيام بهذه الخطوة، 
-                                علماً أنه لا يمكن استعادة أي من التذاكر أو الإجازات أو البيانات المرتبطة بك بعد الحذف.
-                            </p>
-                            
-                            <form method="POST" action="{{ route('profile.destroy') }}">
-                                @csrf
-                                @method('DELETE')
-                                <div class="mb-6">
-                                    <input type="password" name="password" placeholder="أدخل كلمة المرور للتأكيد" class="w-full px-5 py-4 bg-brand-50/50 border border-brand-200 rounded-xl text-center font-bold text-brand-900 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition shadow-inner" required autofocus dir="ltr">
-                                    @error('password', 'userDeletion')
-                                        <p class="mt-2 text-sm font-semibold text-red-600 text-center">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                                <div class="flex flex-col md:flex-row gap-4">
-                                    <button type="submit" class="flex-1 px-6 py-3.5 bg-red-600 text-white rounded-xl hover:bg-red-700 transition font-bold shadow-lg shadow-red-600/20">
-                                        تأكيد الحذف النهائي
-                                    </button>
-                                    <button type="button" @click="showDelete = false" class="flex-1 px-6 py-3.5 bg-white border border-brand-200 text-brand-700 rounded-xl hover:bg-brand-50 transition font-bold">
-                                        إلغاء الأمر
-                                    </button>
-                                </div>
-                            </form>
                         </div>
                     </div>
                 </div>

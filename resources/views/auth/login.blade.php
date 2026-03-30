@@ -40,15 +40,7 @@
                     نسيت كلمة المرور؟
                 </a>
             </div>
-            <input
-                id="password"
-                type="password"
-                name="password"
-                required
-                autocomplete="current-password"
-                class="w-full px-4 py-3 bg-brand-50 border border-brand-200 rounded-xl text-brand-900 placeholder-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-950 focus:border-transparent transition"
-                placeholder="••••••••"
-            >
+            <x-password-input id="password" name="password" :required="true" class="bg-brand-50 border-brand-200 placeholder-brand-400 focus:ring-brand-950" />
             @error('password')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
             @enderror
