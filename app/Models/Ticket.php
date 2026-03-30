@@ -22,9 +22,14 @@ class Ticket extends Model
         'status' => TicketStatus::class,
     ];
 
-    // علاقة التذكرة بصاحبها (الموظف)
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    // علاقة التذكرة بالتعليقات
+    public function comments()
+    {
+        return $this->hasMany(TicketComment::class)->oldest(); // من الأقدم للأحدث (مثل محادثات الواتساب)
     }
 }
