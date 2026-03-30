@@ -4,7 +4,7 @@
     <div class="max-w-7xl mx-auto pb-12 w-full mt-4 flex flex-col lg:flex-row gap-6 lg:gap-8 px-4 sm:px-6 lg:px-8">
         
         {{-- ─── Main Content Area (2/3 width) ─── --}}
-        <div class="flex-1 w-full space-y-6 animate-fade-in">
+        <div class="flex-1 w-full space-y-6 animate-fade-in order-1 lg:order-2">
             
             {{-- Ticket Header Card --}}
             <div class="bg-white rounded-2xl border border-brand-100 shadow-sm overflow-hidden border-t-4 border-t-brand-900 relative">
@@ -169,7 +169,7 @@
         </div>
 
         {{-- ─── Sidebar (1/3 width) ─── --}}
-        <div class="w-full lg:w-1/3 shrink-0 space-y-6 animate-slide-up stagger-1">
+        <div class="w-full lg:w-1/3 shrink-0 space-y-6 animate-slide-up stagger-1 order-2 lg:order-1">
             
             {{-- Requester Info Card --}}
             <div class="bg-white rounded-2xl border border-brand-100 shadow-sm p-6 relative overflow-hidden">

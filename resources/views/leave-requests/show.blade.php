@@ -4,7 +4,7 @@
     <div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-8">
         
         {{-- ─── Main Content Area (2/3 width) ─── --}}
-        <div class="flex-1 space-y-6">
+        <div class="flex-1 space-y-6 order-1 lg:order-2">
             
             {{-- Primary Header Card --}}
             <div class="bg-white rounded-2xl shadow-sm border border-brand-100 overflow-hidden">
@@ -101,7 +101,7 @@
         </div>
 
         {{-- ─── Sidebar (1/3 width) ─── --}}
-        <div class="lg:w-96 space-y-6 shrink-0">
+        <div class="lg:w-96 space-y-6 shrink-0 order-2 lg:order-1">
             
             {{-- Employee Identity Card --}}
             <div class="bg-white rounded-2xl border border-brand-100 shadow-sm overflow-hidden">
