@@ -27,6 +27,7 @@ class ProfileController extends Controller
         $request->user()->fill($request->validated());
 
         // معالجة الصورة الشخصية
+        // وكذلك حذف الصورة القديمة
         if ($request->hasFile('avatar')) {
             if ($request->user()->avatar) {
                 \Illuminate\Support\Facades\Storage::disk('public')->delete($request->user()->avatar);
