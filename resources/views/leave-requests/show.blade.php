@@ -145,7 +145,18 @@
                     <div class="relative pl-4 border-r-2 border-brand-200">
                         <div class="absolute w-2.5 h-2.5 bg-white border-2 border-brand-400 rounded-full top-1.5 -right-[6px]"></div>
                         <p class="text-xs font-bold text-brand-400 uppercase tracking-wide mb-1">النوع</p>
-                        <p class="text-sm font-bold text-brand-900">{{ App\Enums\LeaveType::tryFrom($leaveRequest->type)?->getLabel() ?? $leaveRequest->type }}</p>
+                        <p class="text-sm font-bold text-brand-900">
+                            @php
+                                $typeLabel = match($leaveRequest->type) {
+                                    'annual' => 'إجازة سنوية اعتيادية',
+                                    'sick' => 'إجازة مرضية',
+                                    'emergency' => 'إجازة طارئة مستعجلة',
+                                    'unpaid' => 'إجازة استثنائية (بدون أجر)',
+                                    default => $leaveRequest->type,
+                                };
+                            @endphp
+                            {{ $typeLabel }}
+                        </p>
                     </div>
 
                     <div class="relative pl-4 border-r-2 border-brand-200">
