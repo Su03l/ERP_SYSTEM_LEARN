@@ -26,6 +26,14 @@ class ProfileController extends Controller
         // التحقق من صحة البيانات
         $request->user()->fill($request->validated());
 
+        // معالجة رفع الصورة الشخصية
+        if ($request->hasFile('avatar')) {
+            if ($request->user()->avatar) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($request->user()->avatar);
+            }
+            $request->user()->avatar = $request->file('avatar')->store('avatars', 'public');
+        }
+
         // التحقق من صحة البريد الإلكتروني
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
