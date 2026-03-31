@@ -6,6 +6,7 @@ use App\Http\Controllers\TicketController;
 use App\Http\Controllers\LeaveRequestController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PayrollController;
+use App\Http\Controllers\PerformanceController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -25,6 +26,15 @@ Route::middleware('auth')->group(function () {
         Route::resource('employees', EmployeeController::class);
         Route::get('/payroll', [PayrollController::class, 'index'])->name('payroll.index');
         Route::post('/payroll/send', [PayrollController::class, 'sendBulk'])->name('payroll.sendBulk');
+
+        // تقييم الأداء
+        Route::get('/performance', [PerformanceController::class, 'index'])->name('performance.index');
+        Route::get('/performance/search', [PerformanceController::class, 'searchEmployee'])->name('performance.search');
+        Route::post('/performance', [PerformanceController::class, 'store'])->name('performance.store');
+        Route::get('/performance/{performance}', [PerformanceController::class, 'show'])->name('performance.show');
+        Route::get('/performance/{performance}/edit', [PerformanceController::class, 'edit'])->name('performance.edit');
+        Route::put('/performance/{performance}', [PerformanceController::class, 'update'])->name('performance.update');
+        Route::get('/performance/{performance}/pdf', [PerformanceController::class, 'exportPdf'])->name('performance.pdf');
     });
     Route::resource('tickets', TicketController::class)->except(['edit', 'destroy']);
     Route::post('/tickets/{ticket}/comments', [\App\Http\Controllers\TicketCommentController::class, 'store'])->name('ticket.comments.store');
