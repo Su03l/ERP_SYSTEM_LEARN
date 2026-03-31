@@ -35,12 +35,16 @@ class PerformanceController extends Controller
      */
     public function searchEmployee(Request $request)
     {
-        $request->validate(['query' => 'required|string']);
+        $searchQuery = $request->input('query');
 
-        $employee = User::where('employee_number', $request->query('query'))
-            ->orWhere('id', $request->query('query'))
-            ->where('role', 'employee')
-            ->first();
+        if (!$searchQuery) {
+            return response()->json(['found' => false]);
+        }
+
+        $employee = User::where(function ($q) use ($searchQuery) {
+            $q->where('employee_number', $searchQuery)
+              ->orWhere('id', $searchQuery);
+        })->first();
 
         if (!$employee) {
             return response()->json(['found' => false]);

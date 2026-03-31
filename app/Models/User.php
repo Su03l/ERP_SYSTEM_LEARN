@@ -44,4 +44,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(LeaveRequest::class);
     }
+
+    // علاقة الموظف بتقييمات الأداء
+    public function performanceEvaluations()
+    {
+        return $this->hasMany(PerformanceEvaluation::class, 'employee_id');
+    }
 }
