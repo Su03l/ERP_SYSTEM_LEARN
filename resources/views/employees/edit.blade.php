@@ -43,6 +43,13 @@
                         </div>
 
                         <div>
+                            <label for="employee_number" class="block text-sm font-semibold text-brand-700 mb-1.5">رقم الموظف</label>
+                            <input type="text" name="employee_number" id="employee_number" value="{{ old('employee_number', $employee->employee_number) }}"
+                                class="w-full px-4 py-3 bg-brand-50 border border-brand-200 rounded-xl text-brand-900 focus:outline-none focus:ring-2 focus:ring-brand-950 focus:border-transparent transition" dir="ltr"
+                                placeholder="مثال: EMP-001">
+                        </div>
+
+                        <div>
                             <label for="email" class="block text-sm font-semibold text-brand-700 mb-1.5">البريد الإلكتروني <span class="text-red-500">*</span></label>
                             <input type="email" name="email" id="email" value="{{ old('email', $employee->email) }}" required
                                 class="w-full px-4 py-3 bg-brand-50 border border-brand-200 rounded-xl text-brand-900 focus:outline-none focus:ring-2 focus:ring-brand-950 focus:border-transparent transition">

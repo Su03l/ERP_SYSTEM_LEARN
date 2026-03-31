@@ -85,6 +85,13 @@
                             </div>
 
                             <div>
+                                <label for="employee_number" class="block text-sm font-bold text-brand-800 mb-2">رقم الموظف</label>
+                                <input type="text" name="employee_number" id="employee_number" value="{{ old('employee_number') }}"
+                                    class="w-full px-4 py-3 bg-brand-50/50 border border-brand-200 rounded-xl text-brand-900 font-medium focus:outline-none focus:ring-2 focus:ring-brand-900 focus:bg-white transition"
+                                    placeholder="مثال: EMP-001" dir="ltr">
+                            </div>
+
+                            <div>
                                 <label for="national_id" class="block text-sm font-bold text-brand-800 mb-2">رقم الهوية / الإقامة</label>
                                 <input type="text" name="national_id" id="national_id" value="{{ old('national_id') }}"
                                     class="w-full px-4 py-3 bg-brand-50/50 border border-brand-200 rounded-xl text-brand-900 font-medium focus:outline-none focus:ring-2 focus:ring-brand-900 focus:bg-white transition"

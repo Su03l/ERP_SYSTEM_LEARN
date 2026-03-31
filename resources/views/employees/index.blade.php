@@ -48,7 +48,7 @@
                     @forelse($employees as $employee)
                         <tr class="hover:bg-brand-50/50 transition-all duration-200 group">
                             <td class="px-6 py-4">
-                                <span class="inline-flex items-center justify-center px-2.5 py-1 bg-brand-100 text-brand-700 text-xs font-bold rounded-lg font-mono">#{{ $employee->id }}</span>
+                                <span class="inline-flex items-center justify-center px-2.5 py-1 bg-brand-100 text-brand-700 text-xs font-bold rounded-lg font-mono">{{ $employee->employee_number ?? '#'.$employee->id }}</span>
                             </td>
                             <td class="px-6 py-4">
                                 <div class="flex items-center gap-3">
