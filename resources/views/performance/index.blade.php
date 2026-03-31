@@ -6,7 +6,8 @@
         $periods = \App\Models\PerformanceEvaluation::periodOptions();
     @endphp
 
-    {{-- Top Section: Search & Create --}}
+    {{-- Top Section: Search & Create (للمدراء والمشرفين فقط) --}}
+    @if(auth()->user()->role !== 'employee')
     <div class="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-8">
 
         {{-- بطاقة إنشاء تقييم جديد --}}
@@ -18,17 +19,17 @@
                     </div>
                     تقييم أداء جديد
                 </h2>
-                <p class="text-brand-200 text-sm mt-2">أدخل رقم الموظف للبدء بعملية التقييم الشاملة</p>
+                <p class="text-brand-200 text-sm mt-2">أدخل رقم أو اسم الموظف للبدء بعملية التقييم الشاملة</p>
             </div>
 
             <div class="p-6" x-data="performanceForm()">
                 {{-- البحث عن الموظف --}}
                 <div class="flex items-end gap-4 mb-6">
                     <div class="flex-1">
-                        <label class="block text-sm font-bold text-brand-800 mb-2">رقم الموظف</label>
+                        <label class="block text-sm font-bold text-brand-800 mb-2">رقم أو اسم الموظف</label>
                         <input type="text" x-model="searchQuery" @keydown.enter.prevent="searchEmployee()"
-                            class="w-full px-4 py-3 bg-brand-50/50 border border-brand-200 rounded-xl text-brand-900 font-medium focus:outline-none focus:ring-2 focus:ring-brand-900 focus:bg-white transition"
-                            placeholder="أدخل رقم الموظف مثال: EMP-001" dir="ltr">
+                            class="w-full px-4 py-3 bg-brand-50/50 border border-brand-200 rounded-xl text-brand-900 font-medium focus:outline-none focus:ring-2 focus:ring-brand-900 focus:bg-white transition text-right"
+                            placeholder="مثال: EMP-001 أو محمد" dir="rtl">
                     </div>
                     <button @click="searchEmployee()" type="button"
                         class="px-6 py-3 bg-brand-950 text-white font-bold rounded-xl hover:bg-brand-800 transition-all duration-200 transform hover:scale-[1.01] active:scale-[0.99] flex items-center gap-2 shrink-0">
@@ -39,7 +40,7 @@
 
                 {{-- رسالة خطأ --}}
                 <div x-show="searchError" x-transition x-cloak class="mb-4 p-4 bg-red-50 border border-red-200 rounded-xl text-sm text-red-700 flex items-center gap-2">
-                    <svg class="w-5 h-5 text-red-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                    <svg class="w-5 h-5 text-red-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77-1.333.192 3 1.732 3z"/></svg>
                     <span x-text="searchError"></span>
                 </div>
 
@@ -157,11 +158,11 @@
                 <div class="grid grid-cols-2 gap-4">
                     <div class="bg-brand-50/50 rounded-xl p-4 border border-brand-100 text-center">
                         <p class="text-[10px] font-black uppercase text-brand-400 tracking-widest mb-1">إجمالي التقييمات</p>
-                        <p class="text-2xl font-black text-brand-900">{{ $evaluations->total() }}</p>
+                        <p class="text-2xl font-black text-brand-900">{{ collect($evaluations->items())->count() }}</p>
                     </div>
                     <div class="bg-amber-50/50 rounded-xl p-4 border border-amber-100 text-center">
                         <p class="text-[10px] font-black uppercase text-amber-500 tracking-widest mb-1">هذا الشهر</p>
-                        <p class="text-2xl font-black text-amber-600">{{ \App\Models\PerformanceEvaluation::whereMonth('created_at', now()->month)->count() }}</p>
+                        <p class="text-2xl font-black text-amber-600">{{ collect($evaluations->items())->filter(fn($e) => $e->created_at->month == now()->month)->count() }}</p>
                     </div>
                 </div>
             </div>
@@ -181,6 +182,29 @@
             </div>
         </div>
     </div>
+    @else
+    {{-- عرض للموظف العادي: فقط إحصائيات مبسطة ومقياس التقييم --}}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div class="bg-white rounded-2xl shadow-sm border border-brand-100 p-6 animate-fade-in flex items-center justify-between">
+            <div>
+                <p class="text-sm font-black text-brand-400 uppercase tracking-widest mb-1">إجمالي تقييماتي</p>
+                <p class="text-3xl font-black text-brand-900">{{ $evaluations->total() }}</p>
+            </div>
+            <div class="w-16 h-16 bg-brand-50 rounded-full flex items-center justify-center text-brand-600">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+            </div>
+        </div>
+        <div class="bg-gradient-to-br from-brand-900 to-brand-950 rounded-2xl shadow-sm p-6 text-white animate-fade-in flex items-center justify-between">
+             <div>
+                <h4 class="font-black text-xl mb-1">تتبع أداءك</h4>
+                <p class="text-brand-200 text-sm">راجع تقييماتك الدورية لتحسين مستواك</p>
+            </div>
+            <div class="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
+            </div>
+        </div>
+    </div>
+    @endif
 
     @if(session('success'))
         <div class="mb-6 text-sm text-green-700 bg-green-50 border border-green-200 rounded-xl p-4 animate-fade-in flex items-center gap-2">
@@ -202,6 +226,7 @@
                 <svg class="w-5 h-5 text-brand-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                 سجل التقييمات
             </h3>
+            @if(auth()->user()->role !== 'employee')
             <form action="{{ route('performance.index') }}" method="GET" class="flex items-center gap-2">
                 <input type="text" name="search" placeholder="بحث بالاسم أو رقم الموظف..." value="{{ request('search') }}"
                        class="border-brand-200 rounded-xl px-4 py-2 text-sm focus:ring-brand-500 focus:border-brand-500">
@@ -210,6 +235,7 @@
                     بحث
                 </button>
             </form>
+            @endif
         </div>
 
         <div class="overflow-x-auto">
@@ -293,6 +319,7 @@
 
     <div class="mt-6">{{ $evaluations->links() }}</div>
 
+    @if(auth()->user()->role !== 'employee')
     <script>
         function performanceForm() {
             return {
@@ -300,17 +327,18 @@
                 employee: null,
                 searchError: '',
                 async searchEmployee() {
-                    if (!this.searchQuery.trim()) { this.searchError = 'يرجى إدخال رقم الموظف'; return; }
+                    if (!this.searchQuery.trim()) { this.searchError = 'يرجى إدخال رقم أو اسم الموظف'; return; }
                     this.searchError = '';
                     this.employee = null;
                     try {
                         const res = await fetch(`{{ route('performance.search') }}?query=${encodeURIComponent(this.searchQuery)}`);
                         const data = await res.json();
                         if (data.found) { this.employee = data.employee; }
-                        else { this.searchError = 'لم يتم العثور على موظف بهذا الرقم. تأكد من صحة الرقم الوظيفي.'; }
+                        else { this.searchError = 'لم يتم العثور على موظف بهذا الرقم أو الاسم. تأكد من صحة البيانات.'; }
                     } catch (err) { this.searchError = 'حدث خطأ أثناء البحث.'; }
                 }
             }
         }
     </script>
+    @endif
 </x-app-layout>

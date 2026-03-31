@@ -15,9 +15,16 @@ class LeaveRequestController extends Controller
 
         $query = LeaveRequest::with('user');
 
-        // الأدمن والمشرف يشوفون كل الطلبات، الموظف يشوف طلباته فقط
-        if ($user->role !== 'admin' && $user->role !== 'supervisor') {
+        // الأدمن يرى كل شيء، الموظف يرى طلباته فقط
+        if ($user->role === 'employee') {
             $query->where('user_id', $user->id);
+        } elseif ($user->role === 'supervisor') {
+            // المشرف يرى إجازات موظفي قسمه فقط وإجازاته هو
+            $query->where(function($q) use ($user) {
+                $q->whereHas('user', function($userQuery) use ($user) {
+                    $userQuery->where('department', $user->department);
+                })->orWhere('user_id', $user->id);
+            });
         }
 
         // فلترة بالحالة
@@ -37,7 +44,8 @@ class LeaveRequestController extends Controller
             });
         }
 
-        $leaveRequests = $query->latest()->paginate(15);
+        // الترتيب باستخدام ID لضمان ظهور أحدث الطلبات بشكل متسلسل (بسبب التواريخ العشوائية في التوليد)
+        $leaveRequests = $query->latest('id')->paginate(15);
 
         // Pass all possible LeaveStatus values to the view for the filter dropdown
         $statuses = LeaveStatus::cases();
@@ -92,6 +100,15 @@ class LeaveRequestController extends Controller
             'status' => ['required', 'in:' . implode(',', array_column(LeaveStatus::cases(), 'value'))], // Validate against enum values
         ]);
 
+        // المشرف لا يعتمد إلا إجازات قسمه
+        $user = auth()->user();
+        if ($user->role === 'supervisor') {
+            $leaveRequest->load('user');
+            if ($leaveRequest->user->department !== $user->department) {
+                abort(403, 'غير مصرح لك بتحديث إجازة لموظف من قسم آخر.');
+            }
+        }
+
         // تحديث حالة طلب الإجازة
         $leaveRequest->update(['status' => $request->status]);
 
@@ -106,6 +123,17 @@ class LeaveRequestController extends Controller
     public function show(LeaveRequest $leaveRequest)
     {
         $leaveRequest->load('user');
+
+        $user = auth()->user();
+        // الموظف لا يرى إجازات غيره
+        if ($user->role === 'employee' && $leaveRequest->user_id !== $user->id) {
+            abort(403, 'غير مصرح لك بعرض هذه الإجازة.');
+        }
+        // المشرف يرى إجازات قسمه وإجازاته فقط
+        if ($user->role === 'supervisor' && $leaveRequest->user->department !== $user->department && $leaveRequest->user_id !== $user->id) {
+            abort(403, 'غير مصرح لك بعرض إجازة لموظف من قسم آخر.');
+        }
+
         // Pass all possible LeaveStatus values to the view for the status update dropdown
         $statuses = LeaveStatus::cases();
         return view('leave-requests.show', compact('leaveRequest', 'statuses'));

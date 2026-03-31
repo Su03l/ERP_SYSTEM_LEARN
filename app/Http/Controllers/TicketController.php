@@ -16,9 +16,16 @@ class TicketController extends Controller
         //  جلب جميع التذاكر
         $query = Ticket::with('user');
 
-        //  إذا لم يكن المستخدم مدير أو مشرف، قم بجلب التذاكر الخاصة به فقط
-        if ($user->role !== 'admin' && $user->role !== 'supervisor') {
+        //  الأدمن يرى كل شيء، الموظف يرى تذاكره فقط
+        if ($user->role === 'employee') {
             $query->where('user_id', $user->id);
+        } elseif ($user->role === 'supervisor') {
+            // المشرف يرى تذاكر موظفي قسمه فقط وتذاكره هو
+            $query->where(function($q) use ($user) {
+                $q->whereHas('user', function($userQuery) use ($user) {
+                    $userQuery->where('department', $user->department);
+                })->orWhere('user_id', $user->id); // عشان لو المشرف فتح تذكرة خاصة فيه
+            });
         }
 
         //  تصفية حسب الحالة
@@ -36,7 +43,8 @@ class TicketController extends Controller
         }
 
         // جلب اخر 15 تذكرة
-        $tickets = $query->latest()->paginate(15);
+        // الترتيب باستخدام ID لضمان ظهور أحدث الطلبات بشكل متسلسل (بسبب التواريخ العشوائية في التوليد)
+        $tickets = $query->latest('id')->paginate(15);
 
         return view('tickets.index', compact('tickets'));
     }
@@ -87,6 +95,17 @@ class TicketController extends Controller
     {
         //  تحميل بيانات المستخدم
         $ticket->load('user');
+
+        $user = auth()->user();
+        // الموظف لا يرى تذاكر غيره
+        if ($user->role === 'employee' && $ticket->user_id !== $user->id) {
+            abort(403, 'غير مصرح لك بعرض هذه التذكرة.');
+        }
+        // المشرف يرى تذاكر قسمه وتذاكره فقط
+        if ($user->role === 'supervisor' && $ticket->user->department !== $user->department && $ticket->user_id !== $user->id) {
+            abort(403, 'غير مصرح لك بعرض تذكرة لموظف من قسم آخر.');
+        }
+
         return view('tickets.show', compact('ticket'));
     }
 
@@ -96,6 +115,15 @@ class TicketController extends Controller
         $request->validate([
             'status' => 'required|in:open,in_progress,closed',
         ]);
+
+        // المشرف لا يغلق إلا تذاكر قسمه
+        $user = auth()->user();
+        if ($user->role === 'supervisor') {
+            $ticket->load('user');
+            if ($ticket->user->department !== $user->department) {
+                abort(403, 'غير مصرح لك بتحديث تذكرة لموظف من قسم آخر.');
+            }
+        }
 
         $ticket->update(['status' => $request->status]);
 

@@ -22,16 +22,19 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    // تقييم الأداء (للعرض والتصدير متاح للجميع)
+    Route::get('/performance', [PerformanceController::class, 'index'])->name('performance.index');
+    Route::get('/performance/{performance}', [PerformanceController::class, 'show'])->name('performance.show');
+    Route::get('/performance/{performance}/pdf', [PerformanceController::class, 'exportPdf'])->name('performance.pdf');
+
     Route::middleware('supervisor')->group(function () {
         Route::resource('employees', EmployeeController::class)->except(['destroy']);
-        // تقييم الأداء
-        Route::get('/performance', [PerformanceController::class, 'index'])->name('performance.index');
-        Route::get('/performance/search', [PerformanceController::class, 'searchEmployee'])->name('performance.search');
+
+        // تقييم الأداء (للإنشاء والتعديل للمشرفين والمدراء)
+        Route::get('/performance/search/employee', [PerformanceController::class, 'searchEmployee'])->name('performance.search');
         Route::post('/performance', [PerformanceController::class, 'store'])->name('performance.store');
-        Route::get('/performance/{performance}', [PerformanceController::class, 'show'])->name('performance.show');
         Route::get('/performance/{performance}/edit', [PerformanceController::class, 'edit'])->name('performance.edit');
         Route::put('/performance/{performance}', [PerformanceController::class, 'update'])->name('performance.update');
-        Route::get('/performance/{performance}/pdf', [PerformanceController::class, 'exportPdf'])->name('performance.pdf');
     });
 
     Route::middleware(\App\Http\Middleware\AdminMiddleware::class)->group(function () {

@@ -16,11 +16,23 @@ class PerformanceController extends Controller
     {
         $query = PerformanceEvaluation::with(['employee', 'evaluator'])->latest();
 
+        // الموظف العادي يرى تقييماته فقط
+        if (auth()->user()->role === 'employee') {
+            $query->where('employee_id', auth()->id());
+        } elseif (auth()->user()->role === 'supervisor') {
+            // المشرف يرى تقييمات موظفي قسمه فقط
+            $query->whereHas('employee', function ($q) {
+                $q->where('department', auth()->user()->department);
+            });
+        }
+
         if ($request->has('search') && !empty($request->search)) {
             $searchTerm = '%' . $request->search . '%';
             $query->whereHas('employee', function ($q) use ($searchTerm) {
-                $q->where('name', 'like', $searchTerm)
-                  ->orWhere('employee_number', 'like', $searchTerm);
+                $q->where(function ($subQ) use ($searchTerm) {
+                    $subQ->where('name', 'like', $searchTerm)
+                         ->orWhere('employee_number', 'like', $searchTerm);
+                });
             });
         }
 
@@ -40,10 +52,17 @@ class PerformanceController extends Controller
             return response()->json(['found' => false]);
         }
 
-        $employee = User::where(function ($q) use ($searchQuery) {
+        $employeeQuery = User::where(function ($q) use ($searchQuery) {
             $q->where('employee_number', $searchQuery)
-              ->orWhere('id', $searchQuery);
-        })->first();
+              ->orWhere('name', 'like', '%' . $searchQuery . '%');
+        });
+
+        // المشرف يبحث فقط في قسمه
+        if (auth()->user()->role === 'supervisor') {
+            $employeeQuery->where('department', auth()->user()->department);
+        }
+
+        $employee = $employeeQuery->first();
 
         if (!$employee) {
             return response()->json(['found' => false]);
@@ -82,6 +101,14 @@ class PerformanceController extends Controller
 
         $request->validate($rules);
 
+        // التحقق من أن المشرف يقيم موظف في قسمه
+        if (auth()->user()->role === 'supervisor') {
+            $employee = User::find($request->employee_id);
+            if ($employee->department !== auth()->user()->department) {
+                abort(403, 'غير مصرح لك بتقييم موظف من قسم آخر.');
+            }
+        }
+
         PerformanceEvaluation::create([
             'employee_id' => $request->employee_id,
             'evaluator_id' => auth()->id(),
@@ -98,6 +125,19 @@ class PerformanceController extends Controller
      */
     public function show(PerformanceEvaluation $performance)
     {
+        // منع الموظف من رؤية تقييمات غيره
+        if (auth()->user()->role === 'employee' && $performance->employee_id !== auth()->id()) {
+            abort(403, 'غير مصرح لك بمشاهدة هذا التقييم.');
+        }
+
+        // المشرف يرى فقط تقييمات قسمه
+        if (auth()->user()->role === 'supervisor') {
+            $performance->load('employee');
+            if ($performance->employee->department !== auth()->user()->department) {
+                abort(403, 'غير مصرح لك بعرض تقييم لموظف من قسم آخر.');
+            }
+        }
+
         $performance->load(['employee', 'evaluator']);
         return view('performance.show', compact('performance'));
     }
@@ -151,6 +191,19 @@ class PerformanceController extends Controller
      */
     public function exportPdf(PerformanceEvaluation $performance)
     {
+        // منع الموظف من تصدير تقييمات غيره
+        if (auth()->user()->role === 'employee' && $performance->employee_id !== auth()->id()) {
+            abort(403, 'غير مصرح لك بتصدير هذا التقييم.');
+        }
+
+        // المشرف يرى فقط تقييمات قسمه
+        if (auth()->user()->role === 'supervisor') {
+            $performance->load('employee');
+            if ($performance->employee->department !== auth()->user()->department) {
+                abort(403, 'غير مصرح لك بتصدير تقييم لموظف من قسم آخر.');
+            }
+        }
+
         $performance->load(['employee', 'evaluator']);
         $pdf = PDF::loadView('pdf.performance', ['evaluation' => $performance]);
         return $pdf->stream('تقييم_أداء_' . $performance->employee->name . '.pdf');

@@ -18,8 +18,8 @@ class DatabaseSeeder extends Seeder
         // 1. إنشاء حساب الإدمن
         User::create([
             'name' => 'مدير النظام',
-            'email' => 'admin@erp-system.com',
-            'password' => Hash::make('12345678'),
+            'email' => 'admin@erp.com',
+            'password' => Hash::make('123123123'),
             'role' => 'admin',
             'status' => 'active',
             'employee_number' => 'EMP-001',

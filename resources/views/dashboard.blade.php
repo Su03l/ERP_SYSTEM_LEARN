@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">لوحة التحكم</x-slot>
 
-    @if(Auth::user()->role === 'admin')
+    @if(in_array(Auth::user()->role, ['admin', 'supervisor']))
     {{-- ══════════════════════════════════════════════════════════════════ --}}
     {{--                      ADMIN DASHBOARD                             --}}
     {{-- ══════════════════════════════════════════════════════════════════ --}}

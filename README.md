@@ -1,58 +1,103 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<div align="center">
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# نظام إدارة موارد المؤسسة المطور (Advanced ERP System)
 
-## About Laravel
+<br>
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+![Laravel](https://img.shields.io/badge/Laravel-11-FF2D20?style=for-the-badge&logo=laravel) ![PHP](https://img.shields.io/badge/PHP-8.2+-777BB4?style=for-the-badge&logo=php) ![MySQL](https://img.shields.io/badge/MySQL-Database-003B57?style=for-the-badge&logo=mysql) ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white) ![Alpine.js](https://img.shields.io/badge/Alpine.js-8BC0D0?style=for-the-badge&logo=alpine.js&logoColor=white)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+</div>
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## نبذة عن النظام
+هو نظام إداري متكامل مصمم لأتمتة عمليات الموارد البشرية وإدارة الموظفين داخل المنشآت. يهدف النظام إلى تنظيم الهيكل الإداري وتحويل العمليات الورقية إلى تجربة رقمية سريعة وآمنة، مع ضمان أعلى معايير الأمان وعزل البيانات بناءً على الأقسام (Department Isolation).
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+من خلال هذا النظام، يمكنك:
+* **إدارة الموظفين بذكاء:** إضافة الموظفين وتوليد أرقام وظيفية تلقائية تعتمد على أقسامهم (مثل IT, HR).
+* **التحكم بالصلاحيات (Roles):** توزيع الأدوار بين (مدير، مشرف، موظف)، حيث يشرف كل رئيس قسم على موظفيه فقط.
+* **أتمتة الطلبات الإدارية:** تقديم ومتابعة طلبات الإجازات وتذاكر الدعم الفني مع رفع المرفقات والمستندات.
+* **تقييم الأداء الاحترافي:** بناء نماذج تقييم تعتمد على أوزان ومعايير محددة، وحساب النتائج والتقديرات آلياً.
+* **التفاعل اللحظي:** استلام إشعارات فورية (Real-time) عند صدور القرارات دون الحاجة لتحديث الصفحة.
+* **حماية البيانات:** إجراء نسخ احتياطي دوري وشامل لكامل بيانات النظام والمرفقات.
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## الأدوات التقنية (Tech Stack)
+**Backend:** Laravel 13 | **Real-time:** Laravel Reverb (WebSockets)
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+**Frontend:** Tailwind CSS, Alpine.js | **Database:** MySQL (Indexed)
 
-## Agentic Development
+**Storage:** Laravel Storage (Symlink) | **Queueing:** Database Queue Driver
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+**Security:** Spatie Permissions | **Reporting:** mPDF (Tajawal Arabic Font)
 
+**Backup:** Spatie Backup (Automated)
+
+## نظام الأدوار والصلاحيات (Access Control)
+
+### 1. مدير النظام (Super Admin)
+* **التحكم المطلق:** الوصول الكامل لكافة الأقسام، الإعدادات، ومسيرات الرواتب الحساسة.
+* **الأمان:** تنفيذ عمليات النسخ الاحتياطي (Backup) وإدارة صلاحيات المستخدمين.
+
+### 2. مشرف القسم (Supervisor)
+* **عزل الأقسام:** لا يرى إلا الموظفين والتذاكر وطلبات الإجازة التابعة لقسمه فقط.
+* **التقييم الذكي:** إدارة تقييمات الأداء لموظفي فريقه المباشر حصراً.
+
+### 3. الموظف (End User)
+* **الخدمة الذاتية:** إدارة الملف الشخصي، تقديم طلبات الإجازة، وفتح تذاكر الدعم.
+* **الشفافية:** استعراض وتحميل تقارير أدائه الرسمية بصيغة PDF.
+
+## المميزات التفصيلية لكل صفحة
+
+### لوحة التحكم (Dashboard)
+* إحصائيات لحظية وتوزيع الموظفين عبر الأقسام العشرة المعتمدة.
+* تفعيل نظام الـ Caching لضمان سرعة التحميل تحت ضغط البيانات العالي.
+
+### إدارة الموظفين
+* **الرقم الوظيفي الذكي:** توليد تلقائي يعكس هوية القسم (مثل IT-0001).
+* **إدارة المرفقات:** رفع الصور الشخصية مع نظام تنظيف تلقائي للملفات القديمة.
+
+### نظام التذاكر والإجازات
+* دعم المرفقات المتعددة (صور، فيديو، مستندات) وتتبع المسار الزمني للحالات.
+* نظام ردود لحظي يضمن سرعة التواصل بين الموظف ومشرفه.
+
+### تقييم الأداء الاحترافي
+* حساب آلي للنسب المئوية والتقديرات اللفظية الملونة بناءً على مؤشرات الأداء (KPIs).
+* تصدير التقارير بتنسيق PDF رسمي متوافق مع اللغة العربية.
+
+## تعليمات التشغيل (Terminal Commands)
+شغل الأوامر التالية في 4 نوافذ Terminal منفصلة:
+
+**السيرفر الرئيسي:**
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+php artisan serve
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+**الإشعارات اللحظية:**
+```bash
+php artisan reverb:start
+```
 
-## Contributing
+**معالج المهام (Queue):**
+```bash
+php artisan queue:work --tries=3
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+**تجميع الواجهة:**
+```bash
+npm run dev
+```
 
-## Code of Conduct
+## الصيانة والدورية
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+**النسخ الاحتياطي اليدوي:**
+```bash
+php artisan backup:run
+```
 
-## Security Vulnerabilities
+**ربط الملفات العامة:**
+```bash
+php artisan storage:link
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+**تم تطوير هذا النظام بواسطة المهندس: سليمان يوسف - 2026**

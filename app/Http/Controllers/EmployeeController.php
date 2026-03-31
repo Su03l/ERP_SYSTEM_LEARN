@@ -22,11 +22,34 @@ class EmployeeController extends Controller
         'الإدارة العامة'
     ];
 
+    private function getDepartmentPrefix($department)
+    {
+        $prefixes = [
+            'الموارد البشرية' => 'HR',
+            'تقنية المعلومات' => 'IT',
+            'المبيعات' => 'SLS',
+            'التسويق' => 'MKT',
+            'المالية والمحاسبة' => 'FIN',
+            'العمليات التشغيلية' => 'OPS',
+            'خدمة العملاء' => 'CS',
+            'المشتريات والمخازن' => 'PR',
+            'الشؤون القانونية' => 'LGL',
+            'الإدارة العامة' => 'GM',
+        ];
+
+        return $prefixes[$department] ?? 'EMP';
+    }
+
     // دالة عرض جميع الموظفين
     public function index(Request $request)
     {
         $query = User::whereIn('role', ['employee', 'supervisor'])
             ->withCount(['tickets', 'leaveRequests']);
+
+        // تقييد المشرف برؤية موظفي قسمه فقط
+        if (auth()->user()->role === 'supervisor') {
+            $query->where('department', auth()->user()->department);
+        }
 
         // إضافة منطق البحث
         if ($request->has('search') && !empty($request->search)) {
@@ -73,18 +96,40 @@ class EmployeeController extends Controller
         ]);
 
         $role = $request->role;
-        if (auth()->user()->role === 'supervisor' && $role !== 'employee') {
-            $role = 'employee';
+        $department = $request->department;
+
+        // المشرف لا يستطيع تعيين أدمن، ولا يستطيع إضافة موظف في قسم آخر
+        if (auth()->user()->role === 'supervisor') {
+            if ($role !== 'employee') {
+                $role = 'employee';
+            }
+            $department = auth()->user()->department; // إجبار الموظف الجديد أن يكون في نفس قسم المشرف
+        }
+
+        $employeeNumber = $request->employee_number;
+        if (empty($employeeNumber) && $department) {
+            $prefix = $this->getDepartmentPrefix($department);
+            // البحث عن آخر رقم موظف في هذا القسم لتوليد رقم جديد
+            $lastUser = User::where('department', $department)
+                            ->where('employee_number', 'like', $prefix . '-%')
+                            ->orderBy('id', 'desc')
+                            ->first();
+
+            $nextNumber = 1;
+            if ($lastUser && preg_match('/-(\d+)$/', $lastUser->employee_number, $matches)) {
+                $nextNumber = intval($matches[1]) + 1;
+            }
+            $employeeNumber = $prefix . '-' . str_pad($nextNumber, 4, '0', STR_PAD_LEFT);
         }
 
         User::create([
             'name' => $request->name,
-            'employee_number' => $request->employee_number,
+            'employee_number' => $employeeNumber,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'phone' => $request->phone,
             'job_title' => $request->job_title,
-            'department' => $request->department,
+            'department' => $department,
             'salary' => $request->salary,
             'national_id' => $request->national_id,
             'join_date' => $request->join_date,
@@ -103,6 +148,9 @@ class EmployeeController extends Controller
     // دالة عرض صفحة تفاصيل الموظف
     public function show(User $employee)
     {
+        if (auth()->user()->role === 'supervisor' && $employee->department !== auth()->user()->department) {
+            abort(403, 'غير مصرح لك بعرض بيانات موظف من قسم آخر.');
+        }
         $employee->load(['tickets', 'leaveRequests']);
         return view('employees.show', compact('employee'));
     }
@@ -110,6 +158,9 @@ class EmployeeController extends Controller
     // دالة عرض صفحة تعديل بيانات الموظف
     public function edit(User $employee)
     {
+        if (auth()->user()->role === 'supervisor' && $employee->department !== auth()->user()->department) {
+            abort(403, 'غير مصرح لك بتعديل بيانات موظف من قسم آخر.');
+        }
         $departments = $this->departments;
         return view('employees.edit', compact('employee', 'departments'));
     }
@@ -117,6 +168,10 @@ class EmployeeController extends Controller
     // دالة معالجة طلب تعديل بيانات الموظف
     public function update(Request $request, User $employee)
     {
+        if (auth()->user()->role === 'supervisor' && $employee->department !== auth()->user()->department) {
+            abort(403, 'غير مصرح لك بتعديل بيانات موظف من قسم آخر.');
+        }
+
         $request->validate([
             'name' => 'required|string|max:255',
             'employee_number' => ['nullable', 'string', 'max:50', Rule::unique('users', 'employee_number')->ignore($employee->id)],
@@ -137,8 +192,12 @@ class EmployeeController extends Controller
         ]);
 
         $data = $request->except('role');
+
+        // المشرف لا يستطيع تغيير الصلاحية، ولا يستطيع نقل الموظف لقسم آخر
         if (auth()->user()->role === 'admin') {
             $data['role'] = $request->role;
+        } elseif (auth()->user()->role === 'supervisor') {
+            $data['department'] = auth()->user()->department; // منع نقل الموظف لقسم آخر
         }
 
         $employee->update($data);

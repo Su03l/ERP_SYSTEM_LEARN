@@ -17,26 +17,50 @@ class DashboardController extends Controller
 
         if ($user->role === 'admin' || $user->role === 'supervisor') {
 
-            $adminStats = Cache::lock('lock_admin_dashboard', 10)->block(5, function () use ($statsTtl) {
-                return Cache::remember('admin_dashboard_stats', $statsTtl, function () {
+            $cacheKey = $user->role === 'admin' ? 'admin_dashboard_stats' : "supervisor_dashboard_stats_{$user->department}";
+            $lockKey = $user->role === 'admin' ? 'lock_admin_dashboard' : "lock_supervisor_dashboard_{$user->department}";
+
+            $adminStats = Cache::lock($lockKey, 10)->block(5, function () use ($statsTtl, $user, $cacheKey) {
+                return Cache::remember($cacheKey, $statsTtl, function () use ($user) {
+
+                    $employeeQuery = User::whereIn('role', ['employee', 'supervisor']);
+                    $ticketQuery = Ticket::query();
+                    $leaveQuery = LeaveRequest::query();
+
+                    if ($user->role === 'supervisor') {
+                        $employeeQuery->where('department', $user->department);
+                        $ticketQuery->whereHas('user', fn($q) => $q->where('department', $user->department));
+                        $leaveQuery->whereHas('user', fn($q) => $q->where('department', $user->department));
+                    }
+
                     return [
-                        'totalEmployees'    => User::whereIn('role', ['employee', 'supervisor'])->count(),
-                        'totalTickets'      => Ticket::count(),
-                        'openTickets'       => Ticket::where('status', 'open')->count(),
-                        'inProgressTickets' => Ticket::where('status', 'in_progress')->count(),
-                        'closedTickets'     => Ticket::where('status', 'closed')->count(),
-                        'totalLeaveRequests'=> LeaveRequest::count(),
-                        'pendingLeaves'     => LeaveRequest::where('status', 'pending')->count(),
-                        'approvedLeaves'    => LeaveRequest::where('status', 'approved')->count(),
-                        'rejectedLeaves'    => LeaveRequest::where('status', 'rejected')->count(),
-                        'departments'       => User::whereIn('role', ['employee', 'supervisor'])->whereNotNull('department')->distinct('department')->count('department'),
+                        'totalEmployees'    => (clone $employeeQuery)->count(),
+                        'totalTickets'      => (clone $ticketQuery)->count(),
+                        'openTickets'       => (clone $ticketQuery)->where('status', 'open')->count(),
+                        'inProgressTickets' => (clone $ticketQuery)->where('status', 'in_progress')->count(),
+                        'closedTickets'     => (clone $ticketQuery)->where('status', 'closed')->count(),
+                        'totalLeaveRequests'=> (clone $leaveQuery)->count(),
+                        'pendingLeaves'     => (clone $leaveQuery)->where('status', 'pending')->count(),
+                        'approvedLeaves'    => (clone $leaveQuery)->where('status', 'approved')->count(),
+                        'rejectedLeaves'    => (clone $leaveQuery)->where('status', 'rejected')->count(),
+                        'departments'       => $user->role === 'admin' ? (clone $employeeQuery)->whereNotNull('department')->distinct('department')->count('department') : 1,
                     ];
                 });
             });
 
-            $recentEmployees = User::whereIn('role', ['employee', 'supervisor'])->latest()->take(5)->get();
-            $recentTickets   = Ticket::with('user')->latest()->take(7)->get();
-            $recentLeaves    = LeaveRequest::with('user')->latest()->take(7)->get();
+            $recentEmployeesQuery = User::whereIn('role', ['employee', 'supervisor'])->latest()->take(5);
+            $recentTicketsQuery   = Ticket::with('user')->latest()->take(7);
+            $recentLeavesQuery    = LeaveRequest::with('user')->latest()->take(7);
+
+            if ($user->role === 'supervisor') {
+                $recentEmployeesQuery->where('department', $user->department);
+                $recentTicketsQuery->whereHas('user', fn($q) => $q->where('department', $user->department));
+                $recentLeavesQuery->whereHas('user', fn($q) => $q->where('department', $user->department));
+            }
+
+            $recentEmployees = $recentEmployeesQuery->get();
+            $recentTickets = $recentTicketsQuery->get();
+            $recentLeaves = $recentLeavesQuery->get();
 
             return view('dashboard', array_merge($adminStats, [
                 'recentEmployees' => $recentEmployees,
@@ -69,8 +93,8 @@ class DashboardController extends Controller
 
         $userStats = (object) $userStatsData;
 
-        $recentTickets = Ticket::where('user_id', $user->id)->latest()->take(5)->get();
-        $recentLeaves  = LeaveRequest::where('user_id', $user->id)->latest()->take(5)->get();
+        $recentTickets = Ticket::where('user_id', $user->id)->latest('id')->take(5)->get();
+        $recentLeaves  = LeaveRequest::where('user_id', $user->id)->latest('id')->take(5)->get();
 
         return view('dashboard', [
             'myOpenTickets'   => $userStats->open_tickets_count,
