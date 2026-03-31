@@ -2,7 +2,7 @@
     <x-slot name="header">إضافة موظف جديد لفرق العمل</x-slot>
 
     <div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-8">
-        
+
         {{-- ─── HR Instruction Sidebar (1/3 width) ─── --}}
         <div class="lg:w-[350px] shrink-0 order-2 lg:order-1 space-y-6">
             <div class="bg-brand-900 rounded-2xl shadow-sm overflow-hidden text-white">
@@ -42,7 +42,7 @@
         <div class="flex-1 order-1 lg:order-2">
             <form method="POST" action="{{ route('employees.store') }}" class="bg-white rounded-2xl shadow-sm border border-brand-100 overflow-hidden animate-fade-in">
                 @csrf
-                
+
                 <div class="bg-brand-50/50 p-6 sm:p-8 border-b border-brand-100">
                     <h2 class="text-xl font-black text-brand-950 flex items-center gap-2">
                         السجل الوظيفي الشامل
@@ -75,7 +75,7 @@
                             </div>
                             <h4 class="text-sm font-bold text-brand-900 uppercase tracking-widest">المعلومات الشخصية والأساسية</h4>
                         </div>
-                        
+
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div class="md:col-span-2">
                                 <label for="name" class="block text-sm font-bold text-brand-800 mb-2">الاسم الكامل المطابق للهوية <span class="text-red-500">*</span></label>
@@ -205,7 +205,10 @@
                                     <select name="role" id="role" required
                                         class="w-full pl-10 pr-4 py-3 bg-white border border-brand-200 rounded-xl text-brand-900 font-medium focus:outline-none focus:ring-2 focus:ring-brand-900 transition appearance-none">
                                         <option value="employee" {{ old('role') === 'employee' ? 'selected' : '' }}>صلاحية الموظف الأساسية</option>
-                                        <option value="admin" {{ old('role') === 'admin' ? 'selected' : '' }}>صلاحية المدير الشاملة</option>
+                                        @if(auth()->user()->role === 'admin')
+                                            <option value="supervisor" {{ old('role') === 'supervisor' ? 'selected' : '' }}>صلاحية مشرف</option>
+                                            <option value="admin" {{ old('role') === 'admin' ? 'selected' : '' }}>صلاحية المدير الشاملة</option>
+                                        @endif
                                     </select>
                                     <svg class="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-brand-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path></svg>
                                 </div>

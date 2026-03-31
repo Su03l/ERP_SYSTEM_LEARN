@@ -12,7 +12,7 @@ class EmployeeController extends Controller
     // دالة عرض جميع الموظفين
     public function index(Request $request)
     {
-        $query = User::where('role', 'employee')
+        $query = User::whereIn('role', ['employee', 'supervisor'])
             ->withCount(['tickets', 'leaveRequests']);
 
         // إضافة منطق البحث
@@ -55,8 +55,13 @@ class EmployeeController extends Controller
             'emergency_contact' => 'nullable|string|max:20',
             'gender' => 'nullable|in:male,female',
             'birth_date' => 'nullable|date|before:today',
-            'role' => 'required|in:admin,employee',
+            'role' => 'required|in:admin,supervisor,employee',
         ]);
+
+        $role = $request->role;
+        if (auth()->user()->role === 'supervisor' && $role !== 'employee') {
+            $role = 'employee';
+        }
 
         User::create([
             'name' => $request->name,
@@ -74,7 +79,7 @@ class EmployeeController extends Controller
             'emergency_contact' => $request->emergency_contact,
             'gender' => $request->gender,
             'birth_date' => $request->birth_date,
-            'role' => 'employee',
+            'role' => $role,
             'status' => 'active',
         ]);
 
@@ -113,14 +118,15 @@ class EmployeeController extends Controller
             'emergency_contact' => 'nullable|string|max:20',
             'gender' => 'nullable|in:male,female',
             'birth_date' => 'nullable|date|before:today',
-            'role' => 'required|in:admin,employee',
+            'role' => 'required|in:admin,supervisor,employee',
         ]);
 
-        $employee->update($request->only([
-            'name', 'employee_number', 'email', 'phone', 'job_title', 'department', 'status',
-            'salary', 'national_id', 'join_date', 'bank_iban', 'address',
-            'emergency_contact', 'gender', 'birth_date', 'role'
-        ]));
+        $data = $request->except('role');
+        if (auth()->user()->role === 'admin') {
+            $data['role'] = $request->role;
+        }
+
+        $employee->update($data);
 
         return redirect()->route('employees.show', $employee)->with('success', 'تم تحديث بيانات الموظف بنجاح!');
     }

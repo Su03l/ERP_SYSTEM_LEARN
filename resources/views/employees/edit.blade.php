@@ -117,11 +117,19 @@
 
                         <div>
                             <label for="role" class="block text-sm font-semibold text-brand-700 mb-1.5">الصلاحية (الدور) <span class="text-red-500">*</span></label>
-                            <select name="role" id="role" required
-                                class="w-full px-4 py-3 bg-brand-50 border border-brand-200 rounded-xl text-brand-900 focus:outline-none focus:ring-2 focus:ring-brand-950 focus:border-transparent transition">
+                            <select name="role" id="role" required {{ auth()->user()->role !== 'admin' ? 'disabled' : '' }}
+                                class="w-full px-4 py-3 bg-brand-50 border border-brand-200 rounded-xl text-brand-900 focus:outline-none focus:ring-2 focus:ring-brand-950 focus:border-transparent transition {{ auth()->user()->role !== 'admin' ? 'opacity-50 cursor-not-allowed' : '' }}">
                                 <option value="employee" {{ old('role', $employee->role) === 'employee' ? 'selected' : '' }}>موظف</option>
-                                <option value="admin" {{ old('role', $employee->role) === 'admin' ? 'selected' : '' }}>مدير (أدمن)</option>
+                                @if(auth()->user()->role === 'admin' || $employee->role === 'supervisor')
+                                    <option value="supervisor" {{ old('role', $employee->role) === 'supervisor' ? 'selected' : '' }}>مشرف</option>
+                                @endif
+                                @if(auth()->user()->role === 'admin' || $employee->role === 'admin')
+                                    <option value="admin" {{ old('role', $employee->role) === 'admin' ? 'selected' : '' }}>مدير (أدمن)</option>
+                                @endif
                             </select>
+                            @if(auth()->user()->role !== 'admin')
+                                <input type="hidden" name="role" value="{{ $employee->role }}">
+                            @endif
                         </div>
 
                         <div>
@@ -155,14 +163,20 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                         <div>
                             <label for="salary" class="block text-sm font-semibold text-brand-700 mb-1.5">الراتب الشهري (ر.س)</label>
-                            <input type="number" name="salary" id="salary" value="{{ old('salary', $employee->salary) }}" step="0.01" min="0"
-                                class="w-full px-4 py-3 bg-brand-50 border border-brand-200 rounded-xl text-brand-900 focus:outline-none focus:ring-2 focus:ring-brand-950 focus:border-transparent transition" dir="ltr">
+                            <input type="number" name="salary" id="salary" value="{{ old('salary', $employee->salary) }}" step="0.01" min="0" {{ auth()->user()->role !== 'admin' ? 'disabled' : '' }}
+                                class="w-full px-4 py-3 bg-brand-50 border border-brand-200 rounded-xl text-brand-900 focus:outline-none focus:ring-2 focus:ring-brand-950 focus:border-transparent transition {{ auth()->user()->role !== 'admin' ? 'opacity-50 cursor-not-allowed' : '' }}" dir="ltr">
+                            @if(auth()->user()->role !== 'admin')
+                                <input type="hidden" name="salary" value="{{ $employee->salary }}">
+                            @endif
                         </div>
 
                         <div>
                             <label for="bank_iban" class="block text-sm font-semibold text-brand-700 mb-1.5">رقم الآيبان (IBAN)</label>
-                            <input type="text" name="bank_iban" id="bank_iban" value="{{ old('bank_iban', $employee->bank_iban) }}"
-                                class="w-full px-4 py-3 bg-brand-50 border border-brand-200 rounded-xl text-brand-900 focus:outline-none focus:ring-2 focus:ring-brand-950 focus:border-transparent transition" dir="ltr" maxlength="34">
+                            <input type="text" name="bank_iban" id="bank_iban" value="{{ old('bank_iban', $employee->bank_iban) }}" {{ auth()->user()->role !== 'admin' ? 'disabled' : '' }}
+                                class="w-full px-4 py-3 bg-brand-50 border border-brand-200 rounded-xl text-brand-900 focus:outline-none focus:ring-2 focus:ring-brand-950 focus:border-transparent transition {{ auth()->user()->role !== 'admin' ? 'opacity-50 cursor-not-allowed' : '' }}" dir="ltr" maxlength="34">
+                            @if(auth()->user()->role !== 'admin')
+                                <input type="hidden" name="bank_iban" value="{{ $employee->bank_iban }}">
+                            @endif
                         </div>
                     </div>
                 </div>

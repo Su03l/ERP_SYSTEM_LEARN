@@ -15,12 +15,12 @@ class DashboardController extends Controller
         $user = auth()->user();
         $statsTtl = now()->addMinutes(60);
 
-        if ($user->role === 'admin') {
+        if ($user->role === 'admin' || $user->role === 'supervisor') {
 
             $adminStats = Cache::lock('lock_admin_dashboard', 10)->block(5, function () use ($statsTtl) {
                 return Cache::remember('admin_dashboard_stats', $statsTtl, function () {
                     return [
-                        'totalEmployees'    => User::where('role', 'employee')->count(),
+                        'totalEmployees'    => User::whereIn('role', ['employee', 'supervisor'])->count(),
                         'totalTickets'      => Ticket::count(),
                         'openTickets'       => Ticket::where('status', 'open')->count(),
                         'inProgressTickets' => Ticket::where('status', 'in_progress')->count(),
@@ -29,12 +29,12 @@ class DashboardController extends Controller
                         'pendingLeaves'     => LeaveRequest::where('status', 'pending')->count(),
                         'approvedLeaves'    => LeaveRequest::where('status', 'approved')->count(),
                         'rejectedLeaves'    => LeaveRequest::where('status', 'rejected')->count(),
-                        'departments'       => User::where('role', 'employee')->whereNotNull('department')->distinct('department')->count('department'),
+                        'departments'       => User::whereIn('role', ['employee', 'supervisor'])->whereNotNull('department')->distinct('department')->count('department'),
                     ];
                 });
             });
 
-            $recentEmployees = User::where('role', 'employee')->latest()->take(5)->get();
+            $recentEmployees = User::whereIn('role', ['employee', 'supervisor'])->latest()->take(5)->get();
             $recentTickets   = Ticket::with('user')->latest()->take(7)->get();
             $recentLeaves    = LeaveRequest::with('user')->latest()->take(7)->get();
 

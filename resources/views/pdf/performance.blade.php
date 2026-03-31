@@ -4,143 +4,41 @@
     <meta charset="UTF-8">
     <title>تقييم أداء - {{ $evaluation->employee->name }}</title>
     <style>
-        body {
-            font-family: 'sans-serif';
-            direction: rtl;
-            text-align: right;
-            color: #333;
-            background-color: #f8fafc;
-            margin: 0;
-            padding: 20px;
-        }
-        .container {
-            background: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            border: 1px solid #e2e8f0;
-        }
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            border-bottom: 3px solid #172554;
-            padding-bottom: 20px;
-        }
-        .header h1 {
-            color: #172554;
-            margin: 0;
-            font-size: 26px;
-        }
-        .header h3 {
-            color: #64748b;
-            margin: 10px 0 0 0;
-            font-size: 16px;
-            font-weight: normal;
-        }
-        .info-card {
-            background-color: #f1f5f9;
-            border: 1px solid #cbd5e1;
-            padding: 20px;
-            border-radius: 6px;
-            margin-bottom: 30px;
-        }
-        .info-card p {
-            margin: 8px 0;
-            font-size: 14px;
-        }
-        .info-card strong {
-            color: #1e293b;
-            display: inline-block;
-            width: 130px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-        th, td {
-            padding: 12px 15px;
-            text-align: right;
-            border-bottom: 1px solid #e2e8f0;
-        }
-        th {
-            background-color: #172554;
-            color: #ffffff;
-            font-weight: bold;
-            font-size: 14px;
-        }
-        td {
-            font-size: 14px;
-            color: #475569;
-        }
-        .stars {
-            color: #fbbf24;
-            font-size: 18px;
-            letter-spacing: 2px;
-        }
-        .stars-empty {
-            color: #cbd5e1;
-            font-size: 18px;
-            letter-spacing: 2px;
-        }
-        .average-row td {
-            font-weight: bold;
-            background-color: #fef3c7;
-            color: #92400e;
-        }
-        .notes-section {
-            background-color: #f1f5f9;
-            border: 1px solid #cbd5e1;
-            padding: 20px;
-            border-radius: 6px;
-            margin-top: 30px;
-        }
-        .notes-section h4 {
-            margin: 0 0 10px 0;
-            color: #1e293b;
-            font-size: 15px;
-        }
-        .notes-section p {
-            margin: 0;
-            font-size: 14px;
-            color: #475569;
-            line-height: 1.8;
-            white-space: pre-line;
-        }
-        .footer {
-            margin-top: 50px;
-            text-align: center;
-            font-size: 12px;
-            color: #94a3b8;
-            border-top: 1px solid #e2e8f0;
-            padding-top: 20px;
-        }
-        .meta-info {
-            margin-top: 30px;
-            display: flex;
-            justify-content: space-between;
-        }
-        .meta-box {
-            background-color: #f8fafc;
-            border: 1px solid #e2e8f0;
-            padding: 12px 20px;
-            border-radius: 6px;
-            display: inline-block;
-            margin-left: 10px;
-        }
-        .meta-box small {
-            display: block;
-            color: #94a3b8;
-            font-size: 11px;
-            margin-bottom: 3px;
-        }
-        .meta-box span {
-            color: #1e293b;
-            font-weight: bold;
-            font-size: 14px;
-        }
+        body { font-family: 'sans-serif'; direction: rtl; text-align: right; color: #333; background-color: #f8fafc; margin: 0; padding: 20px; }
+        .container { background: #fff; padding: 30px; border-radius: 8px; border: 1px solid #e2e8f0; }
+        .header { text-align: center; margin-bottom: 25px; border-bottom: 3px solid #172554; padding-bottom: 15px; }
+        .header h1 { color: #172554; margin: 0; font-size: 24px; }
+        .header h3 { color: #64748b; margin: 8px 0 0 0; font-size: 15px; font-weight: normal; }
+        .info-card { background-color: #f1f5f9; border: 1px solid #cbd5e1; padding: 15px 20px; border-radius: 6px; margin-bottom: 25px; }
+        .info-card p { margin: 6px 0; font-size: 13px; }
+        .info-card strong { color: #1e293b; display: inline-block; width: 120px; }
+        .section-title { background-color: #172554; color: #fff; padding: 8px 15px; font-size: 14px; font-weight: bold; margin: 0; }
+        .section-meta { float: left; font-size: 12px; font-weight: normal; opacity: 0.8; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        th, td { padding: 8px 12px; text-align: right; border: 1px solid #e2e8f0; font-size: 13px; }
+        th { background-color: #f1f5f9; color: #475569; font-weight: bold; font-size: 12px; }
+        td { color: #475569; }
+        .score-cell { text-align: center; font-weight: bold; }
+        .result-box { background-color: #f8fafc; border: 2px solid #172554; border-radius: 8px; padding: 20px; margin-top: 25px; }
+        .result-grid { display: table; width: 100%; }
+        .result-item { display: table-cell; text-align: center; padding: 10px; width: 25%; }
+        .result-label { font-size: 11px; color: #64748b; font-weight: bold; text-transform: uppercase; margin-bottom: 5px; }
+        .result-value { font-size: 22px; font-weight: bold; color: #172554; }
+        .grade-excellent { color: #166534; }
+        .grade-good { color: #1d4ed8; }
+        .grade-ok { color: #a16207; }
+        .grade-acceptable { color: #c2410c; }
+        .grade-weak { color: #dc2626; }
+        .notes-section { background-color: #f1f5f9; border: 1px solid #cbd5e1; padding: 15px 20px; border-radius: 6px; margin-top: 20px; }
+        .notes-section h4 { margin: 0 0 8px 0; color: #1e293b; font-size: 14px; }
+        .notes-section p { margin: 0; font-size: 13px; color: #475569; line-height: 1.8; white-space: pre-line; }
+        .footer { margin-top: 40px; text-align: center; font-size: 11px; color: #94a3b8; border-top: 1px solid #e2e8f0; padding-top: 15px; }
+        .cat-score { float: left; font-size: 12px; background: #172554; color: #fff; padding: 4px 10px; border-radius: 4px; }
     </style>
 </head>
 <body>
+    @php $structure = \App\Models\PerformanceEvaluation::criteriaStructure(); @endphp
+
     <div class="container">
         <div class="header">
             <h1>شركة النظام المتطور (ERP)</h1>
@@ -153,45 +51,54 @@
             <p><strong>المسمى الوظيفي:</strong> {{ $evaluation->employee->job_title ?? 'غير محدد' }}</p>
             <p><strong>القسم:</strong> {{ $evaluation->employee->department ?? 'غير محدد' }}</p>
             <p><strong>فترة التقييم:</strong> {{ $evaluation->period_label }}</p>
+            <p><strong>تاريخ التقييم:</strong> {{ $evaluation->created_at->format('Y-m-d') }}</p>
         </div>
 
-        @php
-            $criteria = [
-                ['label' => 'الأداء العام', 'value' => $evaluation->overall_rating],
-                ['label' => 'الالتزام', 'value' => $evaluation->commitment_rating],
-                ['label' => 'العمل الجماعي', 'value' => $evaluation->teamwork_rating],
-                ['label' => 'الإبداع والمبادرة', 'value' => $evaluation->creativity_rating],
-                ['label' => 'التواصل', 'value' => $evaluation->communication_rating],
-            ];
-        @endphp
-
-        <table>
-            <thead>
-                <tr>
-                    <th>المعيار</th>
-                    <th style="text-align: center;">التقييم</th>
-                    <th style="text-align: center;">الدرجة</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($criteria as $item)
+        @foreach($structure as $catKey => $category)
+            @php $score = $evaluation->getCategoryScore($catKey); @endphp
+            <div class="section-title">
+                {{ $category['label'] }}
+                <span class="section-meta">الوزن: {{ $category['weight'] }} | المحقق: {{ $score['weighted'] }} / {{ $category['weight'] }}</span>
+            </div>
+            <table>
+                <thead>
                     <tr>
-                        <td>{{ $item['label'] }}</td>
-                        <td style="text-align: center;">
-                            <span class="stars">{{ str_repeat('★', $item['value']) }}</span><span class="stars-empty">{{ str_repeat('★', 5 - $item['value']) }}</span>
-                        </td>
-                        <td style="text-align: center; font-weight: bold;">{{ $item['value'] }} / 5</td>
+                        <th style="width: 55%;">مؤشر القياس</th>
+                        <th style="width: 20%; text-align: center;">المستهدف</th>
+                        <th style="width: 25%; text-align: center;">المحقق</th>
                     </tr>
-                @endforeach
-                <tr class="average-row">
-                    <td>المتوسط العام</td>
-                    <td style="text-align: center;">
-                        <span class="stars">{{ str_repeat('★', round($evaluation->average_rating)) }}</span><span class="stars-empty">{{ str_repeat('★', 5 - round($evaluation->average_rating)) }}</span>
-                    </td>
-                    <td style="text-align: center; font-weight: bold; font-size: 16px;">{{ $evaluation->average_rating }} / 5</td>
-                </tr>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach($category['items'] as $itemKey => $itemLabel)
+                        <tr>
+                            <td>{{ $itemLabel }}</td>
+                            <td class="score-cell">5</td>
+                            <td class="score-cell" style="font-size: 14px;">{{ $evaluation->ratings[$itemKey] ?? 0 }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @endforeach
+
+        {{-- النتائج --}}
+        <div class="result-box">
+            <div class="result-grid">
+                <div class="result-item">
+                    <div class="result-label">النقاط الأساسية</div>
+                    <div class="result-value">{{ $evaluation->total_score }} / 100</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">النسبة المئوية</div>
+                    <div class="result-value">{{ $evaluation->percentage }}%</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">التقدير العام</div>
+                    <div class="result-value {{ $evaluation->grade_color === 'green' ? 'grade-excellent' : ($evaluation->grade_color === 'blue' ? 'grade-good' : ($evaluation->grade_color === 'yellow' ? 'grade-ok' : ($evaluation->grade_color === 'orange' ? 'grade-acceptable' : 'grade-weak'))) }}">
+                        {{ $evaluation->grade }}
+                    </div>
+                </div>
+            </div>
+        </div>
 
         @if($evaluation->notes)
             <div class="notes-section">
@@ -200,15 +107,8 @@
             </div>
         @endif
 
-        <div style="margin-top: 30px;">
-            <div class="meta-box">
-                <small>المقيِّم</small>
-                <span>{{ $evaluation->evaluator->name }}</span>
-            </div>
-            <div class="meta-box">
-                <small>تاريخ التقييم</small>
-                <span>{{ $evaluation->created_at->format('Y-m-d') }}</span>
-            </div>
+        <div style="margin-top: 25px; font-size: 13px;">
+            <strong>المقيِّم:</strong> {{ $evaluation->evaluator->name }}
         </div>
 
         <div class="footer">

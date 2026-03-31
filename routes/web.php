@@ -22,11 +22,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::middleware(\App\Http\Middleware\AdminMiddleware::class)->group(function () {
-        Route::resource('employees', EmployeeController::class);
-        Route::get('/payroll', [PayrollController::class, 'index'])->name('payroll.index');
-        Route::post('/payroll/send', [PayrollController::class, 'sendBulk'])->name('payroll.sendBulk');
-
+    Route::middleware('supervisor')->group(function () {
+        Route::resource('employees', EmployeeController::class)->except(['destroy']);
         // تقييم الأداء
         Route::get('/performance', [PerformanceController::class, 'index'])->name('performance.index');
         Route::get('/performance/search', [PerformanceController::class, 'searchEmployee'])->name('performance.search');
@@ -36,6 +33,13 @@ Route::middleware('auth')->group(function () {
         Route::put('/performance/{performance}', [PerformanceController::class, 'update'])->name('performance.update');
         Route::get('/performance/{performance}/pdf', [PerformanceController::class, 'exportPdf'])->name('performance.pdf');
     });
+
+    Route::middleware(\App\Http\Middleware\AdminMiddleware::class)->group(function () {
+        Route::delete('/employees/{employee}', [EmployeeController::class, 'destroy'])->name('employees.destroy');
+        Route::get('/payroll', [PayrollController::class, 'index'])->name('payroll.index');
+        Route::post('/payroll/send', [PayrollController::class, 'sendBulk'])->name('payroll.sendBulk');
+    });
+
     Route::resource('tickets', TicketController::class)->except(['edit', 'destroy']);
     Route::post('/tickets/{ticket}/comments', [\App\Http\Controllers\TicketCommentController::class, 'store'])->name('ticket.comments.store');
     Route::resource('leave-requests', LeaveRequestController::class)->except(['edit', 'destroy']);

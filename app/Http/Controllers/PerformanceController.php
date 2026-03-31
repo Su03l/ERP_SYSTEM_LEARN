@@ -16,7 +16,6 @@ class PerformanceController extends Controller
     {
         $query = PerformanceEvaluation::with(['employee', 'evaluator'])->latest();
 
-        // فلترة بالبحث
         if ($request->has('search') && !empty($request->search)) {
             $searchTerm = '%' . $request->search . '%';
             $query->whereHas('employee', function ($q) use ($searchTerm) {
@@ -69,25 +68,24 @@ class PerformanceController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $criteriaKeys = $this->getAllCriteriaKeys();
+
+        $rules = [
             'employee_id' => 'required|exists:users,id',
-            'overall_rating' => 'required|integer|between:1,5',
-            'commitment_rating' => 'required|integer|between:1,5',
-            'teamwork_rating' => 'required|integer|between:1,5',
-            'creativity_rating' => 'required|integer|between:1,5',
-            'communication_rating' => 'required|integer|between:1,5',
             'notes' => 'nullable|string|max:2000',
-            'evaluation_period' => 'required|in:monthly,quarterly,yearly',
-        ]);
+            'evaluation_period' => 'required|in:' . implode(',', array_keys(PerformanceEvaluation::periodOptions())),
+        ];
+
+        foreach ($criteriaKeys as $key) {
+            $rules["ratings.$key"] = 'required|integer|between:0,5';
+        }
+
+        $request->validate($rules);
 
         PerformanceEvaluation::create([
             'employee_id' => $request->employee_id,
             'evaluator_id' => auth()->id(),
-            'overall_rating' => $request->overall_rating,
-            'commitment_rating' => $request->commitment_rating,
-            'teamwork_rating' => $request->teamwork_rating,
-            'creativity_rating' => $request->creativity_rating,
-            'communication_rating' => $request->communication_rating,
+            'ratings' => $request->ratings,
             'notes' => $request->notes,
             'evaluation_period' => $request->evaluation_period,
         ]);
@@ -101,7 +99,6 @@ class PerformanceController extends Controller
     public function show(PerformanceEvaluation $performance)
     {
         $performance->load(['employee', 'evaluator']);
-
         return view('performance.show', compact('performance'));
     }
 
@@ -115,7 +112,6 @@ class PerformanceController extends Controller
         }
 
         $performance->load(['employee', 'evaluator']);
-
         return view('performance.edit', compact('performance'));
     }
 
@@ -128,20 +124,24 @@ class PerformanceController extends Controller
             return redirect()->route('performance.index')->with('error', 'ليس لديك صلاحية لتعديل التقييم.');
         }
 
-        $request->validate([
-            'overall_rating' => 'required|integer|between:1,5',
-            'commitment_rating' => 'required|integer|between:1,5',
-            'teamwork_rating' => 'required|integer|between:1,5',
-            'creativity_rating' => 'required|integer|between:1,5',
-            'communication_rating' => 'required|integer|between:1,5',
-            'notes' => 'nullable|string|max:2000',
-            'evaluation_period' => 'required|in:monthly,quarterly,yearly',
-        ]);
+        $criteriaKeys = $this->getAllCriteriaKeys();
 
-        $performance->update($request->only([
-            'overall_rating', 'commitment_rating', 'teamwork_rating',
-            'creativity_rating', 'communication_rating', 'notes', 'evaluation_period',
-        ]));
+        $rules = [
+            'notes' => 'nullable|string|max:2000',
+            'evaluation_period' => 'required|in:' . implode(',', array_keys(PerformanceEvaluation::periodOptions())),
+        ];
+
+        foreach ($criteriaKeys as $key) {
+            $rules["ratings.$key"] = 'required|integer|between:0,5';
+        }
+
+        $request->validate($rules);
+
+        $performance->update([
+            'ratings' => $request->ratings,
+            'notes' => $request->notes,
+            'evaluation_period' => $request->evaluation_period,
+        ]);
 
         return redirect()->route('performance.show', $performance)->with('success', 'تم تحديث التقييم بنجاح!');
     }
@@ -152,9 +152,19 @@ class PerformanceController extends Controller
     public function exportPdf(PerformanceEvaluation $performance)
     {
         $performance->load(['employee', 'evaluator']);
-
         $pdf = PDF::loadView('pdf.performance', ['evaluation' => $performance]);
-
         return $pdf->stream('تقييم_أداء_' . $performance->employee->name . '.pdf');
+    }
+
+    /**
+     * استخراج كل مفاتيح المعايير
+     */
+    private function getAllCriteriaKeys(): array
+    {
+        $keys = [];
+        foreach (PerformanceEvaluation::criteriaStructure() as $category) {
+            $keys = array_merge($keys, array_keys($category['items']));
+        }
+        return $keys;
     }
 }
