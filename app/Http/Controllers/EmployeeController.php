@@ -20,7 +20,8 @@ class EmployeeController extends Controller
             $searchTerm = '%' . $request->search . '%';
             $query->where(function ($q) use ($searchTerm) {
                 $q->where('name', 'like', $searchTerm)
-                  ->orWhere('phone', 'like', $searchTerm);
+                  ->orWhere('phone', 'like', $searchTerm)
+                  ->orWhere('employee_number', 'like', $searchTerm);
             });
         }
 
@@ -40,6 +41,7 @@ class EmployeeController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'employee_number' => 'nullable|string|max:50|unique:users,employee_number',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
             'phone' => 'nullable|string',
@@ -58,6 +60,7 @@ class EmployeeController extends Controller
 
         User::create([
             'name' => $request->name,
+            'employee_number' => $request->employee_number,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'phone' => $request->phone,
@@ -71,7 +74,7 @@ class EmployeeController extends Controller
             'emergency_contact' => $request->emergency_contact,
             'gender' => $request->gender,
             'birth_date' => $request->birth_date,
-            'role' => 'employee', // Ensure new employees are created with 'employee' role by default
+            'role' => 'employee',
             'status' => 'active',
         ]);
 
@@ -96,6 +99,7 @@ class EmployeeController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'employee_number' => ['nullable', 'string', 'max:50', Rule::unique('users', 'employee_number')->ignore($employee->id)],
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($employee->id)],
             'phone' => 'nullable|string',
             'job_title' => 'nullable|string',
@@ -113,7 +117,7 @@ class EmployeeController extends Controller
         ]);
 
         $employee->update($request->only([
-            'name', 'email', 'phone', 'job_title', 'department', 'status',
+            'name', 'employee_number', 'email', 'phone', 'job_title', 'department', 'status',
             'salary', 'national_id', 'join_date', 'bank_iban', 'address',
             'emergency_contact', 'gender', 'birth_date', 'role'
         ]));
