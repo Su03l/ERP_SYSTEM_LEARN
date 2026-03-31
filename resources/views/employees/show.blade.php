@@ -27,6 +27,9 @@
                         <x-badge :status="$employee->status ?? 'active'" />
                         <h3 class="text-xl font-black text-brand-950 truncate mt-3">{{ $employee->name }}</h3>
                         <p class="text-sm font-medium text-brand-500 truncate mt-1" dir="ltr">{{ $employee->email }}</p>
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-brand-950 text-white text-xs font-bold rounded-lg mt-2 font-mono tracking-wider">
+                            رقم الموظف: #{{ $employee->id }}
+                        </span>
                         
                         <div class="mt-5 flex items-center justify-center gap-2">
                             <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-brand-50 text-brand-700 text-xs font-bold rounded-lg border border-brand-100 uppercase tracking-wider">
