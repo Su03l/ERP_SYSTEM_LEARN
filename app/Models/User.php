@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\PerformanceEvaluation;
+
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
@@ -43,5 +45,17 @@ class User extends Authenticatable
     public function leaveRequests()
     {
         return $this->hasMany(LeaveRequest::class);
+    }
+
+    // التقييمات التي استقبلها الموظف
+    public function performanceEvaluations()
+    {
+        return $this->hasMany(PerformanceEvaluation::class, 'employee_id');
+    }
+
+    // التقييمات التي أجراها (كمشرف)
+    public function givenEvaluations()
+    {
+        return $this->hasMany(PerformanceEvaluation::class, 'evaluator_id');
     }
 }
