@@ -9,6 +9,19 @@ use Illuminate\Validation\Rule;
 
 class EmployeeController extends Controller
 {
+    private $departments = [
+        'الموارد البشرية',
+        'تقنية المعلومات',
+        'المبيعات',
+        'التسويق',
+        'المالية والمحاسبة',
+        'العمليات التشغيلية',
+        'خدمة العملاء',
+        'المشتريات والمخازن',
+        'الشؤون القانونية',
+        'الإدارة العامة'
+    ];
+
     // دالة عرض جميع الموظفين
     public function index(Request $request)
     {
@@ -33,7 +46,8 @@ class EmployeeController extends Controller
     // دالة عرض صفحة إضافة موظف جديد
     public function create()
     {
-        return view('employees.create');
+        $departments = $this->departments;
+        return view('employees.create', compact('departments'));
     }
 
     // دالة معالجة طلب إضافة موظف جديد
@@ -46,7 +60,7 @@ class EmployeeController extends Controller
             'password' => 'required|string|min:8|confirmed',
             'phone' => 'nullable|string',
             'job_title' => 'nullable|string',
-            'department' => 'nullable|string',
+            'department' => ['nullable', Rule::in($this->departments)],
             'salary' => 'nullable|numeric|min:0',
             'national_id' => 'nullable|string|max:20',
             'join_date' => 'nullable|date',
@@ -96,7 +110,8 @@ class EmployeeController extends Controller
     // دالة عرض صفحة تعديل بيانات الموظف
     public function edit(User $employee)
     {
-        return view('employees.edit', compact('employee'));
+        $departments = $this->departments;
+        return view('employees.edit', compact('employee', 'departments'));
     }
 
     // دالة معالجة طلب تعديل بيانات الموظف
@@ -108,7 +123,7 @@ class EmployeeController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($employee->id)],
             'phone' => 'nullable|string',
             'job_title' => 'nullable|string',
-            'department' => 'nullable|string',
+            'department' => ['nullable', Rule::in($this->departments)],
             'status' => 'nullable|in:active,inactive',
             'salary' => 'nullable|numeric|min:0',
             'national_id' => 'nullable|string|max:20',

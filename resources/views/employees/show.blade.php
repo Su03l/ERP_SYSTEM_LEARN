@@ -2,16 +2,16 @@
     <x-slot name="header">ملف السجل الوظيفي</x-slot>
 
     <div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-8">
-        
+
         {{-- ─── Identity Sidebar (1/3 width) ─── --}}
         <div class="lg:w-96 space-y-6 shrink-0">
-            
+
             {{-- Employee Identity Card --}}
             <div class="bg-white rounded-2xl border border-brand-100 shadow-sm overflow-hidden relative">
                 <div class="h-24 bg-brand-900 relative">
                     <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiLz48L3N2Zz4=')]"></div>
                 </div>
-                
+
                 <div class="px-6 pb-6 pt-0 relative text-center">
                     <div class="absolute -top-12 left-1/2 -translate-x-1/2 p-1.5 bg-white rounded-2xl border border-brand-100 shadow-sm z-10 w-24 h-24">
                         <div class="w-full h-full rounded-xl overflow-hidden bg-brand-50 flex items-center justify-center text-3xl font-black text-brand-900 border border-brand-100">
@@ -22,7 +22,7 @@
                             @endif
                         </div>
                     </div>
-                    
+
                     <div class="pt-16">
                         <x-badge :status="$employee->status ?? 'active'" />
                         <h3 class="text-xl font-black text-brand-950 truncate mt-3">{{ $employee->name }}</h3>
@@ -30,11 +30,15 @@
                         <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-brand-950 text-white text-xs font-bold rounded-lg mt-2 font-mono tracking-wider">
                             رقم الموظف: {{ $employee->employee_number ?? '#'.$employee->id }}
                         </span>
-                        
+
                         <div class="mt-5 flex items-center justify-center gap-2">
                             <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-brand-50 text-brand-700 text-xs font-bold rounded-lg border border-brand-100 uppercase tracking-wider">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                                درجات الصلاحية: {{ $employee->role === 'admin' ? 'مدير نظام' : 'موظف' }}
+                                درجات الصلاحية:
+                                @if($employee->role === 'admin') مدير نظام
+                                @elseif($employee->role === 'supervisor') مشرف
+                                @else موظف
+                                @endif
                             </span>
                         </div>
                     </div>
@@ -135,6 +139,7 @@
                     </div>
 
                     {{-- Column 3: Financial --}}
+                    @if(auth()->user()->role === 'admin')
                     <div class="space-y-5 bg-brand-50/50 -m-6 p-6 border-r border-brand-100">
                         <h3 class="text-sm font-bold text-brand-900 border-b border-brand-200 pb-2 mb-4 flex items-center gap-2">
                             <svg class="w-4 h-4 text-brand-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -155,12 +160,13 @@
                             <p class="text-xs font-bold text-brand-900 font-mono break-all leading-relaxed" dir="ltr">{{ $employee->bank_iban ?? '---' }}</p>
                         </div>
                     </div>
+                    @endif
                 </div>
             </div>
 
             {{-- Activity & History Split --}}
             <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
-                
+
                 {{-- Leave Requests --}}
                 <div class="bg-white rounded-2xl shadow-sm border border-brand-100 overflow-hidden flex flex-col">
                     <div class="flex items-center justify-between p-5 border-b border-brand-50 bg-brand-50/20">

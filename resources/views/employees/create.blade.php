@@ -188,9 +188,23 @@
 
                             <div>
                                 <label for="department" class="block text-sm font-bold text-brand-800 mb-2">اسم القسم / الإدارة</label>
-                                <input type="text" name="department" id="department" value="{{ old('department') }}"
-                                    class="w-full px-4 py-3 bg-white border border-brand-200 rounded-xl text-brand-900 font-medium focus:outline-none focus:ring-2 focus:ring-brand-900 transition"
-                                    placeholder="مثال: تقنية المعلومات، المبيعات">
+                                <div class="relative">
+                                    <select name="department" id="department"
+                                        class="w-full pl-10 pr-4 py-3 bg-white border border-brand-200 rounded-xl text-brand-900 font-medium focus:outline-none focus:ring-2 focus:ring-brand-900 transition appearance-none">
+                                        <option value="">-- اختر القسم --</option>
+                                        <option value="الموارد البشرية" {{ old('department') === 'الموارد البشرية' ? 'selected' : '' }}>الموارد البشرية (Human Resources)</option>
+                                        <option value="تقنية المعلومات" {{ old('department') === 'تقنية المعلومات' ? 'selected' : '' }}>تقنية المعلومات (Information Technology)</option>
+                                        <option value="المبيعات" {{ old('department') === 'المبيعات' ? 'selected' : '' }}>المبيعات (Sales)</option>
+                                        <option value="التسويق" {{ old('department') === 'التسويق' ? 'selected' : '' }}>التسويق (Marketing)</option>
+                                        <option value="المالية والمحاسبة" {{ old('department') === 'المالية والمحاسبة' ? 'selected' : '' }}>المالية والمحاسبة (Finance & Accounting)</option>
+                                        <option value="العمليات التشغيلية" {{ old('department') === 'العمليات التشغيلية' ? 'selected' : '' }}>العمليات التشغيلية (Operations)</option>
+                                        <option value="خدمة العملاء" {{ old('department') === 'خدمة العملاء' ? 'selected' : '' }}>خدمة العملاء (Customer Service)</option>
+                                        <option value="المشتريات والمخازن" {{ old('department') === 'المشتريات والمخازن' ? 'selected' : '' }}>المشتريات والمخازن (Procurement & Logistics)</option>
+                                        <option value="الشؤون القانونية" {{ old('department') === 'الشؤون القانونية' ? 'selected' : '' }}>الشؤون القانونية (Legal)</option>
+                                        <option value="الإدارة العامة" {{ old('department') === 'الإدارة العامة' ? 'selected' : '' }}>الإدارة العامة (General Management)</option>
+                                    </select>
+                                    <svg class="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-brand-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path></svg>
+                                </div>
                             </div>
 
                             <div>

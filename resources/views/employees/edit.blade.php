@@ -134,8 +134,20 @@
 
                         <div>
                             <label for="department" class="block text-sm font-semibold text-brand-700 mb-1.5">القسم</label>
-                            <input type="text" name="department" id="department" value="{{ old('department', $employee->department) }}"
+                            <select name="department" id="department"
                                 class="w-full px-4 py-3 bg-brand-50 border border-brand-200 rounded-xl text-brand-900 focus:outline-none focus:ring-2 focus:ring-brand-950 focus:border-transparent transition">
+                                <option value="">-- اختر القسم --</option>
+                                <option value="الموارد البشرية" {{ old('department', $employee->department) === 'الموارد البشرية' ? 'selected' : '' }}>الموارد البشرية (Human Resources)</option>
+                                <option value="تقنية المعلومات" {{ old('department', $employee->department) === 'تقنية المعلومات' ? 'selected' : '' }}>تقنية المعلومات (Information Technology)</option>
+                                <option value="المبيعات" {{ old('department', $employee->department) === 'المبيعات' ? 'selected' : '' }}>المبيعات (Sales)</option>
+                                <option value="التسويق" {{ old('department', $employee->department) === 'التسويق' ? 'selected' : '' }}>التسويق (Marketing)</option>
+                                <option value="المالية والمحاسبة" {{ old('department', $employee->department) === 'المالية والمحاسبة' ? 'selected' : '' }}>المالية والمحاسبة (Finance & Accounting)</option>
+                                <option value="العمليات التشغيلية" {{ old('department', $employee->department) === 'العمليات التشغيلية' ? 'selected' : '' }}>العمليات التشغيلية (Operations)</option>
+                                <option value="خدمة العملاء" {{ old('department', $employee->department) === 'خدمة العملاء' ? 'selected' : '' }}>خدمة العملاء (Customer Service)</option>
+                                <option value="المشتريات والمخازن" {{ old('department', $employee->department) === 'المشتريات والمخازن' ? 'selected' : '' }}>المشتريات والمخازن (Procurement & Logistics)</option>
+                                <option value="الشؤون القانونية" {{ old('department', $employee->department) === 'الشؤون القانونية' ? 'selected' : '' }}>الشؤون القانونية (Legal)</option>
+                                <option value="الإدارة العامة" {{ old('department', $employee->department) === 'الإدارة العامة' ? 'selected' : '' }}>الإدارة العامة (General Management)</option>
+                            </select>
                         </div>
 
                         <div>

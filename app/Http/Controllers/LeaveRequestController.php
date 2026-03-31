@@ -15,8 +15,8 @@ class LeaveRequestController extends Controller
 
         $query = LeaveRequest::with('user');
 
-        // الأدمن يشوف كل الطلبات، الموظف يشوف طلباته فقط
-        if ($user->role !== 'admin') {
+        // الأدمن والمشرف يشوفون كل الطلبات، الموظف يشوف طلباته فقط
+        if ($user->role !== 'admin' && $user->role !== 'supervisor') {
             $query->where('user_id', $user->id);
         }
 

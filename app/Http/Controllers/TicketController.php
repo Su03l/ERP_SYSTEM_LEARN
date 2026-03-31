@@ -16,8 +16,8 @@ class TicketController extends Controller
         //  جلب جميع التذاكر
         $query = Ticket::with('user');
 
-        //  إذا لم يكن المستخدم مدير، قم بجلب التذاكر الخاصة به فقط
-        if ($user->role !== 'admin') {
+        //  إذا لم يكن المستخدم مدير أو مشرف، قم بجلب التذاكر الخاصة به فقط
+        if ($user->role !== 'admin' && $user->role !== 'supervisor') {
             $query->where('user_id', $user->id);
         }
 
@@ -35,7 +35,7 @@ class TicketController extends Controller
             });
         }
 
-        // جلب اخر 15 تذكرة 
+        // جلب اخر 15 تذكرة
         $tickets = $query->latest()->paginate(15);
 
         return view('tickets.index', compact('tickets'));

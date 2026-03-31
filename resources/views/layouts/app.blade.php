@@ -38,7 +38,7 @@
                     لوحة التحكم
                 </x-sidebar-link>
 
-                @if(Auth::user()->role === 'admin')
+                @if(in_array(Auth::user()->role, ['admin', 'supervisor']))
                 <x-sidebar-link href="{{ route('employees.index') }}" :active="request()->routeIs('employees.*')">
                     <x-slot name="icon">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"/></svg>
@@ -68,12 +68,14 @@
                     طلبات الإجازة
                 </x-sidebar-link>
 
+                @if(Auth::user()->role === 'admin')
                 <x-sidebar-link href="{{ route('payroll.index') }}" :active="request()->routeIs('payroll.*')">
                     <x-slot name="icon">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     </x-slot>
                     مسيرات الرواتب
                 </x-sidebar-link>
+                @endif
 
                 <div class="pt-4 mt-4 border-t border-brand-800">
                     <x-sidebar-link href="{{ route('profile.edit') }}" :active="request()->routeIs('profile.*')">
@@ -144,7 +146,7 @@
                     </x-slot>
                     لوحة التحكم
                 </x-sidebar-link>
-                @if(Auth::user()->role === 'admin')
+                @if(in_array(Auth::user()->role, ['admin', 'supervisor']))
                 <x-sidebar-link href="{{ route('employees.index') }}" :active="request()->routeIs('employees.*')">
                     <x-slot name="icon">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"/></svg>
@@ -171,12 +173,14 @@
                     </x-slot>
                     طلبات الإجازة
                 </x-sidebar-link>
+                @if(Auth::user()->role === 'admin')
                 <x-sidebar-link href="{{ route('payroll.index') }}" :active="request()->routeIs('payroll.*')">
                     <x-slot name="icon">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     </x-slot>
                     مسيرات الرواتب
                 </x-sidebar-link>
+                @endif
             </nav>
         </aside>
 
@@ -194,7 +198,7 @@
                 </div>
                 <div class="flex items-center gap-3">
                     <span class="text-sm text-brand-500 hidden sm:block">{{ now()->translatedFormat('l، j F Y') }}</span>
-                    
+
                     {{-- 🛎️ زر قائمة الإشعارات --}}
                     <div x-data="{
                         open: false,
@@ -217,7 +221,7 @@
                                 osc.stop(audioCtx.currentTime + 0.2);
                             } catch(e) {}
                         }
-                    }" 
+                    }"
                     @admin-notification.window="
                         items.unshift($event.detail);
                         unread++;
@@ -228,7 +232,7 @@
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"/></svg>
                             <span x-show="unread > 0" x-transition x-cloak class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/4 -translate-y-1/4 bg-red-600 rounded-full" x-text="unread"></span>
                         </button>
-                        
+
                         {{-- Dropdown Menu --}}
                         <div x-show="open" @click.away="open = false" x-transition x-cloak class="absolute left-0 mt-3 w-80 bg-white border border-brand-200 rounded-xl shadow-xl z-50 overflow-hidden transform origin-top-left">
                             <div class="p-3 border-b border-brand-100 bg-brand-50 flex justify-between items-center">

@@ -30,6 +30,31 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
+            'employee_number' => 'EMP-' . fake()->unique()->numberBetween(1000, 99999),
+            'national_id' => fake()->unique()->numerify('10########'),
+            'phone' => '05' . fake()->numerify('########'),
+            'emergency_contact' => '05' . fake()->numerify('########'),
+            'address' => fake()->city() . ', ' . fake()->streetName(),
+            'job_title' => fake()->jobTitle(),
+            'department' => fake()->randomElement([
+                'الموارد البشرية',
+                'تقنية المعلومات',
+                'المبيعات',
+                'التسويق',
+                'المالية والمحاسبة',
+                'العمليات التشغيلية',
+                'خدمة العملاء',
+                'المشتريات والمخازن',
+                'الشؤون القانونية',
+                'الإدارة العامة'
+            ]),
+            'join_date' => fake()->dateTimeBetween('-5 years', 'now')->format('Y-m-d'),
+            'salary' => fake()->randomFloat(2, 4000, 20000),
+            'bank_iban' => 'SA' . fake()->numerify('00################'),
+            'gender' => fake()->randomElement(['male', 'female']),
+            'birth_date' => fake()->dateTimeBetween('-50 years', '-22 years')->format('Y-m-d'),
+            'role' => 'employee',
+            'status' => 'active',
         ];
     }
 
