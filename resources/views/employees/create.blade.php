@@ -53,6 +53,7 @@
                     <p class="text-sm text-brand-500 mt-2 font-medium">قم بإتمام إدخال كافة المعلومات المهنية لفتح ملف موظف جديد بكامل صلاحياته.</p>
                 </div>
 
+                <!-- start the form body -->
                 <div class="p-6 sm:p-8 space-y-10">
                     @if ($errors->any())
                         <div class="bg-red-50 border border-red-200 rounded-xl p-5 flex items-start gap-4">
