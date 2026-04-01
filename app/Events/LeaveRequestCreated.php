@@ -22,6 +22,7 @@ class LeaveRequestCreated implements ShouldBroadcastNow
         $this->leaveRequest = $leaveRequest;
     }
 
+    // هذا يحدد القناة التي سيتم البث عليها
     public function broadcastOn(): array
     {
         return [
