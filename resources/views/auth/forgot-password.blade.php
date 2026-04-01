@@ -4,6 +4,7 @@
             <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/></svg>
         </div>
 
+        <!-- for test -->
         <h2 class="text-2xl font-black text-brand-900 mb-3">نسيت كلمة المرور؟</h2>
         <p class="text-sm text-brand-500 leading-relaxed max-w-sm mx-auto mb-8">
             لا يمكن إعادة تعيين كلمة المرور ذاتياً.
