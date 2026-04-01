@@ -30,6 +30,7 @@ class LeaveRequestCreated implements ShouldBroadcastNow
         ];
     }
 
+    // هذا يحدد البيانات التي سيتم بثها
     public function broadcastWith(): array
     {
         return [
