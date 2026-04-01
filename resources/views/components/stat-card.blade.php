@@ -5,6 +5,7 @@
         <div class="flex-1 min-w-0">
             <p class="text-sm text-brand-500 font-medium truncate">{{ $label }}</p>
             <p class="text-3xl font-extrabold text-brand-900 mt-2 truncate">{{ $value }}</p>
+            <!-- for trend -->
             @if($trend)
                 <p class="text-xs mt-2 truncate {{ str_starts_with($trend, '+') ? 'text-green-600' : 'text-red-600' }}">
                     {{ $trend }}
