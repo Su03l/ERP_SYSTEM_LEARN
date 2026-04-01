@@ -4,6 +4,7 @@
         <p class="text-brand-500 mt-2">أدخل كلمة المرور الجديدة</p>
     </div>
 
+    <!-- form for reset password -->
     <form method="POST" action="{{ route('password.store') }}" class="space-y-5">
         @csrf
         <input type="hidden" name="token" value="{{ $request->route('token') }}">
