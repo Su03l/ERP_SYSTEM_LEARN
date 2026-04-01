@@ -80,6 +80,7 @@
                             <h4 class="text-sm font-bold text-brand-900 uppercase tracking-widest">المعلومات الشخصية والأساسية</h4>
                         </div>
 
+                        <!-- start the personal info fields -->
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div class="md:col-span-2">
                                 <label for="name" class="block text-sm font-bold text-brand-800 mb-2">الاسم الكامل المطابق للهوية <span class="text-red-500">*</span></label>
