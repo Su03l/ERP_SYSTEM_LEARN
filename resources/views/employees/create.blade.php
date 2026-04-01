@@ -118,6 +118,7 @@
                                 <x-password-input id="password" name="password" :required="true" placeholder="رقم سري مبدئي مكون من 8 رموز على الأقل" />
                             </div>
 
+                            <!-- start the password confirmation field -->
                             <div>
                                 <label for="password_confirmation" class="block text-sm font-bold text-brand-800 mb-2">تأكيد كلمة المرور <span class="text-red-500">*</span></label>
                                 <x-password-input id="password_confirmation" name="password_confirmation" :required="true" placeholder="تأكيد تطابق الرقم السري" />
