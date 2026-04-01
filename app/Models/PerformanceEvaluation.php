@@ -110,9 +110,10 @@ class PerformanceEvaluation extends Model
         $structure = self::criteriaStructure();
         $category = $structure[$categoryKey] ?? null;
 
+        // إذا لم يتم العثور على الفئة، أرجع أصفار
         if (!$category) return ['actual' => 0, 'max' => 0, 'weighted' => 0];
 
-        $items = $category['items'];
+        $items = $category['items']; 
         $weight = $category['weight'];
         $maxRaw = count($items) * 5;
         $actual = 0;
