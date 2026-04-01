@@ -3,9 +3,9 @@
 namespace App\Enums;
 
 enum TicketStatus: string {
-    case OPEN = 'open';
-    case IN_PROGRESS = 'in_progress';
-    case CLOSED = 'closed';
+    case OPEN = 'open'; // مفتوحة
+    case IN_PROGRESS = 'in_progress'; // قيد المعالجة
+    case CLOSED = 'closed'; // مغلقة
 
     public function getLabel(): string
     {
