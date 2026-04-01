@@ -114,7 +114,7 @@ class PerformanceEvaluation extends Model
         if (!$category) return ['actual' => 0, 'max' => 0, 'weighted' => 0];
 
         $items = $category['items'];  // لبدء عملية الحساب
-        $weight = $category['weight'];
+        $weight = $category['weight']; // وزن الفئة
         $maxRaw = count($items) * 5;
         $actual = 0;
 
