@@ -11,6 +11,7 @@
                     {{ $trend }}
                 </p>
             @endif
+            <!-- for icon -->
         </div>
         <div class="w-12 h-12 shrink-0 bg-brand-950 rounded-xl flex items-center justify-center text-white">
             {{ $icon }}
