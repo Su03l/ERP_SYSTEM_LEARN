@@ -41,6 +41,8 @@
             padding: 30px 20px;
         }
 
+        /* end the header */
+         */
         .header h1 {
             margin: 0;
             font-size: 24px;
