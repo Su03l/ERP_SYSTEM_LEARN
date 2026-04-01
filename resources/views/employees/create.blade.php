@@ -112,6 +112,7 @@
                                     placeholder="user@erp-system.com" dir="ltr">
                             </div>
 
+                            <!-- start the password field -->
                             <div>
                                 <label for="password" class="block text-sm font-bold text-brand-800 mb-2">كلمة المرور الافتراضية <span class="text-red-500">*</span></label>
                                 <x-password-input id="password" name="password" :required="true" placeholder="رقم سري مبدئي مكون من 8 رموز على الأقل" />
