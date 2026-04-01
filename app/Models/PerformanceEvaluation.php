@@ -123,7 +123,7 @@ class PerformanceEvaluation extends Model
             $actual += ($this->ratings[$key] ?? 0);
         }
 
-        $weighted = $maxRaw > 0 ? round(($actual / $maxRaw) * $weight, 1) : 0;
+        $weighted = $maxRaw > 0 ? round(($actual / $maxRaw) * $weight, 1) : 0; // حساب الدرجة الموزونة
 
         return [
             'actual' => $actual,
