@@ -25,11 +25,7 @@ class TicketCommentNotification extends Notification
         return ['database'];
     }
 
-    /**
-     * Get the array representation of the notification.
-     *
-     * @return array<string, mixed>
-     */
+    // دالة تحويل الإشعار إلى مصفوفة
     public function toArray(object $notifiable): array
     {
         return [
