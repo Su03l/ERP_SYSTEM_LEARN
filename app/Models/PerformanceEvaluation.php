@@ -139,6 +139,7 @@ class PerformanceEvaluation extends Model
     public function getTotalScoreAttribute(): float
     {
         $total = 0;
+        // حساب إجمالي النقاط
         foreach (array_keys(self::criteriaStructure()) as $key) {
             $total += $this->getCategoryScore($key)['weighted'];
         }
