@@ -4,6 +4,7 @@
         <p class="text-brand-500 mt-2">أنشئ حسابك للبدء في استخدام النظام</p>
     </div>
 
+    <!-- the form for register -->
     <form method="POST" action="{{ route('register') }}" class="space-y-5">
         @csrf
 
