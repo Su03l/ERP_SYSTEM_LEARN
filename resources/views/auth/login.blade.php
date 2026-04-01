@@ -4,6 +4,7 @@
         <p class="text-brand-500 mt-2">سجل دخولك للمتابعة إلى لوحة التحكم</p>
     </div>
 
+    <!-- for check status of password reset -->
     @if(session('status'))
         <div class="mb-4 text-sm text-green-600 bg-green-50 border border-green-200 rounded-lg p-3">
             {{ session('status') }}
