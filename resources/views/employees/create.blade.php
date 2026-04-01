@@ -1,6 +1,7 @@
 <x-app-layout>
     <x-slot name="header">إضافة موظف جديد لفرق العمل</x-slot>
 
+    <!-- start the main container -->
     <div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-8">
 
         {{-- ─── HR Instruction Sidebar (1/3 width) ─── --}}
