@@ -28,10 +28,10 @@ class SendPayslipJob implements ShouldQueue
     // هذا يحدد البيانات التي سيتم بثها
     public function handle(): void
     {
-        $pdf = PDF::loadView('pdf.payslip', ['employee' => $this->employee]); // 
+        $pdf = PDF::loadView('pdf.payslip', ['employee' => $this->employee]); //  يقوم بتحميل ملف الـ PDF
 
-        $pdfContent = $pdf->output();
+        $pdfContent = $pdf->output(); //  يقوم بتحويل الـ PDF إلى محتوى
 
-        Mail::to($this->employee->email)->send(new PayslipEmail($this->employee, $pdfContent));
+        Mail::to($this->employee->email)->send(new PayslipEmail($this->employee, $pdfContent)); //  يقوم بإرسال الـ PDF إلى الموظف
     }
 }
