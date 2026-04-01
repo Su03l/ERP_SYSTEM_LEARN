@@ -8,6 +8,7 @@ Alpine.start();
 const userRoleMeta = document.querySelector('meta[name="user-role"]');
 const userIdMeta = document.querySelector('meta[name="user-id"]');
 
+// التحقق من وجود Echo
 if (window.Echo) {
     // الاستماع لإشعارات الإدمن (فقط لو كان المستخدم أدمن)
     if (userRoleMeta && userRoleMeta.content === 'admin') {
