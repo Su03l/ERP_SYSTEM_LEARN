@@ -16,9 +16,9 @@ class SendPayslipJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $employee;
-    public $tries = 3;
-    public $backoff = 10;
+    public $employee; // الموظف الذي سيتم إرسال قسيمة الراتب له
+    public $tries = 3; // عدد المحاولات
+    public $backoff = 10; // عدد الثواني بين المحاولات
 
     public function __construct(User $employee)
     {
