@@ -118,6 +118,7 @@ class PerformanceEvaluation extends Model
         $maxRaw = count($items) * 5; // أقصى درجة ممكنة في الفئة
         $actual = 0; // الدرجة الفعلية
 
+        // حساب الدرجة الفعلية
         foreach (array_keys($items) as $key) {
             $actual += ($this->ratings[$key] ?? 0);
         }
