@@ -1,5 +1,6 @@
 @props(['status'])
 
+<!-- for badge status -->
 @php
     $map = [
         'active' => ['bg-brand-950 text-white', 'نشط'],
