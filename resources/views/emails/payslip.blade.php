@@ -32,6 +32,7 @@
             border: 1px solid #e2e8f0;
         }
 
+        /* start the header */
         .header {
             background-color: #172554;
             /* brand-950 */
