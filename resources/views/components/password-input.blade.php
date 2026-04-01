@@ -1,9 +1,9 @@
-@props(['id', 'name', 'placeholder' => '••••••••', 'required' => false, 'autofocus' => false, 'class' => ''])
+@props(['id' => null, 'name', 'placeholder' => '••••••••', 'required' => false, 'autofocus' => false, 'class' => ''])
 
 <div x-data="{ show: false }" class="relative">
     <input
         :type="show ? 'text' : 'password'"
-        id="{{ $id }}"
+        id="{{ $id ?? $name }}"
         name="{{ $name }}"
         placeholder="{{ $placeholder }}"
         dir="ltr"
