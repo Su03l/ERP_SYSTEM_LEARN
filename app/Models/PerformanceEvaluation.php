@@ -115,8 +115,8 @@ class PerformanceEvaluation extends Model
 
         $items = $category['items'];  // لبدء عملية الحساب
         $weight = $category['weight']; // وزن الفئة
-        $maxRaw = count($items) * 5;
-        $actual = 0;
+        $maxRaw = count($items) * 5; // أقصى درجة ممكنة في الفئة
+        $actual = 0; // الدرجة الفعلية
 
         foreach (array_keys($items) as $key) {
             $actual += ($this->ratings[$key] ?? 0);
