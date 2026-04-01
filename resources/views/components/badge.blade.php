@@ -13,10 +13,12 @@
         'closed' => ['bg-brand-300 text-brand-700', 'مغلقة'],
     ];
 
+    // for badge status
     $statusValue = is_object($status) ? $status->value : $status;
     $style = $map[$statusValue] ?? ['bg-brand-200 text-brand-700', $statusValue];
 @endphp
 
+<!-- for badge status -->
 <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold {{ $style[0] }}">
     {{ $style[1] }}
 </span>
