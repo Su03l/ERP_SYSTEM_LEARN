@@ -89,6 +89,7 @@
                                     placeholder="الاسم الرباعي الرسمي">
                             </div>
 
+                            <!-- start the employee number field -->
                             <div>
                                 <label for="employee_number" class="block text-sm font-bold text-brand-800 mb-2">رقم الموظف</label>
                                 <input type="text" name="employee_number" id="employee_number" value="{{ old('employee_number') }}"
