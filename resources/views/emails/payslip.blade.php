@@ -105,6 +105,7 @@
                 <p>مسير راتب شهر {{ now()->translatedFormat('F Y') }}</p>
             </div>
 
+            <!-- start the content -->
             <div class="content">
                 <h2>أهلاً بك {{ $employee->name }}،</h2>
 
