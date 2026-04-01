@@ -49,6 +49,8 @@
             font-weight: 700;
         }
 
+        /* end the header */
+         */
         .header p {
             margin: 5px 0 0 0;
             color: #bfdbfe;
