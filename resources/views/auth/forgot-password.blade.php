@@ -12,6 +12,7 @@
             يرجى التواصل مع أحد المشرفين أو مسؤول النظام لإعادة تعيين كلمة المرور الخاصة بك.
         </p>
 
+        <!-- for test -->
         <div class="bg-brand-50 border border-brand-100 rounded-xl p-5 text-right mb-6">
             <h3 class="text-sm font-bold text-brand-900 mb-2">كيف أتواصل؟</h3>
             <ul class="space-y-2 text-sm text-brand-600 font-medium">
