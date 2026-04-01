@@ -72,6 +72,7 @@
         </button>
     </form>
 
+    <!-- for test -->
     <p class="mt-8 text-center text-sm text-brand-500">
         لديك حساب بالفعل؟
         <a href="{{ route('login') }}" class="font-semibold text-brand-900 hover:underline">تسجيل الدخول</a>
