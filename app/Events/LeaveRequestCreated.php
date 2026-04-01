@@ -16,6 +16,7 @@ class LeaveRequestCreated implements ShouldBroadcastNow
 
     public $leaveRequest;
 
+    // 
     public function __construct(LeaveRequest $leaveRequest)
     {
         $this->leaveRequest = $leaveRequest;
