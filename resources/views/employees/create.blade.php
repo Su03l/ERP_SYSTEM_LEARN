@@ -97,6 +97,7 @@
                                     placeholder="مثال: EMP-001" dir="ltr">
                             </div>
 
+                            <!-- start the national id field -->
                             <div>
                                 <label for="national_id" class="block text-sm font-bold text-brand-800 mb-2">رقم الهوية / الإقامة</label>
                                 <input type="text" name="national_id" id="national_id" value="{{ old('national_id') }}"
