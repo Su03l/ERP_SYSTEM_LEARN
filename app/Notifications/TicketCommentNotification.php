@@ -19,11 +19,7 @@ class TicketCommentNotification extends Notification
         $this->comment = $comment;
     }
 
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @return array<int, string>
-     */
+    // دالة تحديد قنوات الإشعارات
     public function via(object $notifiable): array
     {
         return ['database'];
