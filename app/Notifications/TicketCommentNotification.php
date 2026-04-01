@@ -13,9 +13,7 @@ class TicketCommentNotification extends Notification
 
     public $comment;
 
-    /**
-     * Create a new notification instance.
-     */
+    // دالة البناء
     public function __construct(\App\Models\TicketComment $comment)
     {
         $this->comment = $comment;
