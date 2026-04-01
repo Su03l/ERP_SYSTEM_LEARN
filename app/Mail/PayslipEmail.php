@@ -42,6 +42,7 @@ class PayslipEmail extends Mailable
         );
     }
 
+    // هذا يحدد البيانات التي سيتم بثها
     public function attachments(): array
     {
         return [
