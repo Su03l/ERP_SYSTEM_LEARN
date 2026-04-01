@@ -45,6 +45,7 @@
             <form method="POST" action="{{ route('employees.store') }}" class="bg-white rounded-2xl shadow-sm border border-brand-100 overflow-hidden animate-fade-in">
                 @csrf
 
+                <!-- start the header of the form -->
                 <div class="bg-brand-50/50 p-6 sm:p-8 border-b border-brand-100">
                     <h2 class="text-xl font-black text-brand-950 flex items-center gap-2">
                         السجل الوظيفي الشامل
