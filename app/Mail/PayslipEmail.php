@@ -14,8 +14,8 @@ class PayslipEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $employee;
-    public $pdfContent; 
+    public $employee; // 
+    public $pdfContent; // 
 
     public function __construct(User $employee, $pdfContent)
     {
@@ -23,6 +23,7 @@ class PayslipEmail extends Mailable
         $this->pdfContent = $pdfContent;
     }
 
+    // هذا يحدد البيانات التي سيتم بثها
     public function envelope(): Envelope
     {
         return new Envelope(
