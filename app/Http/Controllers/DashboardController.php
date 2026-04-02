@@ -69,7 +69,7 @@ class DashboardController extends Controller
             ]));
         }
 
-        // Employee Dashboard
+
         $userStatsData = Cache::lock("lock_user_{$user->id}_stats", 10)->block(5, function () use ($user, $statsTtl) {
             return Cache::remember("user_{$user->id}_stats", $statsTtl, function () use ($user) {
                 $user->loadCount([
